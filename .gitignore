@@ -1,0 +1,20 @@
+# Secrets and machine-specific configuration
+.env
+.env.*
+!.env.example
+
+# Installed dependencies and runtime records
+node_modules/
+*.log
+/game-history.txt
+
+# Private research and local tooling
+/chess-tutor-research.md
+/.codex/
+/.agents/
+/.vscode/
+/.idea/
+
+# Operating-system files
+.DS_Store
+Thumbs.db

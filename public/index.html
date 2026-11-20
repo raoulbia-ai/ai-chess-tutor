@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f5f3ed"><title>Chess, understood — your practice board</title><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/style.css"><script type="module" src="/app.js"></script></head>
+<body>
+<header><a class="brand" href="/">♘ <span>chess, understood<span class="brand-dot">.</span></span></a><span class="header-note">A little practice. A better next move.</span><button id="new-game" class="quiet" title="Reset the board, tutor and saved learning progress">Reset tutor</button></header>
+<main>
+  <div class="intro"><div><p class="eyebrow">YOUR PRACTICE BOARD</p><h1>Learn the reason behind the move.</h1></div><span class="pill" id="phase">Opening practice</span></div>
+  <div class="workspace">
+    <section class="play-area" aria-label="Chess game">
+      <button id="start-game" class="primary full game-start">Start game</button>
+      <div class="player"><span class="avatar dark-avatar">♟</span><div><strong>Practice opponent</strong><small>Stockfish · reduced strength</small><div id="captures-b" class="captured-pieces" role="img" hidden></div></div><span class="side-label">BLACK</span></div>
+      <div id="demo-banner" hidden><strong>Demonstration</strong><span>Your game is kept safe.</span></div>
+      <div class="board-frame">
+        <div class="board-ranks" aria-hidden="true"><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+        <div id="board" class="board" role="group" aria-label="Chessboard, White at the bottom"></div>
+        <div class="board-files" aria-hidden="true"><span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span></div>
+      </div>
+      <div class="player"><span class="avatar">♙</span><div><strong>You</strong><small id="turn">White · your move</small><div id="captures-w" class="captured-pieces" role="img" hidden></div></div><span class="side-label" id="move-number">MOVE 1</span></div>
+      <div id="demo-controls" class="demo-controls" hidden><div class="button-row"><button id="previous">← Back</button><button id="autoplay">Play sequence</button><button id="next">Next →</button></div><p id="step-count"></p><button id="return-game" class="primary full">Return to my game</button></div>
+      <p id="board-help" class="board-help">Tap a piece, then a highlighted square. You play White.</p>
+      <div class="game-tools"><button id="undo" class="quiet">↶ Try my last move again</button><button id="retry-opponent" hidden>Retry opponent</button><label class="toggle"><input type="checkbox" id="independent"> Unassisted practice</label></div>
+      <details class="moves"><summary>Moves so far <span id="move-count">0</span></summary><p id="move-history">Your game starts with you.</p></details>
+    </section>
+    <aside class="learning" aria-label="Your tutor">
+      <section class="tutor-card">
+        <div class="card-top"><span class="eyebrow">YOUR TUTOR</span><span id="connection" class="connection">Connecting…</span></div>
+        <div class="focus"><span>Today’s focus</span><strong id="focus">Notice threats & protect pieces</strong></div>
+        <div id="lesson" aria-live="polite"><h2 id="lesson-title">Start with the centre.</h2><p id="explanation">Choose a central pawn move to make space for your pieces. Next, we’ll develop a knight.</p><p id="question" class="question" hidden></p></div>
+        <div id="busy" class="busy" role="status" hidden>Thinking through the position…</div>
+        <div id="error" class="error" role="alert" hidden></div>
+        <div id="history-status" hidden><p role="status">A history entry could not be saved. <span id="history-error"></span></p><button id="retry-history" type="button">Retry saving history</button></div>
+        <button id="retry-analysis" type="button" hidden>Retry analysis</button>
+        <div id="move-feedback" class="tutor-actions" hidden><button id="retry-move" class="primary">Try another move</button><button id="keep-move">Keep my move</button><button id="show-why">Show why</button></div>
+        <div class="voice-controls"><label class="toggle"><input id="voice" type="checkbox" checked> Read aloud</label><button id="replay" class="quiet" aria-label="Replay narration">↻ Replay</button><button id="pause-voice" class="quiet">Pause voice</button><select id="speed" aria-label="Speech speed"><option value="0.85">0.85×</option><option value="1" selected>1×</option><option value="1.2">1.2×</option></select></div>
+        <div class="tutor-actions"><button id="hint">Small hint</button><button id="explain">Why this move?</button><button id="review">Review my move</button><button id="show" class="primary">Show a continuation →</button></div>
+        <details id="alternative"><summary>What if I played something else?</summary><label for="candidate">Choose a legal alternative</label><select id="candidate"></select><button id="compare" class="full">Show & explain this line</button></details>
+        <form id="ask-form"><label for="ask">Ask about this position</label><div class="ask-row"><input id="ask" maxlength="700" placeholder="Why not bring my queen out?" autocomplete="off"><button type="submit" id="ask-button" aria-label="Ask tutor">↑</button></div></form>
+      </section>
+      <section class="progress-card"><div class="card-top"><span class="eyebrow">YOUR LEARNING</span><span class="local-note">Saved on this device</span></div><div class="progress-stats"><div><strong id="independent-count">0</strong><span>without commentary</span></div><div><strong id="commentary-count">0</strong><span>after routine commentary</span></div><div><strong id="assisted-count">0</strong><span>after requested help or retry</span></div></div><p id="progress-note">We’ll start with the basics and adjust the support as you play.</p><details><summary>How progress works</summary><p>Each evaluated move counts once. Requested help or a retry takes precedence over routine commentary. We compare independent moves with engine analysis. Opening and middlegame results are tracked separately. These are early practice signals, not proof of mastery or a chess rating.</p><p id="legacy-progress"></p><p id="phase-progress"></p></details></section>
+    </aside>
+  </div>
+</main>
+<footer>Play. Understand. Try again.<span>Stockfish analysis · AI explanations can be mistaken.</span></footer>
+<dialog id="promotion"><form method="dialog"><h2>Promote your pawn</h2><p>Choose a piece.</p><div class="button-row"><button value="q">Queen</button><button value="r">Rook</button><button value="b">Bishop</button><button value="n">Knight</button></div></form></dialog>
+</body></html>
