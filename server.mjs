@@ -114,7 +114,11 @@ const server = http.createServer(async (req, res) => {
         const responseMove = game.move({ from: reply.bestmove.slice(0, 2), to: reply.bestmove.slice(2, 4), promotion: reply.bestmove[4] });
         return json(200, { reply: responseMove.san, coaching, feedback: { loss, sound: loss <= 80, phase: data.moves.length <= 20 ? 'opening' : 'middlegame' } });
       }
-      if (!['hint', 'explain', 'review', 'demonstrate', 'question', 'turn'].includes(data.mode)) return json(400, { error: 'Unknown tutoring mode.' });
+      if (!['hint', 'explain', 'review', 'demonstrate', 'question', 'turn', 'assess'].includes(data.mode)) return json(400, { error: 'Unknown tutoring mode.' });
+      const opponentMove = data.mode === 'assess' ? game.history({ verbose: true }).at(-1) : undefined;
+      if (data.mode === 'assess' && opponentMove?.color !== 'b') {
+        return json(400, { error: 'Wait for Black’s reply first.' });
+      }
       let turnEvidence;
       if (data.mode === 'turn') {
         if (game.turn() !== 'w' || data.moves.length < 2) return json(400, { error: 'Wait for Black’s reply first.' });
@@ -154,7 +158,7 @@ const server = http.createServer(async (req, res) => {
         : ['demonstrate', 'explain'].includes(data.mode) ? segment(selected, 'Possible continuation') : [];
       const actualGameHistory = game.history({ verbose: true }).map(({ color, san, from, to }) => ({ color, san, from, to }));
       const latestLearnerMove = actualGameHistory.findLast(move => move.color === 'w') || null;
-      const lesson = await narrate({ mode: data.mode, turnEvidence, automatic: data.automatic === true, position: root.fen(), board: root.board().flat().filter(Boolean), history: root.history(), actualGameHistory, latestLearnerMove, played, playedLine,
+      const lesson = await narrate({ mode: data.mode, turnEvidence, opponentMove, automatic: data.automatic === true, position: root.fen(), board: root.board().flat().filter(Boolean), history: root.history(), actualGameHistory, latestLearnerMove, played, playedLine,
         lines: analysis.variations, selected, demonstration, question: String(data.question || '').slice(0, 700), focus: String(data.focus || 'Notice threats and protect pieces').slice(0, 150) });
       if (demonstration.length) lesson.explanation = data.mode === 'review'
         ? `Back before your move.${sameMove ? ' It matches the engine’s suggestion. Watch a possible continuation.' : ' Compare your move with an alternative. These replies are hypothetical.'}`

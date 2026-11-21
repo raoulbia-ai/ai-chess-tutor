@@ -96,3 +96,5 @@
 @media(prefers-reduced-motion:reduce){.busy::before{animation:none}}
 .captured-pieces{display:flex;flex-wrap:wrap;gap:2px;margin-top:4px;font:15px/1 "Segoe UI Symbol","DejaVu Sans",serif}
 .board-comment{margin:8px 0 14px;padding:10px 14px;background:var(--paper);border:1px solid var(--border);border-radius:10px}.board-comment h2{margin:2px 0 6px;font-size:20px}.board-comment #explanation{margin:0;line-height:1.5}.board-comment #replay{min-height:44px}
+
+#assess{grid-column:1/-1}

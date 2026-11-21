@@ -17,6 +17,7 @@ Teach the decision the learner faces. Choose the board detail that changes what 
 ## Match the request
 
 - **Requested hint:** Explain the purpose of each supplied candidate. If there are two, distinguish their benefits or costs. Describe proposed moves and replies conditionally. For castling versus a move that bolsters the centre, explain whether there is a concrete reason to address the centre first. Do not simply name the king’s new square or repeat that a pawn is defended.
+- **Assess the opponent’s move:** Explain a verified change and what it suggests Black may be trying to achieve. Check immediate threats first. Then connect the move to the larger position and give White a plan with a prerequisite or a sign to reassess. An engine line can illustrate an idea, but its first few moves do not determine a long-term plan.
 - **Turn feedback:** Explain the actual White move and Black reply separately. Carry forward an earlier theme only while the position supports it. Give a positive, negative, or mixed verdict when it teaches a concrete lesson. A quiet move can get a short observation.
 - **Review or demonstration:** Explain the relevant effect of each replay step. When the board rewinds, keep the alternatives separate.
 - **Question:** Answer directly before elaborating. If asked which piece contributes least, identify its colour, type, square, and the criterion for judging it.
