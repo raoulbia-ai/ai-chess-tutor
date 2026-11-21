@@ -35,7 +35,7 @@ const server = http.createServer(async (req, res) => {
   const json = (status, value) => { res.writeHead(status, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(value)); };
   try {
     const url = new URL(req.url, `http://${req.headers.host}`);
-    if (req.method === 'GET' && url.pathname === '/api/status') return json(200, { configured: Boolean(process.env.OPENAI_API_KEY_CHESS_TUTOR || process.env.OPENAI_API_KEY || process.env.LLM_PROVIDER === 'compatible'), model: process.env.LLM_MODEL || 'gpt-4.1-mini' });
+    if (req.method === 'GET' && url.pathname === '/api/status') return json(200, { configured: Boolean(process.env.OPENAI_API_KEY_CHESS_TUTOR || process.env.OPENAI_API_KEY || process.env.LLM_PROVIDER === 'compatible'), model: process.env.LLM_MODEL || 'gpt-4.1-mini', auditModel: process.env.LLM_AUDIT_MODEL || process.env.LLM_MODEL || 'gpt-4.1-mini' });
     if (req.method === 'GET' && files.has(url.pathname)) {
       const [file, mime] = files.get(url.pathname), content = await readFile(new URL(file, import.meta.url));
       res.writeHead(200, { 'Content-Type': mime + '; charset=utf-8' }); return res.end(content);
