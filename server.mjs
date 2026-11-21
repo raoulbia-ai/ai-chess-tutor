@@ -84,18 +84,31 @@ const server = http.createServer(async (req, res) => {
         const best = await cachedAnalysis(before.fen());
         const chosen = best.variations.find(v => v.steps[0].uci === uci) || (await cachedAnalysis(before.fen(), uci)).variations[0];
         const loss = Math.max(0, scoreValue(best.variations[0].score) - scoreValue(chosen.score));
-        const values = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
-        let balance = 0;
         const line = chosen.steps.slice(1);
-        for (const move of line) if (move.captured) balance += (move.color === 'w' ? 1 : -1) * values[move.captured];
         const recap = line.map(m => (m.color === 'b' ? 'Black ' : 'White ') + m.san).join(', ');
         let coaching = null;
         if (loss > 150 && chosen.score.type === 'mate' && chosen.score.value < 0 && recap) {
           coaching = { title: 'Black has a forced mate.', explanation: `Stockfish found a mating line starting with ${recap}. Try another move or watch the line.` };
-        } else if (loss > 150 && balance <= -2 && !played.captured) {
-          const capture = line.find(m => m.color === 'b' && m.captured && m.captured !== 'p');
-          const pieces = { n: 'knight', b: 'bishop', r: 'rook', q: 'queen' };
-          if (capture) coaching = { title: 'This line loses material.', explanation: `In Stockfish’s line, Black can take your ${pieces[capture.captured]} on ${capture.to} (${capture.san}). White comes out behind in material.` };
+        } else if (loss > 150 && !played.captured) {
+          // End on White’s reply so a last-ply Black capture cannot inflate the loss.
+          const settled = line.at(-1)?.color === 'b' ? line.slice(0, -1) : line;
+          if (settled.length) {
+            const values = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
+            const material = fen => new Chess(fen).board().flat().reduce((balance, piece) =>
+              balance + (piece ? values[piece.type] * (piece.color === 'w' ? 1 : -1) : 0), 0);
+            const deficit = material(played.after) - material(settled.at(-1).fen);
+            if (deficit >= 1) {
+              const first = settled[0], recapture = settled[1], followUp = settled[2];
+              const names = { p: 'pawn', n: 'knight', b: 'bishop', r: 'rook', q: 'queen' };
+              const evenExchange = first?.captured && recapture?.captured && recapture.to === first.to
+                && material(recapture.fen) === material(played.after);
+              const singleLoss = evenExchange && followUp?.captured && !settled.slice(3).some(move => move.captured)
+                && deficit === values[followUp.captured];
+              coaching = { title: 'This line loses material.', explanation: singleLoss
+                ? `After Black’s ${first.san} and your ${recapture.san}, the exchange is even. Black then plays ${followUp.san}, winning your ${names[followUp.captured]} on ${followUp.to} in this line.`
+                : `In Stockfish’s line, ${settled.map(move => (move.color === 'b' ? 'Black ' : 'White ') + move.san).join(', ')}. White comes out ${deficit} material ${deficit === 1 ? 'point' : 'points'} worse than before the line.` };
+            }
+          }
         }
         const reply = await analyse(game.fen(), { strength: 0 });
         const responseMove = game.move({ from: reply.bestmove.slice(0, 2), to: reply.bestmove.slice(2, 4), promotion: reply.bestmove[4] });
