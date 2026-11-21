@@ -210,8 +210,9 @@ function renderProgress() {
 function renderControls() {
   const unavailable = !started || busy || Boolean(demo) || game.turn() !== 'w' || game.isGameOver();
   $('start-game').textContent = started ? 'Restart game' : 'Start game';
-  for (const id of ['hint', 'explain', 'review', 'show', 'compare', 'ask-button', 'candidate', 'ask']) $(id).disabled = unavailable || $('independent').checked;
-  $('review').disabled ||= game.history().length < 2;
+  for (const id of ['hint', 'ask-button', 'ask']) $(id).disabled = unavailable || $('independent').checked;
+  const canReview = checkpoint ? !busy && !demo : !unavailable && game.history().length >= 2;
+  $('review').disabled = !canReview || $('independent').checked;
   $('undo').disabled = busy || Boolean(demo) || Boolean(checkpoint) || !game.history().length;
   $('independent').disabled = !started || busy || Boolean(demo) || Boolean(checkpoint);
   $('retry-opponent').hidden = busy || Boolean(demo) || Boolean(checkpoint) || game.turn() !== 'b' || game.isGameOver();
@@ -220,7 +221,6 @@ function renderControls() {
   $('next').disabled = !demo || demo.index === demo.steps.length;
   $('autoplay').textContent = autoplay ? 'Pause sequence' : 'Play sequence';
   $('demo-controls').hidden = !demo; $('demo-banner').hidden = !demo;
-  $('alternative').hidden = $('independent').checked;
 }
 function render() {
   const display = demo ? new Chess(demo.index === 0 ? demo.root : demo.steps[demo.index - 1].fen) : game;
@@ -269,8 +269,6 @@ function render() {
   $('board-help').textContent = !started ? 'Press Start game to begin your lesson.' : demo ? 'This is one possible line, not a prediction of your opponent’s moves.' : $('independent').checked ? 'Unassisted practice: tutor help is off. Your decisions still count.' : 'Tap a piece, then a highlighted square. You play White.';
   const history = game.history(); $('move-count').textContent = history.length;
   $('move-history').textContent = history.length ? history.map((m, i) => (i % 2 === 0 ? `${i / 2 + 1}. ` : '') + m).join(' ') : 'Your game starts with you.';
-  $('candidate').replaceChildren();
-  for (const move of game.moves({ verbose: true })) { const option = document.createElement('option'); option.value = move.san; option.textContent = `${move.san} — ${names[move.piece]} ${move.from} to ${move.to}`; $('candidate').append(option); }
   renderControls(); renderProgress();
 }
 async function selectSquare(square) {
@@ -417,8 +415,8 @@ async function stepDemo(delta, auto = false) {
   if ($('voice').checked) await speak(lastText);
   else if (auto) await new Promise(resolve => setTimeout(resolve, Math.max(3500, lastText.split(/\s+/).length * 330)));
 }
-$('hint').onclick = () => tutor('hint'); $('explain').onclick = () => tutor('explain'); $('review').onclick = () => tutor('review');
-$('show').onclick = () => tutor('demonstrate'); $('compare').onclick = () => tutor('demonstrate', { candidate: $('candidate').value });
+$('hint').onclick = () => tutor('hint');
+$('review').onclick = () => tutor('review');
 $('ask-form').onsubmit = event => {
   event.preventDefault();
   const input = $('ask'), question = input.value.trim();
@@ -449,12 +447,11 @@ $('keep-move').onclick = () => {
   if (!checkpoint) return;
   stopPlayback(); commitMove(checkpoint.reply); checkpoint = null; error(); render(); coachPosition();
 };
-$('show-why').onclick = () => tutor('review');
 $('voice').onchange = () => { stopPlayback(); if (demo) playSequence(); else if ($('voice').checked) speak(lastText); };
 $('replay').onclick = () => { stopPlayback(); if (demo) { demo.index = 0; renderDemo(); playSequence(); } else { $('voice').checked = true; speak(lastText); } };
 $('pause-voice').onclick = () => { if (speechSynthesis.paused) { speechSynthesis.resume(); $('pause-voice').textContent = 'Pause voice'; } else { speechSynthesis.pause(); $('pause-voice').textContent = 'Resume voice'; } };
 $('speed').onchange = () => { const resume = autoplay; stopPlayback(); if (demo && resume) playSequence(); else if ($('voice').checked) speak(lastText); };
-$('independent').onchange = () => { stopPlayback(); save(); render(); showLesson({ title: $('independent').checked ? 'Try it on your own.' : 'Your tutor is back.', explanation: $('independent').checked ? 'Hints and demonstrations are off. Check your opponent’s threats, then choose a move. Any help already received on this position still counts as assistance.' : 'Ask for a hint, compare moves, or watch a continuation whenever you need it.', question: '', steps: [] }); };
+$('independent').onchange = () => { stopPlayback(); save(); render(); showLesson({ title: $('independent').checked ? 'Try it on your own.' : 'Your tutor is back.', explanation: $('independent').checked ? 'Hints and reviews are off. Check your opponent’s threats, then choose a move. Any help already received on this position still counts as assistance.' : 'Ask for a hint before moving or review your last move afterward.', question: '', steps: [] }); };
 $('undo').onclick = () => { if (busy || demo) return; stopPlayback(); if (game.turn() === 'w') undoMove(); undoMove(); support = 'requested'; selected = null; save(); render(); showLesson({ title: 'Try that decision again.', explanation: 'Your original attempt remains in your practice history. This retry counts as assisted practice.', question: '', steps: [] }); };
 function resetSession(clearProgress = false, begin = false) {
   checkpoint = null;
