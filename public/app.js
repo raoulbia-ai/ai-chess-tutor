@@ -32,43 +32,81 @@ let sessionController = new AbortController();
 let started = false;
 let checkpoint = null;
 let historySequence = 0;
-const failedHistory = new Map();
-function historyStatus() {
-  $('history-status').hidden = failedHistory.size === 0;
-  $('history-error').textContent = [...failedHistory.values()].at(-1)?.error || '';
-}
-async function saveHistory(entry, retry = false) {
-  const key = `${entry.gameId}:${entry.sequence}`;
-  try {
-    const response = await fetch('/api/history', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
-      body: JSON.stringify({ ...entry, retry }),
-    });
-    if (!response.ok) {
-      const data = await response.json().catch(() => ({}));
-      throw new Error(data.error || `History save failed (HTTP ${response.status}).`);
-    }
-    failedHistory.delete(key);
-  } catch (error) {
-    failedHistory.set(key, { entry, error: error.message });
+const historyQueuePrefix = 'chess-history-pending-v1:';
+const pendingHistory = new Map();
+const historyKey = entry => `${historyQueuePrefix}${entry.gameId}:${entry.sequence}`;
+let savingHistory = false, historyFailure = '';
+try {
+  for (const key of Object.keys(localStorage)) {
+    if (!key.startsWith(historyQueuePrefix)) continue;
+    try {
+      const entry = JSON.parse(localStorage.getItem(key));
+      if (entry?.gameId && Number.isSafeInteger(entry.sequence) && Array.isArray(entry.moves) && historyKey(entry) === key) {
+        pendingHistory.set(key, { entry, persisted: true });
+      }
+    } catch { /* Ignore a damaged entry without dropping other pending saves. */ }
   }
+} catch { /* An unavailable queue must not prevent play. */ }
+function historyStatus() {
+  $('history-status').hidden = !historyFailure;
+  $('history-error').textContent = historyFailure;
+  $('retry-history').disabled = savingHistory;
+}
+async function flushHistory() {
+  if (savingHistory || !pendingHistory.size) return;
+  savingHistory = true;
   historyStatus();
+  try {
+    const batch = [...pendingHistory].sort(([, a], [, b]) =>
+      a.entry.gameId.localeCompare(b.entry.gameId) || a.entry.sequence - b.entry.sequence);
+    for (const [key, { entry }] of batch) {
+      const response = await fetch('/api/history', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...entry, retry: true }), signal: AbortSignal.timeout(15000),
+      });
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || `History save failed (HTTP ${response.status}).`);
+      }
+      pendingHistory.delete(key);
+      try { localStorage.removeItem(key); } catch { /* A later retry is safe. */ }
+    }
+    historyFailure = '';
+  } catch (error) {
+    const saved = [...pendingHistory.values()].every(item => item.persisted);
+    historyFailure = `${error.message} ${saved ? 'Pending entries are saved on this device.' : 'Keep this tab open and retry.'}`;
+  } finally {
+    savingHistory = false;
+    historyStatus();
+  }
+  if (!historyFailure && pendingHistory.size) flushHistory();
 }
 function logHistory(event, note = '') {
-  saveHistory({ gameId, sequence: ++historySequence, event, note, moves: game.history() });
-}
-$('retry-history').onclick = async () => {
-  const button = $('retry-history');
-  button.disabled = true;
+  const entry = { gameId, sequence: ++historySequence, event, note, moves: game.history(), occurredAt: new Date().toISOString() };
+  const key = historyKey(entry);
+  let persisted = false;
   try {
-    for (const { entry } of [...failedHistory.values()]) await saveHistory(entry, true);
-  } finally {
-    button.disabled = false;
-  }
-};
+    localStorage.setItem(key, JSON.stringify(entry));
+    persisted = true;
+  } catch { /* Keep it in this tab if storage is unavailable. */ }
+  pendingHistory.set(key, { entry, persisted });
+  flushHistory();
+  return entry.sequence;
+}
+$('retry-history').onclick = flushHistory;
+window.addEventListener('online', flushHistory);
+flushHistory();
 function commitMove(move) {
   const played = game.move(move);
-  logHistory('move', `${played.color === 'w' ? 'White' : 'Black'} ${played.san}${played.color === 'w' ? ' | support=' + support : ''}`);
+  logHistory('move', { side: played.color, san: played.san, from: played.from, to: played.to,
+    ...(played.color === 'w' ? { support } : {}),
+  });
+  if (game.isGameOver()) logHistory('result', {
+    result: game.isCheckmate() ? (game.turn() === 'w' ? '0-1' : '1-0') : '1/2-1/2',
+    reason: game.isCheckmate() ? 'checkmate' : game.isStalemate() ? 'stalemate'
+      : game.isThreefoldRepetition() ? 'threefold repetition'
+      : game.isInsufficientMaterial() ? 'insufficient material' : 'fifty-move rule',
+  });
 }
 function undoMove() {
   const played = game.undo();
@@ -137,7 +175,7 @@ function leadLesson() {
       const move = reviewMoves[Math.min(i, reviewMoves.length - 1)];
       lessons.push(`${at(move)}. ${exercises[i]}`);
     }
-    showLesson({ title, explanation: lessons.map((lesson, i) => `${i + 1}. ${lesson}`).join('\n\n'), question: '', steps: [] });
+    showLesson({ title, explanation: lessons.map((lesson, i) => `${i + 1}. ${lesson}`).join('\n\n'), question: '', steps: [] }, 'tutor', { mode: 'game-summary' });
     return;
   }
   const title = !started ? 'Ready to practise.' : 'Your move.';
@@ -274,9 +312,12 @@ async function opponent() {
   } catch (e) { if (session === gameId) error(e.message, analysisTimedOut(e) ? opponent : undefined); }
   finally { if (session === gameId) { setBusy(false); render(); } }
 }
-function showCheckpoint() { showLesson({ ...checkpoint.coaching, question: '', steps: [] }); }
-function showLesson(lesson, event = 'tutor') {
-  if (started && lesson.explanation && lesson !== lastLesson) logHistory(event, [lesson.title, lesson.explanation, lesson.question].filter(Boolean).join(' '));
+function showCheckpoint() { showLesson({ ...checkpoint.coaching, question: '', steps: [] }, 'tutor', { mode: 'checkpoint' }); }
+function showLesson(lesson, event = 'tutor', context = {}) {
+  if (started && (lesson.explanation || lesson.question) && lesson !== lastLesson) {
+    const { title, explanation, question } = lesson;
+    logHistory(event, { ...context, title, explanation, question });
+  }
   lastLesson = lesson; $('lesson-title').textContent = lesson.title; $('explanation').textContent = lesson.explanation;
   $('question').textContent = lesson.question; $('question').hidden = !lesson.question;
   lastText = lesson.explanation;
@@ -286,19 +327,28 @@ async function tutor(mode, extra = {}, automatic = false) {
   if (!started || busy || demo || $('independent').checked) return;
   const session = gameId;
   setBusy(true, mode === 'demonstrate' ? 'Preparing a short, narrated continuation…' : 'Your tutor is studying the engine analysis…'); error();
+  const request = { mode, automatic, focus: learningFocus(), ...extra };
+  const requestSequence = logHistory('tutor-request', request);
+  const context = { mode, automatic, requestSequence };
   try {
-    const data = await api('tutor', { moves: game.history(), mode, automatic, focus: learningFocus(), ...extra });
+    const data = await api('tutor', { moves: game.history(), ...request });
     if (session !== gameId) return;
-    if (automatic && !data.lesson.explanation.trim()) return;
+    if (automatic && !data.lesson.explanation.trim()) {
+      logHistory('tutor-skip', context);
+      return;
+    }
     if (!automatic) support = 'requested';
     else if (support === 'none') support = 'commentary';
     save();
     if (data.demonstration.length) {
-      logHistory('variation', [data.lesson.title, data.lesson.explanation, ...data.lesson.steps].join(' '));
+      logHistory('variation', { ...context, root: data.root, title: data.lesson.title, explanation: data.lesson.explanation,
+        steps: data.demonstration.map(({ san, before, label }, i) => ({ san, before, label, narration: data.lesson.steps[i] })),
+      });
       demo = { root: data.root, steps: data.demonstration, narration: data.lesson.steps, index: 0, intro: data.lesson };
       selected = null; renderDemo();
-    } else showLesson(data.lesson, mode === 'question' ? 'answer' : 'tutor');
+    } else showLesson(data.lesson, mode === 'question' ? 'answer' : 'tutor', context);
   } catch (e) {
+    if (session === gameId) logHistory('tutor-error', { ...context, message: e.message });
     if (session === gameId && (!automatic || analysisTimedOut(e))) {
       error(e.name === 'TimeoutError' ? 'The request took too long.' : e.message, () => tutor(mode, extra, automatic));
     }
@@ -374,7 +424,6 @@ $('ask-form').onsubmit = event => {
   const input = $('ask'), question = input.value.trim();
   if (!question || $('ask-button').disabled) return;
   input.value = '';
-  logHistory('question', question);
   tutor('question', { question });
 };
 $('previous').onclick = () => stepDemo(-1); $('next').onclick = () => stepDemo(1);

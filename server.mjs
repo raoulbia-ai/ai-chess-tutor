@@ -51,8 +51,12 @@ const server = http.createServer(async (req, res) => {
     try { data = JSON.parse(input); game = gameFrom(data.moves); } catch { return json(400, { error: 'Invalid game history.' }); }
     if (url.pathname === '/api/history') {
       if (typeof data.gameId !== 'string' || !/^[\da-f-]{36}$/i.test(data.gameId) ||
-          !['start', 'move', 'undo', 'tutor', 'variation', 'question', 'answer'].includes(data.event) || !Number.isSafeInteger(data.sequence)) return json(400, { error: 'Invalid history event.' });
-      const note = typeof data.note === 'string' ? data.note.slice(0, 10000) : '';
+          !['start', 'move', 'undo', 'tutor', 'variation', 'question', 'answer', 'result', 'tutor-request', 'tutor-skip', 'tutor-error'].includes(data.event) || !Number.isSafeInteger(data.sequence)) return json(400, { error: 'Invalid history event.' });
+      const occurredAt = typeof data.occurredAt === 'string' && Number.isFinite(Date.parse(data.occurredAt))
+        ? new Date(data.occurredAt).toISOString() : undefined;
+      const note = data.note && typeof data.note === 'object' && !Array.isArray(data.note)
+        ? { ...data.note, occurredAt }
+        : typeof data.note === 'string' ? data.note.slice(0, 10000) : '';
       const line = `[${new Date().toISOString()}] Game ${data.gameId} #${data.sequence} ${data.event} | ${game.history().join(' ') || '(starting position)'}${note ? ' | ' + JSON.stringify(note) : ''}\n`;
       const file = new URL('./game-history.txt', import.meta.url);
       try {
