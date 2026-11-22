@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { Chess } from 'chess.js';
 import { analyse, scoreValue } from './lib/engine.mjs';
-import { narrate } from './lib/tutor.mjs';
+import { gameFrom, lessonFor, LessonRequestError } from './lib/lesson.mjs';
 
 try { process.loadEnvFile(fileURLToPath(new URL('.env', import.meta.url))); } catch (error) { if (error.code !== 'ENOENT') throw error; }
 const port = Number(process.env.PORT || 3000), host = process.env.HOST || '127.0.0.1';
@@ -21,12 +21,6 @@ async function cachedAnalysis(fen, rootMove) {
     cache.set(key, analyse(fen, { rootMove }).catch(error => { cache.delete(key); throw error; }));
   }
   return cache.get(key);
-}
-function gameFrom(moves) {
-  if (!Array.isArray(moves) || moves.length > 500 || !moves.every(m => typeof m === 'string' && m.length <= 12)) throw new Error('Invalid game history.');
-  const game = new Chess();
-  for (const move of moves) game.move(move);
-  return game;
 }
 let active = 0;
 const server = http.createServer(async (req, res) => {
@@ -114,56 +108,12 @@ const server = http.createServer(async (req, res) => {
         const responseMove = game.move({ from: reply.bestmove.slice(0, 2), to: reply.bestmove.slice(2, 4), promotion: reply.bestmove[4] });
         return json(200, { reply: responseMove.san, coaching, feedback: { loss, sound: loss <= 80, phase: data.moves.length <= 20 ? 'opening' : 'middlegame' } });
       }
-      if (!['hint', 'explain', 'review', 'demonstrate', 'question', 'turn', 'assess'].includes(data.mode)) return json(400, { error: 'Unknown tutoring mode.' });
-      const opponentMove = data.mode === 'assess' ? game.history({ verbose: true }).at(-1) : undefined;
-      if (data.mode === 'assess' && opponentMove?.color !== 'b') {
-        return json(400, { error: 'Wait for Black’s reply first.' });
+      try {
+        return json(200, await lessonFor(data, cachedAnalysis));
+      } catch (error) {
+        if (error instanceof LessonRequestError) return json(400, { error: error.message });
+        throw error;
       }
-      let turnEvidence;
-      if (data.mode === 'turn') {
-        if (game.turn() !== 'w' || data.moves.length < 2) return json(400, { error: 'Wait for Black’s reply first.' });
-        const [white, black] = game.history({ verbose: true }).slice(-2);
-        const uci = white.from + white.to + (white.promotion || '');
-        const prior = await cachedAnalysis(white.before);
-        const chosen = prior.variations.find(v => v.steps[0].uci === uci)
-          || (await cachedAnalysis(white.before, uci)).variations[0];
-        turnEvidence = { white, black, whiteContinuation: chosen, alternative: prior.variations[0] };
-      }
-      let root = game, played = null;
-      if (data.mode === 'review') {
-        const count = game.turn() === 'w' ? 2 : 1;
-        if (data.moves.length < count) return json(400, { error: 'Make a move first.' });
-        root = gameFrom(data.moves.slice(0, -count)); played = data.moves[data.moves.length - count];
-      }
-      const analysis = await cachedAnalysis(root.fen());
-      let selected = analysis.variations[0];
-      if (data.candidate) {
-        const temp = new Chess(root.fen()); let move;
-        try { move = temp.move(String(data.candidate)); } catch { return json(400, { error: 'That alternative is not legal here. Use notation such as Nf3 or e2e4.' }); }
-        const uci = move.from + move.to + (move.promotion || '');
-        selected = analysis.variations.find(v => v.steps[0].uci === uci) || (await analyse(root.fen(), { rootMove: uci })).variations[0];
-      }
-      let playedLine = null;
-      if (played) {
-        const temp = new Chess(root.fen()), move = temp.move(played), uci = move.from + move.to + (move.promotion || '');
-        playedLine = analysis.variations.find(v => v.steps[0].uci === uci) || (await analyse(root.fen(), { rootMove: uci })).variations[0];
-      }
-      const segment = (line, label, limit = 4) => line.steps.slice(0, limit).map((step, i) => ({
-        ...step, before: i ? line.steps[i - 1].fen : root.fen(), label,
-      }));
-      const sameMove = playedLine?.steps[0].uci === selected.steps[0].uci;
-      const demonstration = data.mode === 'review'
-        ? sameMove ? segment(playedLine, 'Your move matches the engine suggestion')
-          : [...segment(playedLine, 'Your move and a possible reply', 3), ...segment(selected, 'Engine suggestion from the same position', 3)]
-        : ['demonstrate', 'explain'].includes(data.mode) ? segment(selected, 'Possible continuation') : [];
-      const actualGameHistory = game.history({ verbose: true }).map(({ color, san, from, to }) => ({ color, san, from, to }));
-      const latestLearnerMove = actualGameHistory.findLast(move => move.color === 'w') || null;
-      const lesson = await narrate({ mode: data.mode, turnEvidence, opponentMove, automatic: data.automatic === true, position: root.fen(), board: root.board().flat().filter(Boolean), history: root.history(), actualGameHistory, latestLearnerMove, played, playedLine,
-        lines: analysis.variations, selected, demonstration, question: String(data.question || '').slice(0, 700), focus: String(data.focus || 'Notice threats and protect pieces').slice(0, 150) });
-      if (demonstration.length) lesson.explanation = data.mode === 'review'
-        ? `Back before your move.${sameMove ? ' It matches the engine’s suggestion. Watch a possible continuation.' : ' Compare your move with an alternative. These replies are hypothetical.'}`
-        : 'Watch this short line, then try the idea yourself.';
-      json(200, { lesson, root: root.fen(), demonstration });
     } finally { active--; }
   } catch (error) {
     json(502, { error: error.name === 'TimeoutError' ? 'The tutor took too long. Your game is saved; please retry.' : error.message === 'fetch failed' ? 'Cannot reach the model provider. Check the server connection.' : error.message });

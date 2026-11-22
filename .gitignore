@@ -18,3 +18,7 @@ node_modules/
 # Operating-system files
 .DS_Store
 Thumbs.db
+
+# Evaluation positions from your own games
+/eval/suite.local.json
+/eval/runs/

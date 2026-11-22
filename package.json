@@ -6,7 +6,12 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "check": "node --check server.mjs && node --check lib/engine.mjs && node --check lib/tutor.mjs && node --check public/app.js"
+    "check": "node --check server.mjs && node --check lib/engine.mjs && node --check lib/tutor.mjs && node --check lib/lesson.mjs && node --check lib/analysis.mjs && node --check public/app.js",
+    "test": "node --test test/*.test.mjs",
+    "eval:suite": "node eval/build-suite.mjs",
+    "eval:run": "node eval/run.mjs",
+    "eval:score": "node eval/score.mjs",
+    "eval:detectors": "node eval/detectors.mjs"
   },
   "engines": {
     "node": ">=22"
