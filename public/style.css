@@ -5,7 +5,7 @@
 .board-frame{--board-edge:6px;display:grid;grid-template-columns:30px minmax(0,1fr);grid-template-rows:auto 30px;column-gap:4px}.board-ranks,.board-files{display:grid;font-size:18px;font-weight:700;line-height:1;color:#263e37}.board-ranks{grid-column:1;grid-row:1;grid-template-rows:repeat(8,1fr);padding-block:var(--board-edge)}.board-frame .board{grid-column:2;grid-row:1;min-width:0}.board-files{grid-column:2;grid-row:2;grid-template-columns:repeat(8,1fr);padding-inline:var(--board-edge)}.board-ranks span,.board-files span{display:grid;place-items:center}@media(max-width:800px){.board-frame{--board-edge:4px}}
 /* Keep piece colours stable when the browser uses a dark colour scheme. */
 :root{color-scheme:light dark}
-.board{color-scheme:only light;forced-color-adjust:none}
+.board{forced-color-adjust:none}
 .board .piece{width:92%;height:92%;overflow:visible;text-shadow:none}
 @media(prefers-color-scheme:dark){
   :root{background:#202820;color:#eef0e7;--paper:#293329;--border:#495548;--muted:#b6c2b2;--green:#39694d}
@@ -47,7 +47,19 @@
 .board .piece[data-color="w"] .body{fill:var(--white-piece);stroke:none}
 .board .piece[data-color="b"] .outline{stroke:var(--piece-outline);stroke-width:2.4}
 .board .piece[data-color="b"] .body{fill:var(--black-piece);stroke:none}
-@media(prefers-color-scheme:dark){.board{border-color:#4d6150}}
+/* Dark mode: no bright squares, but the two tones stay about 3.5 to 1 apart and every piece keeps a light or dark outline. */
+@media(prefers-color-scheme:dark){
+  .board{
+    --square-light:#9cae8c;--square-dark:#365240;
+    --square-hover:#b0c0a1;--square-dark-hover:#46674f;
+    --square-selected:#c9b45c;--move-mark:#f0d27a;
+    --white-piece:#fffdf3;--black-piece:#070a08;
+    --piece-outline:#eef3e4;--target-mark:rgba(10,20,14,.78);
+    border-color:#4d6150;
+  }
+  .board .piece[data-color="w"] .outline{stroke:#050806}
+  .board .piece[data-color="b"] .outline{stroke-width:3}
+}
 /* Keep the desktop practice area within the available window height. */
 @media(min-width:801px){
   header{height:64px}
