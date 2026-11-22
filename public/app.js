@@ -271,6 +271,7 @@ function render() {
   const history = game.history(); $('move-count').textContent = history.length;
   $('move-history').textContent = history.length ? history.map((m, i) => (i % 2 === 0 ? `${i / 2 + 1}. ` : '') + m).join(' ') : 'Your game starts with you.';
   renderControls(); renderProgress();
+  saveGame();
 }
 async function selectSquare(square) {
   if (!started || busy || demo || game.turn() !== 'w' || game.isGameOver()) return;
@@ -313,7 +314,7 @@ async function opponent() {
 }
 function showCheckpoint() { showLesson({ ...checkpoint.coaching, question: '', steps: [] }, 'tutor', { mode: 'checkpoint' }); }
 function showLesson(lesson, event = 'tutor', context = {}) {
-  if (started && (lesson.explanation || lesson.question) && lesson !== lastLesson) {
+  if (started && !restoring && (lesson.explanation || lesson.question) && lesson !== lastLesson) {
     const { title, explanation, question } = lesson;
     logHistory(event, { ...context, title, explanation, question });
   }
@@ -478,6 +479,47 @@ $('start-game').onclick = () => {
 };
 $('retry-opponent').onclick = opponent;
 if (!('speechSynthesis' in window)) for (const id of ['voice', 'replay', 'pause-voice', 'speed']) $(id).disabled = true;
-render(); leadLesson();
+// Keep the game in this browser so a refresh or an accidental close does not lose it.
+const gameKey = 'chess-game-v1';
+let savedGame = '', restoring = false;
+function saveGame() {
+  const moves = game.history();
+  const state = started || moves.length ? JSON.stringify({ gameId, historySequence, started, moves, support, pendingSupport, checkpoint,
+    independent: $('independent').checked,
+    lesson: lastLesson && { title: lastLesson.title, explanation: lastLesson.explanation, question: lastLesson.question } }) : '';
+  if (state === savedGame) return;
+  try { if (state) localStorage.setItem(gameKey, state); else localStorage.removeItem(gameKey); savedGame = state; }
+  catch { /* Without storage the game lasts only while this tab is open. */ }
+}
+// Returns null when nothing was restored, otherwise whether Black still owes a reply.
+function restoreGame() {
+  let saved;
+  try { saved = JSON.parse(localStorage.getItem(gameKey)); } catch { return null; }
+  if (!saved || typeof saved.gameId !== 'string' || !Array.isArray(saved.moves) || saved.moves.length > 500 || !saved.moves.every(m => typeof m === 'string')) return null;
+  const restored = new Chess();
+  try { for (const move of saved.moves) restored.move(move); } catch { return null; }
+  game = restored; gameId = saved.gameId; started = saved.started === true || saved.moves.length > 0;
+  historySequence = Number.isSafeInteger(saved.historySequence) ? saved.historySequence : saved.moves.length;
+  support = ['none', 'requested', 'commentary'].includes(saved.support) ? saved.support : 'none';
+  pendingSupport = ['none', 'requested', 'commentary'].includes(saved.pendingSupport) ? saved.pendingSupport : 'none';
+  $('independent').checked = saved.independent === true;
+  checkpoint = saved.checkpoint?.coaching && saved.checkpoint.reply ? saved.checkpoint : null;
+  savedGame = localStorage.getItem(gameKey);
+  restoring = true;
+  render(); leadLesson();
+  restoring = false;
+  if (checkpoint) showCheckpointQuietly();
+  else if (saved.lesson?.explanation && !game.isGameOver()) {
+    lastLesson = { title: String(saved.lesson.title || ''), explanation: String(saved.lesson.explanation), question: '', steps: [] };
+    $('lesson-title').textContent = lastLesson.title; $('explanation').textContent = lastLesson.explanation;
+    $('question').hidden = true; lastText = lastLesson.explanation;
+  }
+  render();
+  return started && !game.isGameOver() && !checkpoint && game.turn() === 'b';
+}
+function showCheckpointQuietly() { restoring = true; showCheckpoint(); restoring = false; }
+const resumed = restoreGame();
+if (resumed === null) { render(); leadLesson(); }
+else if (resumed) opponent();
 window.addEventListener('pagehide', stopPlayback);
 fetch('/api/status').then(r => r.json()).then(s => { $('connection').textContent = s.configured ? '● Tutor configured' : 'Key needed'; if (!s.configured) error('Add the API key to .env and restart the server.'); }).catch(() => { $('connection').textContent = 'Server unavailable'; });
