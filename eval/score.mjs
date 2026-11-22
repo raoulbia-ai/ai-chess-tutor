@@ -36,7 +36,8 @@ const sanPattern = /(?<![A-Za-z0-9])(O-O-O|O-O|[KQRBN][a-h]?[1-8]?x?[a-h][1-8](?
 const mentionsMove = (text, san) => [...text.matchAll(sanPattern)].some(match => strip(match[0]) === strip(san))
   || (/^[a-h][1-8]$/.test(strip(san)) && new RegExp(`(?<![A-Za-z0-9])${strip(san)}(?![A-Za-z0-9])`).test(text) && /\b(?:play|push|advance|move|consider)\b/i.test(text))
   || new RegExp(`(?:^|\\n)${strip(san).replace(/[+]/g, '\\+')}[+#]?:`).test(text);
-const mentionsSquare = (text, square) => new RegExp(`(?<![A-Za-z0-9])${square}(?![A-Za-z0-9])`).test(text);
+// A square counts inside move notation too ("Qxg7" names g7), but not as part of another square or word.
+const mentionsSquare = (text, square) => new RegExp(`(?<![a-h0-9])${square}(?![A-Za-z0-9])`).test(text);
 const play = (fen, moves) => { const game = new Chess(fen); const boards = [];
   for (const san of moves) { try { game.move(san); boards.push(game.fen()); } catch { break; } } return boards; };
 
@@ -92,6 +93,8 @@ function keyPoints(item, record) {
   const best = item.lines?.[0]?.moves[0];
   const near = (item.lines ?? []).filter(line => item.lines[0].cp - line.cp <= 50).map(line => line.moves[0]);
   const threat = item.threat && (item.threat.materialGain >= 1 || item.threat.mate) ? item.threat : null;
+  // Turn commentary is scored on the strict label (a direct threat that really costs White), when the suite has it.
+  const strict = 'strictThreat' in item ? item.strictThreat : threat;
   const keys = {};
   if (record.mode === 'hint') {
     if (item.solution) keys.solution = mentionsMove(text, item.solution[0]);
@@ -105,16 +108,25 @@ function keyPoints(item, record) {
     if (themes.length) keys.theme = themes.some(theme => motifWords[theme].test(text));
   }
   if (record.mode === 'turn') {
-    if (item.lastMoves?.black?.loss >= 200 && best) {
+    // When White was already more than 5 pawns up, engine scores swing by several pawns between searches, so a
+    // "blunder" there is mostly noise and not a lesson; such positions are not counted.
+    const alreadyCrushing = item.lastMoves?.white?.afterCp >= 500;
+    if (item.lastMoves?.black?.loss >= 200 && best && !alreadyCrushing) {
       const to = (() => { try { return new Chess(item.fen).move(best).to; } catch { return null; } })();
       const mating = item.lines[0].score?.type === 'mate' && item.lines[0].score.value > 0;
       keys.blackBlunder = mentionsMove(text, best) || (to && mentionsSquare(text, to) && /\b(?:win|wins|undefended|hanging|free|take|capture|fork|pin|skewer|trap)/i.test(text))
-        || (mating && /\bmate\b/i.test(text));
+        || (mating && /\bmate\b/i.test(text))
+        // Naming the piece that has the winning move ("your knight on e4 has a strong move") also points at the idea.
+        || (() => { try { const from = new Chess(item.fen).move(best).from; return mentionsSquare(text, from) && /strong move/i.test(text); } catch { return false; } })();
     }
-    if (item.lastMoves?.white?.loss >= 150) keys.yourMistake = /\b(?:mistake|blunder|inaccura|loses|lost|better was|instead|stronger)/i.test(text);
+    // A slower win in a position that stays clearly won (2 pawns lost but still 3 pawns up) is not counted as a
+    // mistake to report: graders judged such comments misleading.
+    const stillWinning = item.lastMoves?.white?.afterCp >= 300;
+    if (item.lastMoves?.white?.loss >= (stillWinning ? 300 : 150)) keys.yourMistake = /\b(?:mistake|blunder|inaccura|loses|lost|better was|instead|stronger)/i.test(text);
     // With a forced mate of your own, Black's threat no longer matters.
     const mating = item.lines?.[0]?.score?.type === 'mate' && item.lines[0].score.value > 0;
-    if (threat && !mating) keys.threat = threat.mate ? /\bmate\b|checkmate/i.test(text) || mentionsSquare(text, threat.to) : mentionsSquare(text, threat.to);
+    if (strict && !mating) keys.threat = strict.mate ? /\bmate\b|checkmate/i.test(text) || mentionsSquare(text, strict.to) : mentionsSquare(text, strict.to);
+    if (threat && !mating) keys.anyMaterialThreat = mentionsSquare(text, threat.to);
   }
   return keys;
 }

@@ -84,8 +84,11 @@ async function label(fen) {
   const deep = await analyse(fen, { depth: 18, multipv: 3, plies: 10 });
   const lines = deep.variations.map(v => ({ score: v.score, cp: scoreValue(v.score), moves: v.steps.map(s => s.san) }));
   // Black's threat: what Black wins if White could pass, from the same search the tutor uses, two plies deeper.
+  // `threat` counts any material won; `strictThreat` keeps only a direct threat (a capture, check or tactic on the
+  // first move) that also costs White at least 0.8 pawns of evaluation, searched four plies deeper than the tutor.
   const threat = await threatsBy(fen, 'b', { depth: 14 });
-  return { evalCp: lines[0].cp, lines, threat };
+  const strictThreat = await threatsBy(fen, 'b', { depth: 16, currentCp: lines[0].cp, minCost: 80 });
+  return { evalCp: lines[0].cp, lines, threat, strictThreat };
 }
 
 // How much each of the last moves lost, in centipawns for the side that played it: the best evaluation
@@ -104,7 +107,8 @@ async function lastMoves(game, labels) {
   }
   if (white?.color === 'w') {
     const reply = await analyse(white.after, { depth: 16, multipv: 1 });
-    result.white = { san: white.san, loss: await moveLoss(white.before, white.after, -scoreValue(reply.variations[0].score)) };
+    const afterCp = -scoreValue(reply.variations[0].score);
+    result.white = { san: white.san, loss: await moveLoss(white.before, white.after, afterCp), afterCp };
   }
   return result;
 }

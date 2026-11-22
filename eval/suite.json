@@ -87,9 +87,9 @@
     "Rxc1+",
     "Bxc1",
     "Kxd7",
-    "a4",
+    "f3",
     "Rc8",
-    "Ba3"
+    "Kd1"
    ],
    "mate": null,
    "materialGain": 3,
@@ -101,7 +101,35 @@
      "behind": "f1",
      "square": "c1"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rxc1+",
+   "from": "c2",
+   "to": "c1",
+   "captured": "r",
+   "line": [
+    "Rxc1+",
+    "Bxc1",
+    "Kxd7",
+    "h4",
+    "Ne4",
+    "hxg5"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "skewer",
+     "by": "c1",
+     "front": "e1",
+     "behind": "f1",
+     "square": "c1"
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -189,6 +217,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Bxd1",
@@ -270,7 +299,58 @@
     ]
    }
   ],
-  "threat": null,
+  "threat": {
+   "side": "b",
+   "move": "Rxa6",
+   "from": "a8",
+   "to": "a6",
+   "captured": "p",
+   "line": [
+    "Rxa6",
+    "Rc1",
+    "Ra3",
+    "Qb7",
+    "Rc3",
+    "Rd1+"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "a6",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rxa6",
+   "from": "a8",
+   "to": "a6",
+   "captured": "p",
+   "line": [
+    "Rxa6",
+    "Rc1",
+    "Ra3",
+    "Qh3",
+    "Rc3",
+    "Qh4+"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "a6",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
+  },
   "lastMoves": {
    "black": {
     "san": "Kd4",
@@ -358,6 +438,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Rxb3",
@@ -444,6 +525,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "axb4",
@@ -529,6 +611,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Nf3+",
@@ -617,6 +700,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Nxe5",
@@ -726,7 +810,34 @@
      "captured": "p",
      "gain": 1
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Nxd4",
+   "from": "b5",
+   "to": "d4",
+   "captured": "p",
+   "line": [
+    "Nxd4",
+    "Kf2",
+    "c2",
+    "Ke3",
+    "c1=Q+",
+    "Kxd4"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "d4",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -815,6 +926,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Ra1",
@@ -901,6 +1013,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Rxb6",
@@ -988,6 +1101,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Nxd3",
@@ -1113,7 +1227,50 @@
      "square": "f2",
      "target": "e1"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxf2+",
+   "from": "f5",
+   "to": "f2",
+   "captured": "p",
+   "line": [
+    "Qxf2+",
+    "Kh1",
+    "Qxe1#"
+   ],
+   "mate": 2,
+   "materialGain": null,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "f2",
+     "captured": "p",
+     "gain": 1
+    },
+    {
+     "motif": "removes defender",
+     "square": "f2",
+     "exposed": "g3"
+    },
+    {
+     "motif": "fork",
+     "square": "f2",
+     "targets": [
+      "g3",
+      "e1",
+      "g1"
+     ]
+    },
+    {
+     "motif": "trapped piece",
+     "square": "f2",
+     "target": "e1"
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -1204,6 +1361,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "e4",
@@ -1289,31 +1447,130 @@
   ],
   "threat": {
    "side": "b",
-   "move": "Rxe2",
-   "from": "e8",
-   "to": "e2",
-   "captured": "q",
+   "move": "Qxd4",
+   "from": "b4",
+   "to": "d4",
+   "captured": "p",
    "line": [
-    "Rxe2",
-    "Rxe2",
     "Qxd4",
-    "Rfe1",
-    "f5",
-    "Ne3"
+    "Qd1",
+    "Qxd1",
+    "Nxf6+",
+    "Kf8",
+    "Rxd1"
    ],
    "mate": null,
-   "materialGain": 5,
+   "materialGain": 9,
    "motifs": [
     {
-     "motif": "wins material",
-     "square": "e2",
-     "captured": "q",
-     "gain": 4
+     "motif": "hanging piece",
+     "square": "d4",
+     "captured": "p",
+     "gain": 1
     },
     {
-     "motif": "removes defender",
-     "square": "e2",
-     "exposed": "e1"
+     "motif": "pin",
+     "absolute": true,
+     "by": "d4",
+     "pinned": "f2",
+     "behind": "g1",
+     "square": "d4"
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Rxe2",
+     "from": "e8",
+     "to": "e2",
+     "captured": "q",
+     "line": [
+      "Rxe2",
+      "Rxe2",
+      "Kg7",
+      "Re6",
+      "Rf8"
+     ],
+     "mate": null,
+     "materialGain": 4,
+     "motifs": [
+      {
+       "motif": "wins material",
+       "square": "e2",
+       "captured": "q",
+       "gain": 4
+      },
+      {
+       "motif": "removes defender",
+       "square": "e2",
+       "exposed": "e1"
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxd4",
+   "from": "b4",
+   "to": "d4",
+   "captured": "p",
+   "line": [
+    "Qxd4",
+    "Qd1",
+    "Qxd1",
+    "Nxf6+",
+    "Kf8",
+    "Nd7+"
+   ],
+   "mate": null,
+   "materialGain": 9,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "d4",
+     "captured": "p",
+     "gain": 1
+    },
+    {
+     "motif": "pin",
+     "absolute": true,
+     "by": "d4",
+     "pinned": "f2",
+     "behind": "g1",
+     "square": "d4"
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Rxe2",
+     "from": "e8",
+     "to": "e2",
+     "captured": "q",
+     "line": [
+      "Rxe2",
+      "Rxe2",
+      "Kg7",
+      "Re6",
+      "Rf8",
+      "Rc1"
+     ],
+     "mate": null,
+     "materialGain": 4,
+     "motifs": [
+      {
+       "motif": "wins material",
+       "square": "e2",
+       "captured": "q",
+       "gain": 4
+      },
+      {
+       "motif": "removes defender",
+       "square": "e2",
+       "exposed": "e1"
+      }
+     ]
     }
    ]
   },
@@ -1407,6 +1664,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Kxf6",
@@ -1497,6 +1755,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Bxa2",
@@ -1582,6 +1841,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Bh6",
@@ -1677,11 +1937,11 @@
    "captured": "b",
    "line": [
     "bxc4",
-    "Qg5",
-    "Ng4",
-    "Qh5+",
-    "Kg7",
-    "Nf5+"
+    "Nf3",
+    "Rg8",
+    "Re1",
+    "Rg6",
+    "Nd5"
    ],
    "mate": null,
    "materialGain": 3,
@@ -1692,7 +1952,34 @@
      "captured": "b",
      "gain": 3
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "bxc4",
+   "from": "b5",
+   "to": "c4",
+   "captured": "b",
+   "line": [
+    "bxc4",
+    "Nf3",
+    "Rg8",
+    "Ng5+",
+    "Kg7",
+    "Rd1"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "c4",
+     "captured": "b",
+     "gain": 3
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -1779,6 +2066,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Ke6",
@@ -1864,7 +2152,96 @@
     ]
    }
   ],
-  "threat": null,
+  "threat": {
+   "side": "b",
+   "move": "c6+",
+   "from": "c7",
+   "to": "c6",
+   "captured": null,
+   "line": [
+    "c6+",
+    "Kc5",
+    "Rxf4",
+    "Kd6",
+    "Rd4+",
+    "Kc7"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [],
+   "others": [
+    {
+     "side": "b",
+     "move": "Rxf4",
+     "from": "d4",
+     "to": "f4",
+     "captured": "n",
+     "line": [
+      "Rxf4",
+      "Kc5",
+      "c6",
+      "Kd6",
+      "c5",
+      "Kc6"
+     ],
+     "mate": null,
+     "materialGain": 3,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "f4",
+       "captured": "n",
+       "gain": 3
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "c6+",
+   "from": "c7",
+   "to": "c6",
+   "captured": null,
+   "line": [
+    "c6+",
+    "Kb6",
+    "Rxf4",
+    "Kc5",
+    "Ra4",
+    "Kd6"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [],
+   "others": [
+    {
+     "side": "b",
+     "move": "Rxf4",
+     "from": "d4",
+     "to": "f4",
+     "captured": "n",
+     "line": [
+      "Rxf4",
+      "Kc5",
+      "c6",
+      "Kd6",
+      "Rd4+",
+      "Ke7"
+     ],
+     "mate": null,
+     "materialGain": 3,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "f4",
+       "captured": "n",
+       "gain": 3
+      }
+     ]
+    }
+   ]
+  },
   "lastMoves": {
    "black": {
     "san": "Rd4",
@@ -1950,6 +2327,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Bc6",
@@ -2042,28 +2420,83 @@
   ],
   "threat": {
    "side": "b",
-   "move": "Nxd4",
-   "from": "c6",
+   "move": "Bxd4",
+   "from": "f6",
    "to": "d4",
    "captured": "p",
    "line": [
-    "Nxd4",
-    "Nxd4",
     "Bxd4",
-    "Rad1",
-    "Bf6",
-    "Qb3"
+    "Bxg6",
+    "Rxf3",
+    "Bxh7+",
+    "Kh8",
+    "gxf3"
    ],
    "mate": null,
-   "materialGain": 1,
+   "materialGain": 2,
    "motifs": [
     {
      "motif": "wins material",
      "square": "d4",
      "captured": "p",
      "gain": 1
+    },
+    {
+     "motif": "pin",
+     "absolute": true,
+     "by": "d4",
+     "pinned": "f2",
+     "behind": "g1",
+     "square": "d4"
+    },
+    {
+     "motif": "discovered attack",
+     "square": "d4",
+     "by": "f7",
+     "target": "f3"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Bxd4",
+   "from": "f6",
+   "to": "d4",
+   "captured": "p",
+   "line": [
+    "Bxd4",
+    "Bxg6",
+    "Rxf3",
+    "Bxh7+",
+    "Kh8",
+    "gxf3"
+   ],
+   "mate": null,
+   "materialGain": 2,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "d4",
+     "captured": "p",
+     "gain": 1
+    },
+    {
+     "motif": "pin",
+     "absolute": true,
+     "by": "d4",
+     "pinned": "f2",
+     "behind": "g1",
+     "square": "d4"
+    },
+    {
+     "motif": "discovered attack",
+     "square": "d4",
+     "by": "f7",
+     "target": "f3"
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -2152,6 +2585,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Kf4",
@@ -2231,6 +2665,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Qxc4",
@@ -2316,6 +2751,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "fxg6",
@@ -2401,6 +2837,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Kf7",
@@ -2481,39 +2918,114 @@
   ],
   "threat": {
    "side": "b",
-   "move": "Qxg2+",
+   "move": "Qd4+",
    "from": "d2",
-   "to": "g2",
-   "captured": "p",
+   "to": "d4",
+   "captured": null,
    "line": [
-    "Qxg2+",
-    "Qxg2",
-    "Bxg2",
-    "Rxe5+",
+    "Qd4+",
+    "Kh1",
     "Kxf6",
-    "Rd1"
+    "Bxf7",
+    "Kxf7",
+    "Qf5+"
+   ],
+   "mate": null,
+   "materialGain": 5,
+   "motifs": [],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qxc2",
+     "from": "d2",
+     "to": "c2",
+     "captured": "p",
+     "line": [
+      "Qxc2",
+      "Qd7+",
+      "Kxf6",
+      "Qxf7#"
+     ],
+     "mate": null,
+     "materialGain": 3,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "c2",
+       "captured": "p",
+       "gain": 1
+      }
+     ]
+    },
+    {
+     "side": "b",
+     "move": "Kxf6",
+     "from": "e7",
+     "to": "f6",
+     "captured": "n",
+     "line": [
+      "Kxf6",
+      "Kh1",
+      "Qxg2+",
+      "Qxg2",
+      "Bxg2+",
+      "Kxg2"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "f6",
+       "captured": "n",
+       "gain": 3
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Kxf6",
+   "from": "e7",
+   "to": "f6",
+   "captured": "n",
+   "line": [
+    "Kxf6",
+    "Re2",
+    "Qd4+",
+    "Kh1",
+    "Rbf8",
+    "c3"
    ],
    "mate": null,
    "materialGain": 3,
    "motifs": [
     {
-     "motif": "removes defender",
-     "square": "g2",
-     "exposed": "h3"
-    },
+     "motif": "hanging piece",
+     "square": "f6",
+     "captured": "n",
+     "gain": 3
+    }
+   ],
+   "others": [
     {
-     "motif": "fork",
-     "square": "g2",
-     "targets": [
-      "h3",
-      "c2",
-      "g1"
-     ]
-    },
-    {
-     "motif": "trapped piece",
-     "square": "g2",
-     "target": "h3"
+     "side": "b",
+     "move": "Qd4+",
+     "from": "d2",
+     "to": "d4",
+     "captured": null,
+     "line": [
+      "Qd4+",
+      "Rf2",
+      "Kxf6",
+      "g3",
+      "Qc3",
+      "Rxe5"
+     ],
+     "mate": null,
+     "materialGain": 3,
+     "motifs": []
     }
    ]
   },
@@ -2601,24 +3113,8 @@
     ]
    }
   ],
-  "threat": {
-   "side": "b",
-   "move": "Nc6",
-   "from": "e5",
-   "to": "c6",
-   "captured": null,
-   "line": [
-    "Nc6",
-    "Bb4",
-    "Nxb4",
-    "Qxd6+",
-    "Kxd6",
-    "axb4"
-   ],
-   "mate": null,
-   "materialGain": 3,
-   "motifs": []
-  },
+  "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Nxe5",
@@ -2709,14 +3205,14 @@
    "captured": null,
    "line": [
     "Ra8",
-    "Qxa8",
-    "Qxa8+",
-    "Kb2",
-    "Qxf3",
-    "Rc1"
+    "Re5",
+    "Rxa4+",
+    "bxa4",
+    "Qxa4+",
+    "Kb2"
    ],
    "mate": null,
-   "materialGain": 4,
+   "materialGain": 5,
    "motifs": [
     {
      "motif": "pin",
@@ -2726,7 +3222,36 @@
      "behind": "a2",
      "square": "a8"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Ra8",
+   "from": "b8",
+   "to": "a8",
+   "captured": null,
+   "line": [
+    "Ra8",
+    "Ra1",
+    "Rxa4+",
+    "bxa4",
+    "Qxa4+",
+    "Kb2"
+   ],
+   "mate": null,
+   "materialGain": 5,
+   "motifs": [
+    {
+     "motif": "pin",
+     "absolute": true,
+     "by": "a8",
+     "pinned": "a4",
+     "behind": "a2",
+     "square": "a8"
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -2812,7 +3337,58 @@
     ]
    }
   ],
-  "threat": null,
+  "threat": {
+   "side": "b",
+   "move": "Qxh3",
+   "from": "g2",
+   "to": "h3",
+   "captured": "p",
+   "line": [
+    "Qxh3",
+    "Qd8+",
+    "Kh7",
+    "Qf6",
+    "Qe6",
+    "Qxh4+"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "h3",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxh3",
+   "from": "g2",
+   "to": "h3",
+   "captured": "p",
+   "line": [
+    "Qxh3",
+    "Qf6",
+    "Qd3",
+    "Qg5+",
+    "Qg6",
+    "Qxh4"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "h3",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
+  },
   "lastMoves": {
    "black": {
     "san": "Kg8",
@@ -2910,7 +3486,7 @@
     "Ke5",
     "Rd5+",
     "Kf4",
-    "Bg4"
+    "Bd1"
    ],
    "mate": null,
    "materialGain": 1,
@@ -2920,6 +3496,61 @@
      "square": "a7",
      "captured": "p",
      "gain": 1
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Raxa7",
+   "from": "a4",
+   "to": "a7",
+   "captured": "p",
+   "line": [
+    "Raxa7",
+    "Bd1",
+    "Ra1",
+    "Ke2",
+    "Ra2+",
+    "Ke1"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "a7",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Ra1+",
+     "from": "a4",
+     "to": "a1",
+     "captured": null,
+     "line": [
+      "Ra1+",
+      "Bd1",
+      "Rdxa7",
+      "Ke2",
+      "R7a2+",
+      "Kf3"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "fork",
+       "square": "a1",
+       "targets": [
+        "a7",
+        "e1"
+       ]
+      }
+     ]
     }
    ]
   },
@@ -3009,26 +3640,119 @@
   ],
   "threat": {
    "side": "b",
-   "move": "Kxa5",
-   "from": "b4",
-   "to": "a5",
-   "captured": "r",
+   "move": "Ne2+",
+   "from": "d4",
+   "to": "e2",
+   "captured": null,
    "line": [
-    "Kxa5",
-    "Kf1",
-    "b5",
-    "g3",
-    "Kb4",
-    "Rd1"
+    "Ne2+",
+    "Kh1",
+    "Nxc1",
+    "Ra4+",
+    "Kc3",
+    "h3"
    ],
    "mate": null,
    "materialGain": 5,
    "motifs": [
     {
-     "motif": "hanging piece",
-     "square": "a5",
+     "motif": "fork",
+     "square": "e2",
+     "targets": [
+      "c1",
+      "g1"
+     ]
+    },
+    {
+     "motif": "trapped piece",
+     "square": "e2",
+     "target": "c1"
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Kxa5",
+     "from": "b4",
+     "to": "a5",
      "captured": "r",
-     "gain": 5
+     "line": [
+      "Kxa5",
+      "Kf1",
+      "b5",
+      "h4",
+      "Kb4",
+      "h5"
+     ],
+     "mate": null,
+     "materialGain": 5,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "a5",
+       "captured": "r",
+       "gain": 5
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Ne2+",
+   "from": "d4",
+   "to": "e2",
+   "captured": null,
+   "line": [
+    "Ne2+",
+    "Kf1",
+    "Nxc1",
+    "Ra4+",
+    "Kc3",
+    "Rc4+"
+   ],
+   "mate": null,
+   "materialGain": 5,
+   "motifs": [
+    {
+     "motif": "fork",
+     "square": "e2",
+     "targets": [
+      "c1",
+      "g1"
+     ]
+    },
+    {
+     "motif": "trapped piece",
+     "square": "e2",
+     "target": "c1"
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Kxa5",
+     "from": "b4",
+     "to": "a5",
+     "captured": "r",
+     "line": [
+      "Kxa5",
+      "Kf1",
+      "b5",
+      "f4",
+      "Kb4",
+      "h3"
+     ],
+     "mate": null,
+     "materialGain": 5,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "a5",
+       "captured": "r",
+       "gain": 5
+      }
+     ]
     }
    ]
   },
@@ -3138,6 +3862,136 @@
      "motif": "promotion",
      "square": "e1"
     }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qf3+",
+     "from": "f2",
+     "to": "f3",
+     "captured": null,
+     "line": [
+      "Qf3+",
+      "Kh2",
+      "Qf2+",
+      "Kh3",
+      "g4+",
+      "Kh4"
+     ],
+     "mate": 4,
+     "materialGain": null,
+     "motifs": [
+      {
+       "motif": "fork",
+       "square": "f3",
+       "targets": [
+        "g3",
+        "h1"
+       ]
+      }
+     ]
+    },
+    {
+     "side": "b",
+     "move": "Qxd4",
+     "from": "f2",
+     "to": "d4",
+     "captured": "p",
+     "line": [
+      "Qxd4",
+      "Qf8+",
+      "Kg4",
+      "Kh2",
+      "Qe4",
+      "Qh8"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "d4",
+       "captured": "p",
+       "gain": 1
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "e1=R#",
+   "from": "e2",
+   "to": "e1",
+   "captured": null,
+   "line": [
+    "e1=R#"
+   ],
+   "mate": 1,
+   "materialGain": null,
+   "motifs": [
+    {
+     "motif": "back-rank mate",
+     "square": "e1"
+    },
+    {
+     "motif": "promotion",
+     "square": "e1"
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qf3+",
+     "from": "f2",
+     "to": "f3",
+     "captured": null,
+     "line": [
+      "Qf3+",
+      "Kh2",
+      "Qf2+",
+      "Kh3",
+      "g4+",
+      "Kh4"
+     ],
+     "mate": 4,
+     "materialGain": null,
+     "motifs": [
+      {
+       "motif": "fork",
+       "square": "f3",
+       "targets": [
+        "g3",
+        "h1"
+       ]
+      }
+     ]
+    },
+    {
+     "side": "b",
+     "move": "Qxd4",
+     "from": "f2",
+     "to": "d4",
+     "captured": "p",
+     "line": [
+      "Qxd4",
+      "Qf8+",
+      "Kg4",
+      "Qc8+",
+      "Kf3",
+      "Qf8+"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "d4",
+       "captured": "p",
+       "gain": 1
+      }
+     ]
+    }
    ]
   },
   "lastMoves": {
@@ -3232,8 +4086,8 @@
    "captured": "p",
    "line": [
     "Qxf2+",
-    "Kh3",
-    "Qh2#"
+    "Kh1",
+    "Qe1#"
    ],
    "mate": 2,
    "materialGain": null,
@@ -3243,6 +4097,80 @@
      "square": "f2",
      "captured": "p",
      "gain": 1
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "fxg4",
+     "from": "f5",
+     "to": "g4",
+     "captured": "q",
+     "line": [
+      "fxg4",
+      "h6",
+      "Qxf2+",
+      "Kh1",
+      "Qe1#"
+     ],
+     "mate": 3,
+     "materialGain": null,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "g4",
+       "captured": "q",
+       "gain": 9
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxf2+",
+   "from": "b6",
+   "to": "f2",
+   "captured": "p",
+   "line": [
+    "Qxf2+",
+    "Kh1",
+    "Qe1#"
+   ],
+   "mate": 2,
+   "materialGain": null,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "f2",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "fxg4",
+     "from": "f5",
+     "to": "g4",
+     "captured": "q",
+     "line": [
+      "fxg4",
+      "h6",
+      "Qxf2+",
+      "Kh1",
+      "Qe1#"
+     ],
+     "mate": 3,
+     "materialGain": null,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "g4",
+       "captured": "q",
+       "gain": 9
+      }
+     ]
     }
    ]
   },
@@ -3333,6 +4261,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Qxc4",
@@ -3422,6 +4351,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Rf2",
@@ -3508,6 +4438,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Ke5",
@@ -3593,6 +4524,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "d4",
@@ -3681,6 +4613,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Ka2",
@@ -3768,6 +4701,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Ke5",
@@ -3861,11 +4795,8 @@
    "captured": "q",
    "line": [
     "Qxh5",
-    "Ng3",
-    "Qc5",
-    "Rad1",
-    "Be6",
-    "Ne4"
+    "Rfe1",
+    "Qg6"
    ],
    "mate": null,
    "materialGain": 9,
@@ -3876,7 +4807,34 @@
      "captured": "q",
      "gain": 9
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxh5",
+   "from": "g6",
+   "to": "h5",
+   "captured": "q",
+   "line": [
+    "Qxh5",
+    "Rfe1",
+    "Qg6",
+    "Bb1",
+    "Bf5",
+    "h4"
+   ],
+   "mate": null,
+   "materialGain": 9,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "h5",
+     "captured": "q",
+     "gain": 9
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -3962,7 +4920,72 @@
     ]
    }
   ],
-  "threat": null,
+  "threat": {
+   "side": "b",
+   "move": "Bxc3",
+   "from": "a5",
+   "to": "c3",
+   "captured": "p",
+   "line": [
+    "Bxc3",
+    "Bxh7+",
+    "Kxh7",
+    "Qd3+",
+    "Kg8",
+    "Bd2"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "c3",
+     "captured": "p",
+     "gain": 1
+    },
+    {
+     "motif": "skewer",
+     "by": "c3",
+     "front": "d2",
+     "behind": "e1",
+     "square": "c3"
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Bxc3",
+   "from": "a5",
+   "to": "c3",
+   "captured": "p",
+   "line": [
+    "Bxc3",
+    "Bxd4",
+    "Rxd4",
+    "Qe2",
+    "Rd6",
+    "Rb1"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "c3",
+     "captured": "p",
+     "gain": 1
+    },
+    {
+     "motif": "skewer",
+     "by": "c3",
+     "front": "d2",
+     "behind": "e1",
+     "square": "c3"
+    }
+   ],
+   "others": []
+  },
   "lastMoves": {
    "black": {
     "san": "cxd4",
@@ -4048,6 +5071,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Kxh7",
@@ -4145,7 +5169,33 @@
    "line": [
     "Qxh2",
     "f3",
+    "Re7",
+    "Qc3",
     "g5",
+    "Rxf6+"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "h2",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxh2",
+   "from": "h3",
+   "to": "h2",
+   "captured": "p",
+   "line": [
+    "Qxh2",
+    "Rf1",
+    "Re7",
     "Rxf6+",
     "Kxf6",
     "f4"
@@ -4159,7 +5209,8 @@
      "captured": "p",
      "gain": 1
     }
-   ]
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -4257,9 +5308,35 @@
    "line": [
     "Qxd5",
     "Qe8",
+    "c4",
+    "Kf2",
+    "Kc5",
+    "Qe7+"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "d5",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxd5",
+   "from": "b3",
+   "to": "d5",
+   "captured": "p",
+   "line": [
+    "Qxd5",
+    "Qg6+",
     "Qe6",
-    "Qd8+",
-    "Kc6",
+    "Qg5",
+    "c4",
     "Kf2"
    ],
    "mate": null,
@@ -4271,7 +5348,8 @@
      "captured": "p",
      "gain": 1
     }
-   ]
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -4355,6 +5433,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Nxf6",
@@ -4443,6 +5522,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Qxc3",
@@ -4529,17 +5609,17 @@
   ],
   "threat": {
    "side": "b",
-   "move": "Rxd6",
-   "from": "d7",
+   "move": "Qxd6",
+   "from": "f6",
    "to": "d6",
    "captured": "n",
    "line": [
+    "Qxd6",
+    "Qxd6",
     "Rxd6",
-    "Qxe5",
-    "Qxe5",
     "Rxe5",
-    "Rd1+",
-    "Kh2"
+    "Rd2",
+    "b3"
    ],
    "mate": null,
    "materialGain": 2,
@@ -4550,7 +5630,34 @@
      "captured": "n",
      "gain": 3
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rxd6",
+   "from": "d7",
+   "to": "d6",
+   "captured": "n",
+   "line": [
+    "Rxd6",
+    "Qc5",
+    "Re8",
+    "b4",
+    "e4",
+    "a4"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "d6",
+     "captured": "n",
+     "gain": 3
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -4637,6 +5744,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "hxg5",
@@ -4732,8 +5840,8 @@
     "Rxd1",
     "Bxd1",
     "b4",
-    "Bc3",
-    "Kf2"
+    "Bg4",
+    "Kg2"
    ],
    "mate": null,
    "materialGain": 3,
@@ -4749,7 +5857,39 @@
      "square": "d1",
      "exposed": "b2"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rxd1+",
+   "from": "c1",
+   "to": "d1",
+   "captured": "n",
+   "line": [
+    "Rxd1+",
+    "Rxd1",
+    "Bxd1",
+    "b3",
+    "Bf8",
+    "h3"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "d1",
+     "captured": "n",
+     "gain": 3
+    },
+    {
+     "motif": "removes defender",
+     "square": "d1",
+     "exposed": "b2"
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -4832,11 +5972,11 @@
    "captured": "q",
    "line": [
     "Bxb7",
-    "f4",
-    "Qf6",
-    "Nf3",
+    "d4",
+    "Qe6",
+    "Nh3",
     "Qb6",
-    "g3"
+    "O-O"
    ],
    "mate": null,
    "materialGain": 9,
@@ -4846,16 +5986,35 @@
      "square": "b7",
      "captured": "q",
      "gain": 9
-    },
-    {
-     "motif": "pin",
-     "absolute": false,
-     "by": "b7",
-     "pinned": "g2",
-     "behind": "h1",
-     "square": "b7"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Bxb7",
+   "from": "d5",
+   "to": "b7",
+   "captured": "q",
+   "line": [
+    "Bxb7",
+    "d4",
+    "Qe6",
+    "Nh3",
+    "Qb6",
+    "Nf4"
+   ],
+   "mate": null,
+   "materialGain": 9,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "b7",
+     "captured": "q",
+     "gain": 9
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -4934,11 +6093,7 @@
    "captured": "p",
    "line": [
     "Nxd4",
-    "Bg5",
-    "Qe7",
-    "Bxf6",
-    "Qxf7",
-    "Bxh8"
+    "Be3"
    ],
    "mate": null,
    "materialGain": 1,
@@ -4948,6 +6103,71 @@
      "square": "d4",
      "captured": "p",
      "gain": 1
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Bb4+",
+     "from": "f8",
+     "to": "b4",
+     "captured": null,
+     "line": [
+      "Bb4+",
+      "c3",
+      "Nxe5",
+      "dxe5",
+      "Qe7",
+      "g4+"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": []
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Nxd4",
+   "from": "c6",
+   "to": "d4",
+   "captured": "p",
+   "line": [
+    "Nxd4",
+    "Bg5",
+    "Nxc2+",
+    "Kf1",
+    "Kxg5",
+    "Qc4"
+   ],
+   "mate": null,
+   "materialGain": 2,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "d4",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Bb4+",
+     "from": "f8",
+     "to": "b4",
+     "captured": null,
+     "line": [
+      "Bb4+",
+      "c3",
+      "Nxe5",
+      "dxe5",
+      "Qe7",
+      "g4+"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": []
     }
    ]
   },
@@ -5034,8 +6254,61 @@
     "Qxf7",
     "Bg5",
     "Qa2",
-    "d5",
+    "c4",
+    "Kg8",
+    "d5"
+   ],
+   "mate": null,
+   "materialGain": 9,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "f7",
+     "captured": "q",
+     "gain": 9
+    },
+    {
+     "motif": "removes defender",
+     "square": "f7",
+     "exposed": "e7"
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Bxa4",
+     "from": "d7",
+     "to": "a4",
+     "captured": "p",
+     "line": [
+      "Bxa4",
+      "Bf6#"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "a4",
+       "captured": "p",
+       "gain": 1
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxf7",
+   "from": "e8",
+   "to": "f7",
+   "captured": "q",
+   "line": [
+    "Qxf7",
+    "Bg5",
     "Rc8",
+    "Ra1",
+    "Kg7",
     "a5"
    ],
    "mate": null,
@@ -5052,7 +6325,8 @@
      "square": "f7",
      "exposed": "e7"
     }
-   ]
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -5140,7 +6414,7 @@
     "Bd6",
     "Ne4",
     "Be7",
-    "Rg1"
+    "c5"
    ],
    "mate": null,
    "materialGain": 6,
@@ -5150,13 +6424,86 @@
      "square": "c3",
      "captured": "q",
      "gain": 6
-    },
+    }
+   ],
+   "others": [
     {
-     "motif": "fork",
+     "side": "b",
+     "move": "Be5",
+     "from": "f4",
+     "to": "e5",
+     "captured": null,
+     "line": [
+      "Be5",
+      "Qd2",
+      "Nxb2",
+      "Nxe5",
+      "Nxe5",
+      "Rf1"
+     ],
+     "mate": null,
+     "materialGain": 3,
+     "motifs": [
+      {
+       "motif": "skewer",
+       "by": "e5",
+       "front": "c3",
+       "behind": "b2",
+       "square": "e5"
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Nxc3",
+   "from": "d1",
+   "to": "c3",
+   "captured": "q",
+   "line": [
+    "Nxc3",
+    "Nxc3",
+    "f6",
+    "g4",
+    "Rf7",
+    "Ne4"
+   ],
+   "mate": null,
+   "materialGain": 6,
+   "motifs": [
+    {
+     "motif": "wins material",
      "square": "c3",
-     "targets": [
-      "e4",
-      "e2"
+     "captured": "q",
+     "gain": 6
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Be5",
+     "from": "f4",
+     "to": "e5",
+     "captured": null,
+     "line": [
+      "Be5",
+      "Qd2",
+      "Nxb2",
+      "Rb1",
+      "Nxc4",
+      "Bxc4"
+     ],
+     "mate": null,
+     "materialGain": 3,
+     "motifs": [
+      {
+       "motif": "skewer",
+       "by": "e5",
+       "front": "c3",
+       "behind": "b2",
+       "square": "e5"
+      }
      ]
     }
    ]
@@ -5237,6 +6584,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "hxg5",
@@ -5312,6 +6660,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Qxe5",
@@ -5368,7 +6717,51 @@
     ]
    }
   ],
-  "threat": null,
+  "threat": {
+   "side": "b",
+   "move": "gxh6",
+   "from": "g7",
+   "to": "h6",
+   "captured": "b",
+   "line": [
+    "gxh6",
+    "Qxh6#"
+   ],
+   "mate": null,
+   "materialGain": 2,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "h6",
+     "captured": "b",
+     "gain": 2
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Bxb2",
+     "from": "c3",
+     "to": "b2",
+     "captured": "p",
+     "line": [
+      "Bxb2",
+      "Bc1#"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "b2",
+       "captured": "p",
+       "gain": 1
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Bxc3",
@@ -5443,6 +6836,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Qxf5",
@@ -5517,6 +6911,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Kd4",
@@ -5593,21 +6988,55 @@
   ],
   "threat": {
    "side": "b",
-   "move": "Qe7",
-   "from": "d8",
-   "to": "e7",
-   "captured": null,
+   "move": "Nxd4",
+   "from": "c6",
+   "to": "d4",
+   "captured": "p",
    "line": [
-    "Qe7",
-    "Qb3",
     "Nxd4",
-    "Qg3",
-    "Rg8",
-    "Ng6+"
+    "Nc4+",
+    "Kc6",
+    "Ne5+",
+    "Kb6",
+    "Be3"
    ],
    "mate": null,
    "materialGain": 1,
-   "motifs": []
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "d4",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Nxd4",
+   "from": "c6",
+   "to": "d4",
+   "captured": "p",
+   "line": [
+    "Nxd4",
+    "Nc4+",
+    "Kc6",
+    "Ne5+",
+    "Kb6",
+    "Be3"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "d4",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -5696,14 +7125,14 @@
    "captured": "b",
    "line": [
     "Rxe3",
-    "h4",
-    "Ra3",
     "Rf4",
+    "Ra3",
+    "Rxe4",
     "Ra1+",
-    "Kh2"
+    "Kf2"
    ],
    "mate": null,
-   "materialGain": 3,
+   "materialGain": 2,
    "motifs": [
     {
      "motif": "hanging piece",
@@ -5711,7 +7140,34 @@
      "captured": "b",
      "gain": 3
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rxe3",
+   "from": "d3",
+   "to": "e3",
+   "captured": "b",
+   "line": [
+    "Rxe3",
+    "Rxh7",
+    "Ra3",
+    "g4",
+    "e3",
+    "Re6"
+   ],
+   "mate": null,
+   "materialGain": 2,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "e3",
+     "captured": "b",
+     "gain": 3
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -5793,6 +7249,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Bh6",
@@ -5871,7 +7328,35 @@
     ]
    }
   ],
-  "threat": null,
+  "threat": {
+   "side": "b",
+   "move": "Qg7",
+   "from": "b2",
+   "to": "g7",
+   "captured": null,
+   "line": [
+    "Qg7",
+    "Nf3",
+    "Rxf7",
+    "Ng5+",
+    "Qxg5",
+    "Qxf7+"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "fork",
+     "square": "g7",
+     "targets": [
+      "f7",
+      "g2"
+     ]
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Qxb2",
@@ -5973,6 +7458,95 @@
      "captured": "n",
      "gain": 3
     }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Bxc4",
+     "from": "a2",
+     "to": "c4",
+     "captured": "p",
+     "line": [
+      "Bxc4",
+      "Rxg7",
+      "Bxd5",
+      "Nf7+",
+      "Bxf7",
+      "Bxf7"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "c4",
+       "captured": "p",
+       "gain": 1
+      },
+      {
+       "motif": "removes defender",
+       "square": "c4",
+       "exposed": "d5"
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Bxh8",
+   "from": "g7",
+   "to": "h8",
+   "captured": "n",
+   "line": [
+    "Bxh8",
+    "Be8",
+    "Bxc4",
+    "Rd7+",
+    "Ke6",
+    "Nc7+"
+   ],
+   "mate": null,
+   "materialGain": 4,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "h8",
+     "captured": "n",
+     "gain": 3
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Bxc4",
+     "from": "a2",
+     "to": "c4",
+     "captured": "p",
+     "line": [
+      "Bxc4",
+      "Rxg7",
+      "Bxd5",
+      "Nf7+",
+      "Bxf7",
+      "Bxf7"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "c4",
+       "captured": "p",
+       "gain": 1
+      },
+      {
+       "motif": "removes defender",
+       "square": "c4",
+       "exposed": "d5"
+      }
+     ]
+    }
    ]
   },
   "lastMoves": {
@@ -6064,7 +7638,7 @@
     "Rg1+",
     "Ke2",
     "Ng3+",
-    "Kd3"
+    "Kf2"
    ],
    "mate": null,
    "materialGain": 1,
@@ -6074,6 +7648,89 @@
      "square": "g3",
      "captured": "p",
      "gain": 1
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "R4g7",
+     "from": "g4",
+     "to": "g7",
+     "captured": null,
+     "line": [
+      "R4g7",
+      "Ra7+",
+      "Kxe6",
+      "Re5+",
+      "Kd6",
+      "Ra6+"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "pin",
+       "absolute": true,
+       "by": "g7",
+       "pinned": "g3",
+       "behind": "g2",
+       "square": "g7"
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rxg3+",
+   "from": "g4",
+   "to": "g3",
+   "captured": "p",
+   "line": [
+    "Rxg3+",
+    "Kf1",
+    "Rg1+",
+    "Ke2",
+    "Ng3+",
+    "Kd2"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "g3",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "R4g7",
+     "from": "g4",
+     "to": "g7",
+     "captured": null,
+     "line": [
+      "R4g7",
+      "Ra7+",
+      "Kxe6",
+      "Re5+",
+      "Kd6",
+      "Ra6+"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "pin",
+       "absolute": true,
+       "by": "g7",
+       "pinned": "g3",
+       "behind": "g2",
+       "square": "g7"
+      }
+     ]
     }
    ]
   },
@@ -6157,7 +7814,94 @@
     ]
    }
   ],
-  "threat": null,
+  "threat": {
+   "side": "b",
+   "move": "Qxd3",
+   "from": "d4",
+   "to": "d3",
+   "captured": "b",
+   "line": [
+    "Qxd3",
+    "Rf3",
+    "Raf8",
+    "Rxg3",
+    "Rxg3",
+    "Kh2"
+   ],
+   "mate": null,
+   "materialGain": 5,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "d3",
+     "captured": "b",
+     "gain": 3
+    },
+    {
+     "motif": "removes defender",
+     "square": "d3",
+     "exposed": "f5"
+    },
+    {
+     "motif": "removes defender",
+     "square": "d3",
+     "exposed": "c4"
+    },
+    {
+     "motif": "fork",
+     "square": "d3",
+     "targets": [
+      "f5",
+      "c4"
+     ]
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxd3",
+   "from": "d4",
+   "to": "d3",
+   "captured": "b",
+   "line": [
+    "Qxd3",
+    "Rf3",
+    "Raf8",
+    "Rxg3",
+    "Rxg3",
+    "Kh2"
+   ],
+   "mate": null,
+   "materialGain": 5,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "d3",
+     "captured": "b",
+     "gain": 3
+    },
+    {
+     "motif": "removes defender",
+     "square": "d3",
+     "exposed": "f5"
+    },
+    {
+     "motif": "removes defender",
+     "square": "d3",
+     "exposed": "c4"
+    },
+    {
+     "motif": "fork",
+     "square": "d3",
+     "targets": [
+      "f5",
+      "c4"
+     ]
+    }
+   ],
+   "others": []
+  },
   "lastMoves": {
    "black": {
     "san": "Qd4",
@@ -6247,6 +7991,45 @@
    "line": [
     "Qxf4",
     "Re1",
+    "Qxg5+",
+    "Qxg5",
+    "Nxg5",
+    "Rxe8"
+   ],
+   "mate": null,
+   "materialGain": 6,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "f4",
+     "captured": "r",
+     "gain": 5
+    },
+    {
+     "motif": "removes defender",
+     "square": "f4",
+     "exposed": "d4"
+    },
+    {
+     "motif": "fork",
+     "square": "f4",
+     "targets": [
+      "g5",
+      "d4"
+     ]
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxf4",
+   "from": "d6",
+   "to": "f4",
+   "captured": "r",
+   "line": [
+    "Qxf4",
+    "Re1",
     "Qxd4+",
     "Kh1",
     "Qf2",
@@ -6273,16 +8056,9 @@
       "g5",
       "d4"
      ]
-    },
-    {
-     "motif": "pin",
-     "absolute": false,
-     "by": "f4",
-     "pinned": "g5",
-     "behind": "h6",
-     "square": "f4"
     }
-   ]
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -6373,9 +8149,9 @@
     "Qxf5",
     "Qxf5",
     "gxf5",
-    "g3",
-    "Rfe8",
-    "Bg5"
+    "Bg5",
+    "Ne3",
+    "Re1"
    ],
    "mate": null,
    "materialGain": 3,
@@ -6393,7 +8169,41 @@
      "behind": "f1",
      "square": "f5"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxf5",
+   "from": "d3",
+   "to": "f5",
+   "captured": "n",
+   "line": [
+    "Qxf5",
+    "Qxf5",
+    "gxf5",
+    "Bg5",
+    "Ne3",
+    "Rb1"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "f5",
+     "captured": "n",
+     "gain": 2
+    },
+    {
+     "motif": "skewer",
+     "by": "f5",
+     "front": "f4",
+     "behind": "f1",
+     "square": "f5"
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -6472,7 +8282,31 @@
     ]
    }
   ],
-  "threat": null,
+  "threat": {
+   "side": "b",
+   "move": "Rxa3",
+   "from": "a1",
+   "to": "a3",
+   "captured": "p",
+   "line": [
+    "Rxa3",
+    "Rg4+",
+    "Kh8",
+    "Qf6#"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "a3",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Qe1",
@@ -6552,6 +8386,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "f5",
@@ -6637,6 +8472,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Re6",
@@ -6733,6 +8569,32 @@
     "fxe5",
     "Qh5+",
     "Kd8",
+    "Be3",
+    "Qc6",
+    "Qf7"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "e5",
+     "captured": "n",
+     "gain": 2
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "fxe5",
+   "from": "f6",
+   "to": "e5",
+   "captured": "n",
+   "line": [
+    "fxe5",
+    "Qh5+",
+    "Kd8",
     "Bg5+",
     "Nf6",
     "Nd2"
@@ -6746,7 +8608,8 @@
      "captured": "n",
      "gain": 2
     }
-   ]
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -6833,6 +8696,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Be6",
@@ -6921,34 +8785,55 @@
   ],
   "threat": {
    "side": "b",
-   "move": "cxd4",
-   "from": "c5",
-   "to": "d4",
-   "captured": "b",
+   "move": "Nxc4",
+   "from": "e5",
+   "to": "c4",
+   "captured": "p",
    "line": [
+    "Nxc4",
+    "Rc1",
     "cxd4",
-    "Qb1",
-    "Bg6",
-    "e7",
-    "Qxe7",
-    "Bd5+"
+    "Qxd4",
+    "Na6",
+    "Rxc4"
    ],
    "mate": null,
    "materialGain": 3,
    "motifs": [
     {
-     "motif": "wins material",
-     "square": "d4",
-     "captured": "b",
-     "gain": 2
-    },
-    {
-     "motif": "discovered attack",
-     "square": "d4",
-     "by": "c7",
-     "target": "c4"
+     "motif": "hanging piece",
+     "square": "c4",
+     "captured": "p",
+     "gain": 1
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Nxc4",
+   "from": "e5",
+   "to": "c4",
+   "captured": "p",
+   "line": [
+    "Nxc4",
+    "Rc1",
+    "cxd4",
+    "Qxd4",
+    "Nc6",
+    "Qxc4"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "c4",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -7042,11 +8927,11 @@
    "captured": null,
    "line": [
     "Rc1+",
-    "Kd2",
+    "Kf2",
     "Rxh1",
-    "Kc3",
-    "Re1",
-    "b4"
+    "Ke3",
+    "Ra1",
+    "Ne5"
    ],
    "mate": null,
    "materialGain": 5,
@@ -7065,6 +8950,80 @@
      "front": "e1",
      "behind": "h1",
      "square": "c1"
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Bxc4",
+     "from": "a6",
+     "to": "c4",
+     "captured": "p",
+     "line": [
+      "Bxc4",
+      "Kd2",
+      "Rd3+",
+      "Kc2",
+      "Ba6",
+      "h4"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": []
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rc1+",
+   "from": "c3",
+   "to": "c1",
+   "captured": null,
+   "line": [
+    "Rc1+",
+    "Kf2",
+    "Rxh1",
+    "Ne5",
+    "Rb1",
+    "Nc6"
+   ],
+   "mate": null,
+   "materialGain": 5,
+   "motifs": [
+    {
+     "motif": "fork",
+     "square": "c1",
+     "targets": [
+      "c4",
+      "e1"
+     ]
+    },
+    {
+     "motif": "skewer",
+     "by": "c1",
+     "front": "e1",
+     "behind": "h1",
+     "square": "c1"
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Bxc4",
+     "from": "a6",
+     "to": "c4",
+     "captured": "p",
+     "line": [
+      "Bxc4",
+      "Kd2",
+      "Rd3+",
+      "Kc2",
+      "Ba6",
+      "h4"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": []
     }
    ]
   },
@@ -7153,6 +9112,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Rc4",
@@ -7236,6 +9196,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "a6",
@@ -7331,8 +9292,8 @@
     "Bg5",
     "Qh5",
     "e5",
-    "Nh6",
-    "c4"
+    "Nxe5",
+    "f4"
    ],
    "mate": null,
    "materialGain": 3,
@@ -7343,7 +9304,34 @@
      "captured": "b",
      "gain": 1
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Nxg4",
+   "from": "e5",
+   "to": "g4",
+   "captured": "b",
+   "line": [
+    "Nxg4",
+    "Bc5",
+    "Ne5",
+    "f4",
+    "Ng6",
+    "Bd6"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "g4",
+     "captured": "b",
+     "gain": 1
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -7439,10 +9427,10 @@
    "line": [
     "Nxe5",
     "fxe5",
-    "f6",
-    "Rg1",
-    "Rf8",
-    "exf6"
+    "Qa7",
+    "O-O-O",
+    "Rg8",
+    "f4"
    ],
    "mate": null,
    "materialGain": 6,
@@ -7453,7 +9441,34 @@
      "captured": "q",
      "gain": 6
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Nxe5",
+   "from": "g4",
+   "to": "e5",
+   "captured": "q",
+   "line": [
+    "Nxe5",
+    "fxe5",
+    "f6",
+    "f4",
+    "fxe5",
+    "fxe5"
+   ],
+   "mate": null,
+   "materialGain": 6,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "e5",
+     "captured": "q",
+     "gain": 6
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -7540,6 +9555,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Bxb3",
@@ -7632,11 +9648,63 @@
    "captured": "q",
    "line": [
     "Qxc2",
+    "Be3",
+    "Nxe5",
+    "Ba7",
+    "Qxb2",
+    "Bxb8"
+   ],
+   "mate": null,
+   "materialGain": 10,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "c2",
+     "captured": "q",
+     "gain": 9
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Nxe5",
+     "from": "c6",
+     "to": "e5",
+     "captured": "p",
+     "line": [
+      "Nxe5",
+      "Qxc5",
+      "Bxc5",
+      "Bf4",
+      "Bd4",
+      "Rfd1"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "e5",
+       "captured": "p",
+       "gain": 1
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxc2",
+   "from": "c5",
+   "to": "c2",
+   "captured": "q",
+   "line": [
+    "Qxc2",
+    "Nf3",
+    "Bb7",
     "b4",
-    "Bd7",
-    "Bf4",
-    "Bxh4",
-    "gxh4"
+    "Qa4",
+    "h3"
    ],
    "mate": null,
    "materialGain": 9,
@@ -7646,14 +9714,33 @@
      "square": "c2",
      "captured": "q",
      "gain": 9
-    },
+    }
+   ],
+   "others": [
     {
-     "motif": "pin",
-     "absolute": false,
-     "by": "c2",
-     "pinned": "f2",
-     "behind": "g2",
-     "square": "c2"
+     "side": "b",
+     "move": "Nxe5",
+     "from": "c6",
+     "to": "e5",
+     "captured": "p",
+     "line": [
+      "Nxe5",
+      "Qxc5",
+      "Bxc5",
+      "Bf4",
+      "Bd4",
+      "Rab1"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "e5",
+       "captured": "p",
+       "gain": 1
+      }
+     ]
     }
    ]
   },
@@ -7742,6 +9829,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "O-O",
@@ -7851,27 +9939,42 @@
      "gain": 1
     },
     {
-     "motif": "pin",
-     "absolute": false,
-     "by": "b2",
-     "pinned": "d4",
-     "behind": "e5",
+     "motif": "trapped piece",
+     "square": "b2",
+     "target": "e5"
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxb2#",
+   "from": "b6",
+   "to": "b2",
+   "captured": "p",
+   "line": [
+    "Qxb2#"
+   ],
+   "mate": 1,
+   "materialGain": null,
+   "motifs": [
+    {
+     "motif": "back-rank mate",
      "square": "b2"
     },
     {
-     "motif": "pin",
-     "absolute": false,
-     "by": "b2",
-     "pinned": "c2",
-     "behind": "e2",
-     "square": "b2"
+     "motif": "hanging piece",
+     "square": "b2",
+     "captured": "p",
+     "gain": 1
     },
     {
      "motif": "trapped piece",
      "square": "b2",
      "target": "e5"
     }
-   ]
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -7958,6 +10061,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Bg4",
@@ -8048,6 +10152,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Bf5",
@@ -8135,6 +10240,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Rd8",
@@ -8221,6 +10327,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Rb8",
@@ -8315,7 +10422,7 @@
     "Bxh4",
     "Bxd5",
     "Rxd5",
-    "Kh2",
+    "Qe2",
     "Bf6",
     "Nf3"
    ],
@@ -8333,7 +10440,39 @@
      "square": "h4",
      "exposed": "e1"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Bxh4",
+   "from": "e7",
+   "to": "h4",
+   "captured": "b",
+   "line": [
+    "Bxh4",
+    "Nf3",
+    "Bf6",
+    "Bxd5",
+    "Rxd5",
+    "a4"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "h4",
+     "captured": "b",
+     "gain": 3
+    },
+    {
+     "motif": "removes defender",
+     "square": "h4",
+     "exposed": "e1"
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -8471,7 +10610,60 @@
      "behind": "h1",
      "square": "h4"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxh4",
+   "from": "e7",
+   "to": "h4",
+   "captured": "q",
+   "line": [
+    "Qxh4",
+    "Nxf7+",
+    "Kg8",
+    "Nxd8",
+    "Nxf2+",
+    "Kg2"
+   ],
+   "mate": null,
+   "materialGain": 6,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "h4",
+     "captured": "q",
+     "gain": 9
+    },
+    {
+     "motif": "removes defender",
+     "square": "h4",
+     "exposed": "f4"
+    },
+    {
+     "motif": "removes defender",
+     "square": "h4",
+     "exposed": "f2"
+    },
+    {
+     "motif": "fork",
+     "square": "h4",
+     "targets": [
+      "f4",
+      "f2"
+     ]
+    },
+    {
+     "motif": "pin",
+     "absolute": true,
+     "by": "h4",
+     "pinned": "h2",
+     "behind": "h1",
+     "square": "h4"
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -8569,11 +10761,11 @@
    "captured": "n",
    "line": [
     "Qxb6",
-    "Rc1",
-    "Bb7",
     "Qg6",
-    "a5",
-    "b3"
+    "Bb7",
+    "Rc1",
+    "Bd6",
+    "Re1"
    ],
    "mate": null,
    "materialGain": 3,
@@ -8592,7 +10784,42 @@
      "behind": "g1",
      "square": "b6"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxb6",
+   "from": "c5",
+   "to": "b6",
+   "captured": "n",
+   "line": [
+    "Qxb6",
+    "Qg6",
+    "Bb7",
+    "Bb3",
+    "Qb5",
+    "h4"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "b6",
+     "captured": "n",
+     "gain": 3
+    },
+    {
+     "motif": "pin",
+     "absolute": true,
+     "by": "b6",
+     "pinned": "f2",
+     "behind": "g1",
+     "square": "b6"
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -8678,7 +10905,8 @@
     ]
    }
   ],
-  "threat": {
+  "threat": null,
+  "strictThreat": {
    "side": "b",
    "move": "Rxh2",
    "from": "g2",
@@ -8689,8 +10917,8 @@
     "Ne3",
     "Rh3",
     "Ke2",
-    "Rxe3+",
-    "Rxe3"
+    "Ra7",
+    "Rb3"
    ],
    "mate": null,
    "materialGain": 1,
@@ -8701,7 +10929,8 @@
      "captured": "p",
      "gain": 1
     }
-   ]
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -8790,7 +11019,8 @@
     ]
    }
   ],
-  "threat": {
+  "threat": null,
+  "strictThreat": {
    "side": "b",
    "move": "Rc8",
    "from": "d8",
@@ -8802,7 +11032,7 @@
     "Rxc7",
     "Rxc7",
     "bxa6",
-    "Rc6"
+    "Kf1"
    ],
    "mate": null,
    "materialGain": 4,
@@ -8814,7 +11044,8 @@
      "behind": "c1",
      "square": "c8"
     }
-   ]
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -8909,10 +11140,10 @@
    "line": [
     "Rxb6",
     "Rgc1+",
-    "Rc7",
-    "Rxc7+",
-    "Kxc7",
-    "Rxa7+"
+    "Kb8",
+    "Rc2",
+    "Rxb5",
+    "Rac1"
    ],
    "mate": null,
    "materialGain": 1,
@@ -8923,7 +11154,34 @@
      "captured": "p",
      "gain": 1
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rxb6",
+   "from": "d6",
+   "to": "b6",
+   "captured": "p",
+   "line": [
+    "Rxb6",
+    "Rac1+",
+    "Rc7",
+    "Rxc7+",
+    "Kxc7",
+    "Rc1+"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "b6",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -9012,7 +11270,58 @@
     ]
    }
   ],
-  "threat": null,
+  "threat": {
+   "side": "b",
+   "move": "exf5",
+   "from": "e6",
+   "to": "f5",
+   "captured": "p",
+   "line": [
+    "exf5",
+    "Bd2",
+    "Ke6",
+    "Kh6",
+    "Bc4",
+    "Kg5"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "f5",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "exf5",
+   "from": "e6",
+   "to": "f5",
+   "captured": "p",
+   "line": [
+    "exf5",
+    "Bd2",
+    "Ke6",
+    "Kg6",
+    "Bc4",
+    "dxc4"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "f5",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
+  },
   "lastMoves": {
    "black": {
     "san": "fxe6",
@@ -9103,6 +11412,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Kb5",
@@ -9192,6 +11502,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Rd7",
@@ -9274,6 +11585,83 @@
   ],
   "threat": {
    "side": "b",
+   "move": "Qa7+",
+   "from": "a6",
+   "to": "a7",
+   "captured": null,
+   "line": [
+    "Qa7+",
+    "Nc5",
+    "Qxc7",
+    "Qd3",
+    "Ra8",
+    "Qe4"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "fork",
+     "square": "a7",
+     "targets": [
+      "c7",
+      "g1"
+     ]
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qb6+",
+     "from": "a6",
+     "to": "b6",
+     "captured": null,
+     "line": [
+      "Qb6+",
+      "Nc5",
+      "Qxc7",
+      "Ne4",
+      "Qc1+",
+      "Kh2"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "fork",
+       "square": "b6",
+       "targets": [
+        "c7",
+        "g1"
+       ]
+      }
+     ]
+    },
+    {
+     "side": "b",
+     "move": "Rxc7",
+     "from": "c8",
+     "to": "c7",
+     "captured": "p",
+     "line": [
+      "Rxc7",
+      "Qd8#"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "c7",
+       "captured": "p",
+       "gain": 1
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
    "move": "Qb6+",
    "from": "a6",
    "to": "b6",
@@ -9282,9 +11670,9 @@
     "Qb6+",
     "Nc5",
     "Qxc7",
-    "Ne4",
-    "Qc1+",
-    "Kh2"
+    "Qd3",
+    "Rd8",
+    "Qf5"
    ],
    "mate": null,
    "materialGain": 1,
@@ -9295,6 +11683,35 @@
      "targets": [
       "c7",
       "g1"
+     ]
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qa7+",
+     "from": "a6",
+     "to": "a7",
+     "captured": null,
+     "line": [
+      "Qa7+",
+      "Nc5",
+      "Qxc7",
+      "Qd3",
+      "Rd8",
+      "Qf5"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "fork",
+       "square": "a7",
+       "targets": [
+        "c7",
+        "g1"
+       ]
+      }
      ]
     }
    ]
@@ -9391,9 +11808,9 @@
     "Qxb3",
     "axb7",
     "Qxb7",
-    "b3",
-    "Qxb3",
-    "Rf1"
+    "Re2",
+    "f6",
+    "h4"
    ],
    "mate": null,
    "materialGain": 9,
@@ -9408,6 +11825,90 @@
      "motif": "removes defender",
      "square": "b3",
      "exposed": "b2"
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "bxa6",
+     "from": "b7",
+     "to": "a6",
+     "captured": "p",
+     "line": [
+      "bxa6",
+      "Qxb6",
+      "axb6",
+      "Rxa6",
+      "Rc8",
+      "Rxb6"
+     ],
+     "mate": null,
+     "materialGain": 5,
+     "motifs": [
+      {
+       "motif": "wins material",
+       "square": "a6",
+       "captured": "p",
+       "gain": 1
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxb3",
+   "from": "b6",
+   "to": "b3",
+   "captured": "q",
+   "line": [
+    "Qxb3",
+    "axb7",
+    "Rad8",
+    "Kh1",
+    "Qb4",
+    "Kg1"
+   ],
+   "mate": null,
+   "materialGain": 8,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "b3",
+     "captured": "q",
+     "gain": 9
+    },
+    {
+     "motif": "removes defender",
+     "square": "b3",
+     "exposed": "b2"
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "bxa6",
+     "from": "b7",
+     "to": "a6",
+     "captured": "p",
+     "line": [
+      "bxa6",
+      "Qxb6",
+      "axb6",
+      "Rxa6",
+      "Rc8",
+      "Rxb6"
+     ],
+     "mate": null,
+     "materialGain": 5,
+     "motifs": [
+      {
+       "motif": "wins material",
+       "square": "a6",
+       "captured": "p",
+       "gain": 1
+      }
+     ]
     }
    ]
   },
@@ -9507,9 +12008,9 @@
     "Rxe4",
     "b4",
     "Be7",
-    "Rde1",
-    "Rxe1",
-    "Rxe1"
+    "Rc1",
+    "Rxe5",
+    "Rce1"
    ],
    "mate": null,
    "materialGain": 9,
@@ -9525,7 +12026,39 @@
      "square": "e4",
      "exposed": "e5"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rxe4",
+   "from": "d4",
+   "to": "e4",
+   "captured": "q",
+   "line": [
+    "Rxe4",
+    "Rd2",
+    "Rxe5",
+    "b4",
+    "Be7",
+    "Rg2"
+   ],
+   "mate": null,
+   "materialGain": 10,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "e4",
+     "captured": "q",
+     "gain": 9
+    },
+    {
+     "motif": "removes defender",
+     "square": "e4",
+     "exposed": "e5"
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -9617,6 +12150,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Rb7",
@@ -9733,6 +12267,95 @@
       "g1"
      ]
     }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Be6",
+     "from": "c8",
+     "to": "e6",
+     "captured": null,
+     "line": [
+      "Be6",
+      "Qxf8+",
+      "Rxf8",
+      "Ne4",
+      "Qxf2+",
+      "Nxf2"
+     ],
+     "mate": null,
+     "materialGain": 6,
+     "motifs": [
+      {
+       "motif": "discovered attack",
+       "square": "e6",
+       "by": "a8",
+       "target": "e8"
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxf2+",
+   "from": "c5",
+   "to": "f2",
+   "captured": "r",
+   "line": [
+    "Qxf2+",
+    "Kh1",
+    "Qxg2#"
+   ],
+   "mate": 2,
+   "materialGain": null,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "f2",
+     "captured": "r",
+     "gain": 5
+    },
+    {
+     "motif": "removes defender",
+     "square": "f2",
+     "exposed": "g2"
+    },
+    {
+     "motif": "fork",
+     "square": "f2",
+     "targets": [
+      "g2",
+      "g1"
+     ]
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Be6",
+     "from": "c8",
+     "to": "e6",
+     "captured": null,
+     "line": [
+      "Be6",
+      "Qxf8+",
+      "Kxf8",
+      "Ne4",
+      "Qxf2+",
+      "Nxf2"
+     ],
+     "mate": null,
+     "materialGain": 6,
+     "motifs": [
+      {
+       "motif": "discovered attack",
+       "square": "e6",
+       "by": "a8",
+       "target": "e8"
+      }
+     ]
+    }
    ]
   },
   "lastMoves": {
@@ -9838,6 +12461,135 @@
      "behind": "d1",
      "square": "a1"
     }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qa2#",
+     "from": "a7",
+     "to": "a2",
+     "captured": null,
+     "line": [
+      "Qa2#"
+     ],
+     "mate": 1,
+     "materialGain": null,
+     "motifs": [
+      {
+       "motif": "back-rank mate",
+       "square": "a2"
+      },
+      {
+       "motif": "fork",
+       "square": "a2",
+       "targets": [
+        "b3",
+        "b1"
+       ]
+      },
+      {
+       "motif": "pin",
+       "absolute": true,
+       "by": "b4",
+       "pinned": "b3",
+       "behind": "b1",
+       "square": "a2",
+       "exploited": true
+      }
+     ]
+    },
+    {
+     "side": "b",
+     "move": "Rxb3+",
+     "from": "b4",
+     "to": "b3",
+     "captured": "p",
+     "line": [
+      "Rxb3+",
+      "cxb3",
+      "Qa2#"
+     ],
+     "mate": 2,
+     "materialGain": null,
+     "motifs": []
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qa1#",
+   "from": "a7",
+   "to": "a1",
+   "captured": null,
+   "line": [
+    "Qa1#"
+   ],
+   "mate": 1,
+   "materialGain": null,
+   "motifs": [
+    {
+     "motif": "back-rank mate",
+     "square": "a1"
+    },
+    {
+     "motif": "skewer",
+     "by": "a1",
+     "front": "b1",
+     "behind": "d1",
+     "square": "a1"
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qa2#",
+     "from": "a7",
+     "to": "a2",
+     "captured": null,
+     "line": [
+      "Qa2#"
+     ],
+     "mate": 1,
+     "materialGain": null,
+     "motifs": [
+      {
+       "motif": "back-rank mate",
+       "square": "a2"
+      },
+      {
+       "motif": "fork",
+       "square": "a2",
+       "targets": [
+        "b3",
+        "b1"
+       ]
+      },
+      {
+       "motif": "pin",
+       "absolute": true,
+       "by": "b4",
+       "pinned": "b3",
+       "behind": "b1",
+       "square": "a2",
+       "exploited": true
+      }
+     ]
+    },
+    {
+     "side": "b",
+     "move": "Rxb3+",
+     "from": "b4",
+     "to": "b3",
+     "captured": "p",
+     "line": [
+      "Rxb3+",
+      "cxb3",
+      "Qa2#"
+     ],
+     "mate": 2,
+     "materialGain": null,
+     "motifs": []
+    }
    ]
   },
   "lastMoves": {
@@ -9925,10 +12677,10 @@
    "line": [
     "Rxe7",
     "Bf5",
-    "Qa1+",
-    "Kh2",
-    "Qxa2",
-    "Nxb6"
+    "g6",
+    "Bc2",
+    "Kg7",
+    "Bb1"
    ],
    "mate": null,
    "materialGain": 9,
@@ -9938,6 +12690,108 @@
      "square": "e7",
      "captured": "q",
      "gain": 9
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Bxa2",
+     "from": "c4",
+     "to": "a2",
+     "captured": "p",
+     "line": [
+      "Bxa2",
+      "Qxe8+",
+      "Nxe8",
+      "Rf8#"
+     ],
+     "mate": null,
+     "materialGain": 5,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "a2",
+       "captured": "p",
+       "gain": 1
+      }
+     ]
+    },
+    {
+     "side": "b",
+     "move": "Qxe6",
+     "from": "e5",
+     "to": "e6",
+     "captured": "b",
+     "line": [
+      "Qxe6",
+      "Qxa7",
+      "h6",
+      "Nxb6",
+      "Qe5",
+      "a4"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "wins material",
+       "square": "e6",
+       "captured": "b",
+       "gain": 3
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rxe7",
+   "from": "e8",
+   "to": "e7",
+   "captured": "q",
+   "line": [
+    "Rxe7",
+    "Bg4",
+    "g6",
+    "Kh1",
+    "Kg7",
+    "a3"
+   ],
+   "mate": null,
+   "materialGain": 9,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "e7",
+     "captured": "q",
+     "gain": 9
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qxe6",
+     "from": "e5",
+     "to": "e6",
+     "captured": "b",
+     "line": [
+      "Qxe6",
+      "Qxa7",
+      "Be2",
+      "Rxf6",
+      "gxf6",
+      "Nxb6"
+     ],
+     "mate": null,
+     "materialGain": 4,
+     "motifs": [
+      {
+       "motif": "wins material",
+       "square": "e6",
+       "captured": "b",
+       "gain": 3
+      }
+     ]
     }
    ]
   },
@@ -10024,6 +12878,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Qd8",
@@ -10103,6 +12958,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Rxc4",
@@ -10193,11 +13049,11 @@
    "captured": "q",
    "line": [
     "Rxc7",
+    "b5",
+    "cxb5",
     "a4",
-    "Qxb4",
-    "a5",
-    "Re7",
-    "a6"
+    "Qc5+",
+    "Kh1"
    ],
    "mate": null,
    "materialGain": 10,
@@ -10207,6 +13063,125 @@
      "square": "c7",
      "captured": "q",
      "gain": 9
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qd4+",
+     "from": "c3",
+     "to": "d4",
+     "captured": null,
+     "line": [
+      "Qd4+",
+      "Kh1",
+      "Rxc7",
+      "a3",
+      "Re7",
+      "b5"
+     ],
+     "mate": null,
+     "materialGain": 9,
+     "motifs": [
+      {
+       "motif": "fork",
+       "square": "d4",
+       "targets": [
+        "b4",
+        "g1"
+       ]
+      }
+     ]
+    },
+    {
+     "side": "b",
+     "move": "Qe3+",
+     "from": "c3",
+     "to": "e3",
+     "captured": null,
+     "line": [
+      "Qe3+",
+      "Kh1",
+      "Rxc7",
+      "a4",
+      "Re7",
+      "b5"
+     ],
+     "mate": null,
+     "materialGain": 9,
+     "motifs": []
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rxc7",
+   "from": "f7",
+   "to": "c7",
+   "captured": "q",
+   "line": [
+    "Rxc7",
+    "a4",
+    "Qd4+",
+    "Kh2",
+    "Qxb4",
+    "a5"
+   ],
+   "mate": null,
+   "materialGain": 9,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "c7",
+     "captured": "q",
+     "gain": 9
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qd4+",
+     "from": "c3",
+     "to": "d4",
+     "captured": null,
+     "line": [
+      "Qd4+",
+      "Kh1",
+      "Rxc7",
+      "b5",
+      "cxb5",
+      "Re1"
+     ],
+     "mate": null,
+     "materialGain": 9,
+     "motifs": [
+      {
+       "motif": "fork",
+       "square": "d4",
+       "targets": [
+        "b4",
+        "g1"
+       ]
+      }
+     ]
+    },
+    {
+     "side": "b",
+     "move": "Qe3+",
+     "from": "c3",
+     "to": "e3",
+     "captured": null,
+     "line": [
+      "Qe3+",
+      "Kh2",
+      "Rxc7",
+      "a4",
+      "Qe5+",
+      "g3"
+     ],
+     "mate": null,
+     "materialGain": 9,
+     "motifs": []
     }
    ]
   },
@@ -10294,6 +13269,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Qb3",
@@ -10372,7 +13348,31 @@
     ]
    }
   ],
-  "threat": null,
+  "threat": {
+   "side": "b",
+   "move": "Rxa2",
+   "from": "a3",
+   "to": "a2",
+   "captured": "p",
+   "line": [
+    "Rxa2",
+    "Ne7+",
+    "Kh8",
+    "Rf8#"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "a2",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Rdxd3",
@@ -10466,9 +13466,9 @@
     "Nxf1",
     "Qxe6+",
     "Kh8",
-    "h3",
-    "Qc5",
-    "g4"
+    "Qc6",
+    "Rf8",
+    "Qd6"
    ],
    "mate": null,
    "materialGain": 4,
@@ -10479,7 +13479,60 @@
      "captured": "r",
      "gain": 5
     }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qxe5",
+     "from": "a5",
+     "to": "e5",
+     "captured": "p",
+     "line": [
+      "Qxe5",
+      "Qf7+",
+      "Kh8",
+      "Qf8+",
+      "Rxf8",
+      "Rxf8#"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "e5",
+       "captured": "p",
+       "gain": 1
+      }
+     ]
+    }
    ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Nxf1",
+   "from": "d2",
+   "to": "f1",
+   "captured": "r",
+   "line": [
+    "Nxf1",
+    "Qxe6+",
+    "Kh8",
+    "Qc6",
+    "Rb8",
+    "Qd6"
+   ],
+   "mate": null,
+   "materialGain": 4,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "f1",
+     "captured": "r",
+     "gain": 5
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -10560,6 +13613,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Kxf8",
@@ -10654,10 +13708,10 @@
    "line": [
     "Qxd5",
     "Qf4",
-    "h5",
+    "Be4",
     "Kg3",
-    "Qc6",
-    "a4"
+    "Qd3",
+    "h5"
    ],
    "mate": null,
    "materialGain": 3,
@@ -10667,6 +13721,89 @@
      "square": "d5",
      "captured": "b",
      "gain": 3
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qb2+",
+     "from": "e5",
+     "to": "b2",
+     "captured": null,
+     "line": [
+      "Qb2+",
+      "Bg2",
+      "Qxa3",
+      "Qf4",
+      "Qa2",
+      "Kg3"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "fork",
+       "square": "b2",
+       "targets": [
+        "a3",
+        "h2"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxd5",
+   "from": "e5",
+   "to": "d5",
+   "captured": "b",
+   "line": [
+    "Qxd5",
+    "Qg4",
+    "h5",
+    "Qb4",
+    "Be4",
+    "Kg3"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "d5",
+     "captured": "b",
+     "gain": 3
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qb2+",
+     "from": "e5",
+     "to": "b2",
+     "captured": null,
+     "line": [
+      "Qb2+",
+      "Bg2",
+      "Qxa3",
+      "Qf3",
+      "Qa2",
+      "Qf4"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "fork",
+       "square": "b2",
+       "targets": [
+        "a3",
+        "h2"
+       ]
+      }
+     ]
     }
    ]
   },
@@ -10755,6 +13892,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Qa1+",
@@ -10842,7 +13980,58 @@
     ]
    }
   ],
-  "threat": null,
+  "threat": {
+   "side": "b",
+   "move": "bxa3",
+   "from": "b4",
+   "to": "a3",
+   "captured": "p",
+   "line": [
+    "bxa3",
+    "Ng5",
+    "Qe3+",
+    "Rf3",
+    "Qxg5",
+    "Qxg5"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "a3",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "bxa3",
+   "from": "b4",
+   "to": "a3",
+   "captured": "p",
+   "line": [
+    "bxa3",
+    "Ng5",
+    "Qe3+",
+    "Rf3",
+    "Qxg5",
+    "Qxg5"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "a3",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
+  },
   "lastMoves": {
    "black": {
     "san": "b4",
@@ -10938,10 +14127,10 @@
    "line": [
     "Bxa2",
     "Kc2",
-    "Kd6",
-    "h5",
-    "gxh5",
-    "f4"
+    "Bc4",
+    "f4",
+    "a2",
+    "Kb2"
    ],
    "mate": null,
    "materialGain": 3,
@@ -10952,7 +14141,34 @@
      "captured": "b",
      "gain": 3
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Bxa2",
+   "from": "c4",
+   "to": "a2",
+   "captured": "b",
+   "line": [
+    "Bxa2",
+    "Kc2",
+    "Bc4",
+    "Kb1",
+    "a2+",
+    "Ka1"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "a2",
+     "captured": "b",
+     "gain": 3
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -11040,24 +14256,8 @@
     ]
    }
   ],
-  "threat": {
-   "side": "b",
-   "move": "f6",
-   "from": "f7",
-   "to": "f6",
-   "captured": null,
-   "line": [
-    "f6",
-    "e5+",
-    "fxe5",
-    "fxe5+",
-    "Kxe5",
-    "Kxc5"
-   ],
-   "mate": null,
-   "materialGain": 1,
-   "motifs": []
-  },
+  "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Kd6",
@@ -11146,6 +14346,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Ng3+",
@@ -11235,6 +14436,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Ka5",
@@ -11323,6 +14525,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Re7",
@@ -11408,6 +14611,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Qa6+",
@@ -11502,14 +14706,14 @@
    "captured": "q",
    "line": [
     "Rxc7",
-    "Bf3",
-    "Bxf3",
     "Rxd8+",
     "Qxd8",
-    "gxf3"
+    "Rd1",
+    "Qc8",
+    "Bb5"
    ],
    "mate": null,
-   "materialGain": 12,
+   "materialGain": 9,
    "motifs": [
     {
      "motif": "hanging piece",
@@ -11523,7 +14727,40 @@
      "by": "d8",
      "target": "d1"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rxc7",
+   "from": "d7",
+   "to": "c7",
+   "captured": "q",
+   "line": [
+    "Rxc7",
+    "Rxd8+",
+    "Qxd8",
+    "a4",
+    "Kf8",
+    "Rd1"
+   ],
+   "mate": null,
+   "materialGain": 9,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "c7",
+     "captured": "q",
+     "gain": 9
+    },
+    {
+     "motif": "discovered attack",
+     "square": "c7",
+     "by": "d8",
+     "target": "d1"
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -11632,7 +14869,79 @@
    ],
    "mate": 5,
    "materialGain": null,
-   "motifs": []
+   "motifs": [],
+   "others": [
+    {
+     "side": "b",
+     "move": "Rxh4",
+     "from": "d4",
+     "to": "h4",
+     "captured": "p",
+     "line": [
+      "Rxh4",
+      "Rg8+",
+      "Kh7",
+      "Rh8+",
+      "Qxh8",
+      "Rxh8+"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "wins material",
+       "square": "h4",
+       "captured": "p",
+       "gain": 1
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rb1+",
+   "from": "b7",
+   "to": "b1",
+   "captured": null,
+   "line": [
+    "Rb1+",
+    "Rc1",
+    "Rxc1+",
+    "Kh2",
+    "Rxh4+",
+    "Qh3"
+   ],
+   "mate": 5,
+   "materialGain": null,
+   "motifs": [],
+   "others": [
+    {
+     "side": "b",
+     "move": "Rxh4",
+     "from": "d4",
+     "to": "h4",
+     "captured": "p",
+     "line": [
+      "Rxh4",
+      "Rg8+",
+      "Kh7",
+      "Rh8+",
+      "Qxh8",
+      "Rxh8+"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "wins material",
+       "square": "h4",
+       "captured": "p",
+       "gain": 1
+      }
+     ]
+    }
+   ]
   },
   "lastMoves": {
    "black": {
@@ -11720,42 +15029,175 @@
   ],
   "threat": {
    "side": "b",
-   "move": "Rxg5",
-   "from": "g6",
-   "to": "g5",
+   "move": "Qxe5",
+   "from": "e3",
+   "to": "e5",
    "captured": "p",
    "line": [
-    "Rxg5",
-    "Rxg5",
-    "Rxg5",
-    "Qh4",
-    "Rg8",
-    "g4"
+    "Qxe5",
+    "Qxh7+",
+    "Kxh7",
+    "Rh4+",
+    "Rh6",
+    "Rxh6#"
    ],
    "mate": null,
-   "materialGain": 1,
+   "materialGain": 9,
    "motifs": [
     {
-     "motif": "wins material",
-     "square": "g5",
+     "motif": "hanging piece",
+     "square": "e5",
      "captured": "p",
      "gain": 1
-    },
+    }
+   ],
+   "others": [
     {
-     "motif": "fork",
-     "square": "g5",
-     "targets": [
-      "e5",
-      "h5",
-      "g4"
+     "side": "b",
+     "move": "Qxc3",
+     "from": "e3",
+     "to": "c3",
+     "captured": "p",
+     "line": [
+      "Qxc3",
+      "Qxh7+",
+      "Kxh7",
+      "Rh4+",
+      "Rh6",
+      "Rxh6#"
+     ],
+     "mate": null,
+     "materialGain": 9,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "c3",
+       "captured": "p",
+       "gain": 1
+      }
      ]
     },
     {
-     "motif": "skewer",
-     "by": "g5",
-     "front": "g4",
-     "behind": "g3",
-     "square": "g5"
+     "side": "b",
+     "move": "Rxg5",
+     "from": "g6",
+     "to": "g5",
+     "captured": "p",
+     "line": [
+      "Rxg5",
+      "Rxg5",
+      "Rxg5",
+      "Qf3",
+      "Qxf3+",
+      "Kxf3"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "wins material",
+       "square": "g5",
+       "captured": "p",
+       "gain": 1
+      },
+      {
+       "motif": "fork",
+       "square": "g5",
+       "targets": [
+        "e5",
+        "h5",
+        "g4"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Bc6+",
+   "from": "d7",
+   "to": "c6",
+   "captured": null,
+   "line": [
+    "Bc6+",
+    "Nxc6",
+    "Rxg5",
+    "Qxh7+",
+    "Kxh7",
+    "Rh4+"
+   ],
+   "mate": null,
+   "materialGain": 6,
+   "motifs": [
+    {
+     "motif": "trapped piece",
+     "square": "c6",
+     "target": "d4"
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Rxg5",
+     "from": "g6",
+     "to": "g5",
+     "captured": "p",
+     "line": [
+      "Rxg5",
+      "Rxg5",
+      "Qxg5",
+      "Qxg5",
+      "Rxg5",
+      "Kf3"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "wins material",
+       "square": "g5",
+       "captured": "p",
+       "gain": 1
+      },
+      {
+       "motif": "fork",
+       "square": "g5",
+       "targets": [
+        "e5",
+        "h5",
+        "g4"
+       ]
+      }
+     ]
+    },
+    {
+     "side": "b",
+     "move": "Qd2+",
+     "from": "e3",
+     "to": "d2",
+     "captured": null,
+     "line": [
+      "Qd2+",
+      "Kf1",
+      "Rxg5",
+      "Rxg5",
+      "Qc1+",
+      "Kf2"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "fork",
+       "square": "d2",
+       "targets": [
+        "g5",
+        "c3",
+        "g2"
+       ]
+      }
+     ]
     }
    ]
   },
@@ -11849,6 +15291,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Qc7",
@@ -11939,6 +15382,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Rad8",
@@ -12021,6 +15465,25 @@
    }
   ],
   "threat": null,
+  "strictThreat": {
+   "side": "b",
+   "move": "Qe1+",
+   "from": "e5",
+   "to": "e1",
+   "captured": null,
+   "line": [
+    "Qe1+",
+    "Kh2",
+    "Qe4",
+    "Rxh6+",
+    "Kxh6",
+    "Qxg8"
+   ],
+   "mate": null,
+   "materialGain": 4,
+   "motifs": [],
+   "others": []
+  },
   "lastMoves": {
    "black": {
     "san": "Qxe5",
@@ -12110,6 +15573,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Kf6",
@@ -12205,10 +15669,10 @@
    "line": [
     "Qxh7",
     "g4",
-    "Qc2",
+    "a5",
     "Re3",
-    "Qc1+",
-    "Kg2"
+    "b5",
+    "g5+"
    ],
    "mate": null,
    "materialGain": 9,
@@ -12219,7 +15683,34 @@
      "captured": "q",
      "gain": 9
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxh7",
+   "from": "g6",
+   "to": "h7",
+   "captured": "q",
+   "line": [
+    "Qxh7",
+    "g4",
+    "Qd3",
+    "Re3",
+    "Qxe3",
+    "fxe3"
+   ],
+   "mate": null,
+   "materialGain": 9,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "h7",
+     "captured": "q",
+     "gain": 9
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -12318,11 +15809,11 @@
    "captured": null,
    "line": [
     "Kf6",
-    "d8=Q+",
+    "d8=R",
     "Rxd8",
     "Qg3",
-    "Rd7",
-    "Qh4+"
+    "Kf7",
+    "Rf3"
    ],
    "mate": null,
    "materialGain": 1,
@@ -12333,7 +15824,34 @@
      "by": "g8",
      "target": "g2"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Kf6",
+   "from": "g7",
+   "to": "f6",
+   "captured": null,
+   "line": [
+    "Kf6",
+    "d8=B+",
+    "Rxd8",
+    "Qg4",
+    "Rh8",
+    "Qg3"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "discovered attack",
+     "square": "f6",
+     "by": "g8",
+     "target": "g2"
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -12456,6 +15974,182 @@
      "square": "g2",
      "target": "f1"
     }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qxd4+",
+     "from": "e4",
+     "to": "d4",
+     "captured": "p",
+     "line": [
+      "Qxd4+",
+      "Kh1",
+      "Qe4+",
+      "Nf3",
+      "Rxf3",
+      "Qe8+"
+     ],
+     "mate": 6,
+     "materialGain": null,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "d4",
+       "captured": "p",
+       "gain": 1
+      },
+      {
+       "motif": "removes defender",
+       "square": "d4",
+       "exposed": "e5"
+      },
+      {
+       "motif": "fork",
+       "square": "d4",
+       "targets": [
+        "e5",
+        "b2",
+        "g1"
+       ]
+      }
+     ]
+    },
+    {
+     "side": "b",
+     "move": "Qe3+",
+     "from": "e4",
+     "to": "e3",
+     "captured": null,
+     "line": [
+      "Qe3+",
+      "Kh1",
+      "Qe4+",
+      "Nf3",
+      "Rxf3",
+      "Qe2"
+     ],
+     "mate": 6,
+     "materialGain": null,
+     "motifs": [
+      {
+       "motif": "fork",
+       "square": "e3",
+       "targets": [
+        "d4",
+        "h3",
+        "g1"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qg2#",
+   "from": "e4",
+   "to": "g2",
+   "captured": null,
+   "line": [
+    "Qg2#"
+   ],
+   "mate": 1,
+   "materialGain": null,
+   "motifs": [
+    {
+     "motif": "back-rank mate",
+     "square": "g2"
+    },
+    {
+     "motif": "fork",
+     "square": "g2",
+     "targets": [
+      "h3",
+      "h2",
+      "f1",
+      "g1"
+     ]
+    },
+    {
+     "motif": "trapped piece",
+     "square": "g2",
+     "target": "h2"
+    },
+    {
+     "motif": "trapped piece",
+     "square": "g2",
+     "target": "f1"
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qxd4+",
+     "from": "e4",
+     "to": "d4",
+     "captured": "p",
+     "line": [
+      "Qxd4+",
+      "Kh1",
+      "Qe4+",
+      "Nf3",
+      "Rxf3",
+      "Qe8+"
+     ],
+     "mate": 6,
+     "materialGain": null,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "d4",
+       "captured": "p",
+       "gain": 1
+      },
+      {
+       "motif": "removes defender",
+       "square": "d4",
+       "exposed": "e5"
+      },
+      {
+       "motif": "fork",
+       "square": "d4",
+       "targets": [
+        "e5",
+        "b2",
+        "g1"
+       ]
+      }
+     ]
+    },
+    {
+     "side": "b",
+     "move": "Qe3+",
+     "from": "e4",
+     "to": "e3",
+     "captured": null,
+     "line": [
+      "Qe3+",
+      "Kh1",
+      "Qe4+",
+      "Nf3",
+      "Rxf3",
+      "Qe2"
+     ],
+     "mate": 6,
+     "materialGain": null,
+     "motifs": [
+      {
+       "motif": "fork",
+       "square": "e3",
+       "targets": [
+        "d4",
+        "h3",
+        "g1"
+       ]
+      }
+     ]
+    }
    ]
   },
   "lastMoves": {
@@ -12547,6 +16241,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Kf6",
@@ -12638,7 +16333,88 @@
     ]
    }
   ],
-  "threat": null,
+  "threat": {
+   "side": "b",
+   "move": "Bxf2+",
+   "from": "h4",
+   "to": "f2",
+   "captured": "r",
+   "line": [
+    "Bxf2+",
+    "Kxf2",
+    "Nxc2",
+    "Qxc2",
+    "Qh4+",
+    "Kg2"
+   ],
+   "mate": null,
+   "materialGain": 2,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "f2",
+     "captured": "r",
+     "gain": 2
+    },
+    {
+     "motif": "removes defender",
+     "square": "f2",
+     "exposed": "f3"
+    },
+    {
+     "motif": "removes defender",
+     "square": "f2",
+     "exposed": "c2"
+    },
+    {
+     "motif": "trapped piece",
+     "square": "f2",
+     "target": "c2"
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Bxf2+",
+   "from": "h4",
+   "to": "f2",
+   "captured": "r",
+   "line": [
+    "Bxf2+",
+    "Kxf2",
+    "Nxc2",
+    "Qxc2",
+    "Qh4+",
+    "Ke3"
+   ],
+   "mate": null,
+   "materialGain": 2,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "f2",
+     "captured": "r",
+     "gain": 2
+    },
+    {
+     "motif": "removes defender",
+     "square": "f2",
+     "exposed": "f3"
+    },
+    {
+     "motif": "removes defender",
+     "square": "f2",
+     "exposed": "c2"
+    },
+    {
+     "motif": "trapped piece",
+     "square": "f2",
+     "target": "c2"
+    }
+   ],
+   "others": []
+  },
   "lastMoves": {
    "black": {
     "san": "Nxe3",
@@ -12733,10 +16509,10 @@
    "line": [
     "hxg5",
     "h5",
-    "Nh4",
-    "Bxg5",
-    "Nf5",
-    "Bxe7"
+    "Ngxe5",
+    "dxe5",
+    "Nxe5",
+    "Qg3"
    ],
    "mate": null,
    "materialGain": 2,
@@ -12753,7 +16529,40 @@
      "by": "h8",
      "target": "h4"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "hxg5",
+   "from": "h6",
+   "to": "g5",
+   "captured": "n",
+   "line": [
+    "hxg5",
+    "h5",
+    "Nf4",
+    "g3",
+    "Nxh5",
+    "Bxg5"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "g5",
+     "captured": "n",
+     "gain": 2
+    },
+    {
+     "motif": "discovered attack",
+     "square": "g5",
+     "by": "h8",
+     "target": "h4"
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -12844,11 +16653,11 @@
    "captured": "r",
    "line": [
     "Kxd3",
-    "h4",
-    "Ra8",
-    "Ng5",
-    "Rxa3",
-    "Nf7"
+    "Ne5+",
+    "Kd4",
+    "Nf3+",
+    "Kc3",
+    "Ng1"
    ],
    "mate": null,
    "materialGain": 5,
@@ -12859,7 +16668,34 @@
      "captured": "r",
      "gain": 5
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Kxd3",
+   "from": "e4",
+   "to": "d3",
+   "captured": "r",
+   "line": [
+    "Kxd3",
+    "h4",
+    "Nc3",
+    "Ne5+",
+    "Ke4",
+    "Nc4"
+   ],
+   "mate": null,
+   "materialGain": 5,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "d3",
+     "captured": "r",
+     "gain": 5
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -12951,11 +16787,11 @@
    "captured": "q",
    "line": [
     "Qxe8",
-    "Kf1",
-    "Qe4",
     "f4",
-    "Kg6",
-    "Kf2"
+    "Qe2+",
+    "Kh1",
+    "Qc2",
+    "Kg1"
    ],
    "mate": null,
    "materialGain": 9,
@@ -12966,7 +16802,34 @@
      "captured": "q",
      "gain": 9
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxe8",
+   "from": "g6",
+   "to": "e8",
+   "captured": "q",
+   "line": [
+    "Qxe8",
+    "Kf1",
+    "Qb5+",
+    "Ke1",
+    "Kg7",
+    "Kd2"
+   ],
+   "mate": null,
+   "materialGain": 9,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "e8",
+     "captured": "q",
+     "gain": 9
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -13055,6 +16918,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "b4",
@@ -13148,10 +17012,10 @@
    "line": [
     "Qxf3",
     "Rg1",
-    "Qf4+",
-    "Kh1",
-    "Qe4",
-    "Qa8+"
+    "Qf6",
+    "Qa8+",
+    "Kh7",
+    "Qxd5"
    ],
    "mate": null,
    "materialGain": 1,
@@ -13176,8 +17040,10 @@
      "square": "f3",
      "mate": "Qxg2#"
     }
-   ]
+   ],
+   "others": []
   },
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Rc2",
@@ -13270,14 +17136,14 @@
    "captured": "b",
    "line": [
     "Bxf6",
-    "Kf4",
-    "Kh4",
-    "Bf3",
-    "Bxb2",
-    "Bxc6"
+    "Bxf7",
+    "Kh2",
+    "Bh5",
+    "Bh4",
+    "Kf4"
    ],
    "mate": null,
-   "materialGain": 3,
+   "materialGain": 2,
    "motifs": [
     {
      "motif": "hanging piece",
@@ -13290,7 +17156,39 @@
      "square": "f6",
      "exposed": "b2"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Bxf6",
+   "from": "h4",
+   "to": "f6",
+   "captured": "b",
+   "line": [
+    "Bxf6",
+    "Bxf7",
+    "Rf8",
+    "Be6+",
+    "Kh4",
+    "Bd7"
+   ],
+   "mate": null,
+   "materialGain": 2,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "f6",
+     "captured": "b",
+     "gain": 3
+    },
+    {
+     "motif": "removes defender",
+     "square": "f6",
+     "exposed": "b2"
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -13381,6 +17279,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Qe4",
@@ -13478,10 +17377,10 @@
    "line": [
     "Rxc4",
     "Bh6",
-    "Rc2+",
-    "Kg3",
-    "Rc3+",
-    "Kg4"
+    "Nb4",
+    "Bg7+",
+    "Kf4",
+    "Bh6+"
    ],
    "mate": null,
    "materialGain": 1,
@@ -13492,7 +17391,34 @@
      "captured": "p",
      "gain": 1
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rxc4",
+   "from": "b4",
+   "to": "c4",
+   "captured": "p",
+   "line": [
+    "Rxc4",
+    "Bh6",
+    "Ra4",
+    "Bg7+",
+    "Kf4",
+    "Rxd6"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "c4",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -13593,6 +17519,54 @@
     "Qf5",
     "Qxf5",
     "Bxf5",
+    "c4"
+   ],
+   "mate": null,
+   "materialGain": 3,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "g5",
+     "captured": "n",
+     "gain": 3
+    },
+    {
+     "motif": "fork",
+     "square": "g5",
+     "targets": [
+      "e3",
+      "g2"
+     ]
+    },
+    {
+     "motif": "pin",
+     "absolute": true,
+     "by": "e8",
+     "pinned": "e3",
+     "behind": "e1",
+     "square": "g5",
+     "exploited": true
+    },
+    {
+     "motif": "trapped piece",
+     "square": "g5",
+     "target": "e3"
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxg5",
+   "from": "d8",
+   "to": "g5",
+   "captured": "n",
+   "line": [
+    "Qxg5",
+    "O-O",
+    "Qf5",
+    "Qd1",
+    "Qg6",
     "Bd2"
    ],
    "mate": null,
@@ -13626,7 +17600,8 @@
      "square": "g5",
      "target": "e3"
     }
-   ]
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -13722,9 +17697,9 @@
     "Rxe1+",
     "Qxe1",
     "Nxe1",
-    "Ra1",
-    "Qb6+",
-    "Kh1"
+    "a5",
+    "Qf4",
+    "Ra1"
    ],
    "mate": null,
    "materialGain": 9,
@@ -13735,7 +17710,34 @@
      "captured": "r",
      "gain": 5
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rxe1+",
+   "from": "e8",
+   "to": "e1",
+   "captured": "r",
+   "line": [
+    "Rxe1+",
+    "Qxe1",
+    "Nxe1",
+    "Ra1",
+    "Qg3",
+    "Kf1"
+   ],
+   "mate": null,
+   "materialGain": 9,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "e1",
+     "captured": "r",
+     "gain": 5
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -13823,26 +17825,109 @@
   ],
   "threat": {
    "side": "b",
-   "move": "Qxe4",
-   "from": "f3",
-   "to": "e4",
-   "captured": "n",
+   "move": "Ne2+",
+   "from": "d4",
+   "to": "e2",
+   "captured": null,
    "line": [
-    "Qxe4",
+    "Ne2+",
+    "Qxe2",
+    "Qxe2",
     "Rf7+",
     "Kg6",
-    "Qd1",
-    "Re8",
-    "h3"
+    "Rf6+"
    ],
    "mate": null,
-   "materialGain": 3,
+   "materialGain": 6,
    "motifs": [
     {
-     "motif": "hanging piece",
-     "square": "e4",
+     "motif": "fork",
+     "square": "e2",
+     "targets": [
+      "g3",
+      "g1"
+     ]
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qxe4",
+     "from": "f3",
+     "to": "e4",
      "captured": "n",
-     "gain": 3
+     "line": [
+      "Qxe4",
+      "Rf7+",
+      "Kg6",
+      "b4",
+      "Re8",
+      "h3"
+     ],
+     "mate": null,
+     "materialGain": 3,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "e4",
+       "captured": "n",
+       "gain": 3
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Ne2+",
+   "from": "d4",
+   "to": "e2",
+   "captured": null,
+   "line": [
+    "Ne2+",
+    "Qxe2",
+    "Qxe2",
+    "Rf7+",
+    "Kg6",
+    "Rf6+"
+   ],
+   "mate": null,
+   "materialGain": 6,
+   "motifs": [
+    {
+     "motif": "fork",
+     "square": "e2",
+     "targets": [
+      "g3",
+      "g1"
+     ]
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qxe4",
+     "from": "f3",
+     "to": "e4",
+     "captured": "n",
+     "line": [
+      "Qxe4",
+      "Qg2",
+      "Qxg2+",
+      "Kxg2",
+      "Re8",
+      "Rf7+"
+     ],
+     "mate": null,
+     "materialGain": 3,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "e4",
+       "captured": "n",
+       "gain": 3
+      }
+     ]
     }
    ]
   },
@@ -13932,6 +18017,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Rxh2",
@@ -14028,19 +18114,129 @@
    "line": [
     "Bxh5",
     "Bxg6",
+    "Rxc1",
+    "Rxc1",
     "Bxg6",
-    "Rxc8+",
-    "Kg7",
-    "Rb8"
+    "h4"
    ],
    "mate": null,
-   "materialGain": 2,
+   "materialGain": 4,
    "motifs": [
     {
      "motif": "hanging piece",
      "square": "h5",
      "captured": "q",
      "gain": 9
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Rc5",
+     "from": "c8",
+     "to": "c5",
+     "captured": null,
+     "line": [
+      "Rc5",
+      "Bxg6",
+      "Bxh5",
+      "Be4",
+      "Bg6",
+      "Bxg6"
+     ],
+     "mate": null,
+     "materialGain": 4,
+     "motifs": [
+      {
+       "motif": "pin",
+       "absolute": false,
+       "by": "c5",
+       "pinned": "c2",
+       "behind": "c1",
+       "square": "c5"
+      }
+     ]
+    },
+    {
+     "side": "b",
+     "move": "Rc7",
+     "from": "c8",
+     "to": "c7",
+     "captured": null,
+     "line": [
+      "Rc7",
+      "Bxg6",
+      "Bxh5",
+      "Bxh5",
+      "d5",
+      "Rcd1"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "pin",
+       "absolute": false,
+       "by": "c7",
+       "pinned": "c2",
+       "behind": "c1",
+       "square": "c7"
+      }
+     ]
+    }
+   ]
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Bxh5",
+   "from": "g4",
+   "to": "h5",
+   "captured": "q",
+   "line": [
+    "Bxh5",
+    "Bxg6",
+    "Rxc1",
+    "Rxc1",
+    "Bxg6",
+    "g4"
+   ],
+   "mate": null,
+   "materialGain": 4,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "h5",
+     "captured": "q",
+     "gain": 9
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Rc5",
+     "from": "c8",
+     "to": "c5",
+     "captured": null,
+     "line": [
+      "Rc5",
+      "Bxg6",
+      "Bxh5",
+      "Bxh5",
+      "e4",
+      "Rxc5"
+     ],
+     "mate": null,
+     "materialGain": 1,
+     "motifs": [
+      {
+       "motif": "pin",
+       "absolute": false,
+       "by": "c5",
+       "pinned": "c2",
+       "behind": "c1",
+       "square": "c5"
+      }
+     ]
     }
    ]
   },
@@ -14129,6 +18325,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Bxh3",
@@ -14221,14 +18418,14 @@
    "captured": "q",
    "line": [
     "Nxd2",
-    "Nxc6",
-    "dxc6",
     "Bxe7",
     "Qxe7",
-    "Rxd2"
+    "Rxd2",
+    "d5",
+    "Nxc6"
    ],
    "mate": null,
-   "materialGain": 9,
+   "materialGain": 6,
    "motifs": [
     {
      "motif": "wins material",
@@ -14241,7 +18438,39 @@
      "square": "d2",
      "exposed": "d4"
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Nxd2",
+   "from": "e4",
+   "to": "d2",
+   "captured": "q",
+   "line": [
+    "Nxd2",
+    "Bxe7",
+    "Nxe7",
+    "Rxd2",
+    "Kh8",
+    "Nb3"
+   ],
+   "mate": null,
+   "materialGain": 6,
+   "motifs": [
+    {
+     "motif": "wins material",
+     "square": "d2",
+     "captured": "q",
+     "gain": 6
+    },
+    {
+     "motif": "removes defender",
+     "square": "d2",
+     "exposed": "d4"
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -14327,7 +18556,58 @@
     ]
    }
   ],
-  "threat": null,
+  "threat": {
+   "side": "b",
+   "move": "Rxa5",
+   "from": "c5",
+   "to": "a5",
+   "captured": "p",
+   "line": [
+    "Rxa5",
+    "Rh7",
+    "Rd5",
+    "Bc7+",
+    "Ke8",
+    "h4"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "a5",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Rxa5",
+   "from": "c5",
+   "to": "a5",
+   "captured": "p",
+   "line": [
+    "Rxa5",
+    "Rh7",
+    "Rd5",
+    "Bc7+",
+    "Ke8",
+    "Rxh5"
+   ],
+   "mate": null,
+   "materialGain": 1,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "a5",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
+  },
   "lastMoves": {
    "black": {
     "san": "Rxc5",
@@ -14422,10 +18702,36 @@
    "line": [
     "Nxe2",
     "h4",
+    "h5",
+    "hxg5",
+    "Rhg8",
+    "Rde1"
+   ],
+   "mate": null,
+   "materialGain": 2,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "e2",
+     "captured": "b",
+     "gain": 3
+    }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Nxe2",
+   "from": "d4",
+   "to": "e2",
+   "captured": "b",
+   "line": [
+    "Nxe2",
+    "h4",
     "Nf4",
     "f3",
-    "Bf5",
-    "hxg5"
+    "Bd7",
+    "g3"
    ],
    "mate": null,
    "materialGain": 3,
@@ -14436,7 +18742,8 @@
      "captured": "b",
      "gain": 3
     }
-   ]
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -14524,6 +18831,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Qxe2",
@@ -14609,6 +18917,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Rxf3",
@@ -14688,6 +18997,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Qg5",
@@ -14695,7 +19005,8 @@
    },
    "white": {
     "san": "Nf3",
-    "loss": -5
+    "loss": -5,
+    "afterCp": 26
    }
   }
  },
@@ -14805,6 +19116,75 @@
      "behind": "e1",
      "square": "e5"
     }
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Qxg2",
+   "from": "g5",
+   "to": "g2",
+   "captured": "p",
+   "line": [
+    "Qxg2",
+    "d3",
+    "Qxh1+",
+    "Kd2",
+    "Qxd1+",
+    "Kxd1"
+   ],
+   "mate": null,
+   "materialGain": 6,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "g2",
+     "captured": "p",
+     "gain": 1
+    },
+    {
+     "motif": "fork",
+     "square": "g2",
+     "targets": [
+      "e4",
+      "h1"
+     ]
+    }
+   ],
+   "others": [
+    {
+     "side": "b",
+     "move": "Qxe5",
+     "from": "g5",
+     "to": "e5",
+     "captured": "n",
+     "line": [
+      "Qxe5",
+      "O-O",
+      "Bd6",
+      "f4",
+      "Qc5",
+      "Na3"
+     ],
+     "mate": null,
+     "materialGain": 3,
+     "motifs": [
+      {
+       "motif": "hanging piece",
+       "square": "e5",
+       "captured": "n",
+       "gain": 3
+      },
+      {
+       "motif": "pin",
+       "absolute": true,
+       "by": "e5",
+       "pinned": "e4",
+       "behind": "e1",
+       "square": "e5"
+      }
+     ]
+    }
    ]
   },
   "lastMoves": {
@@ -14814,7 +19194,8 @@
    },
    "white": {
     "san": "Nxe5",
-    "loss": 201
+    "loss": 201,
+    "afterCp": -94
    }
   }
  },
@@ -14890,10 +19271,10 @@
    "line": [
     "Nxh5",
     "Nf3",
-    "d6",
-    "d4",
     "Nf4",
-    "O-O"
+    "d4",
+    "Nxg2+",
+    "Kf1"
    ],
    "mate": null,
    "materialGain": 9,
@@ -14904,7 +19285,34 @@
      "captured": "q",
      "gain": 9
     }
-   ]
+   ],
+   "others": []
+  },
+  "strictThreat": {
+   "side": "b",
+   "move": "Nxh5",
+   "from": "f6",
+   "to": "h5",
+   "captured": "q",
+   "line": [
+    "Nxh5",
+    "Nf3",
+    "Nf4",
+    "d4",
+    "Nxg2+",
+    "Kf1"
+   ],
+   "mate": null,
+   "materialGain": 9,
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "h5",
+     "captured": "q",
+     "gain": 9
+    }
+   ],
+   "others": []
   },
   "lastMoves": {
    "black": {
@@ -14913,7 +19321,8 @@
    },
    "white": {
     "san": "Bc4",
-    "loss": 7
+    "loss": 7,
+    "afterCp": -32
    }
   }
  },
@@ -14991,6 +19400,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Bc5",
@@ -14998,7 +19408,8 @@
    },
    "white": {
     "san": "Bc4",
-    "loss": 11
+    "loss": 11,
+    "afterCp": 19
    }
   }
  },
@@ -15092,6 +19503,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Nbd7",
@@ -15099,7 +19511,8 @@
    },
    "white": {
     "san": "Bxb5+",
-    "loss": -175
+    "loss": -175,
+    "afterCp": 681
    }
   }
  },
@@ -15185,6 +19598,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "b6",
@@ -15192,7 +19606,8 @@
    },
    "white": {
     "san": "Bh4",
-    "loss": 14
+    "loss": 14,
+    "afterCp": 11
    }
   }
  },
@@ -15275,22 +19690,31 @@
   ],
   "threat": {
    "side": "b",
-   "move": "b5",
-   "from": "b7",
-   "to": "b5",
-   "captured": null,
+   "move": "Nxe4",
+   "from": "f6",
+   "to": "e4",
+   "captured": "p",
    "line": [
-    "b5",
-    "Bb3",
     "Nxe4",
-    "Bd5",
-    "Nf6",
-    "Bxc6"
+    "Bxc6",
+    "dxc6",
+    "Re1",
+    "Nd6",
+    "Nxe5"
    ],
    "mate": null,
    "materialGain": 1,
-   "motifs": []
+   "motifs": [
+    {
+     "motif": "hanging piece",
+     "square": "e4",
+     "captured": "p",
+     "gain": 1
+    }
+   ],
+   "others": []
   },
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Be7",
@@ -15298,7 +19722,8 @@
    },
    "white": {
     "san": "O-O",
-    "loss": -6
+    "loss": -6,
+    "afterCp": 28
    }
   }
  },
@@ -15380,6 +19805,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "a6",
@@ -15387,7 +19813,8 @@
    },
    "white": {
     "san": "Nc3",
-    "loss": 22
+    "loss": 22,
+    "afterCp": 30
    }
   }
  },
@@ -15469,6 +19896,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Nxd5",
@@ -15476,7 +19904,8 @@
    },
    "white": {
     "san": "exd5",
-    "loss": -2
+    "loss": -2,
+    "afterCp": 0
    }
   }
  },
@@ -15554,6 +19983,7 @@
    }
   ],
   "threat": null,
+  "strictThreat": null,
   "lastMoves": {
    "black": {
     "san": "Bb4",
@@ -15561,7 +19991,8 @@
    },
    "white": {
     "san": "Nc3",
-    "loss": 4
+    "loss": 4,
+    "afterCp": 19
    }
   }
  }
