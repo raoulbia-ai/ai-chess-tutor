@@ -13,7 +13,7 @@ npm run check
 npm start
 ```
 
-Supply your own OPENAI_API_KEY_CHESS_TUTOR in .env, then open http://127.0.0.1:3000. Compatible provider settings are documented in .env.example. LLM_MODEL writes the lessons; the optional LLM_AUDIT_MODEL fact-checks them before they are shown and defaults to LLM_MODEL. For OpenAI reasoning models (GPT-5 and later), LLM_REASONING_EFFORT sets how much the writer thinks; the fact-check uses the same value when it uses the same model. Set LLM_AUDIT_BASE_URL to run the fact-check on a separate OpenAI-compatible server, such as a local Ollama, while lessons use OpenAI. Model requests use your configured provider and account. The server writes game events and questions to game-history.txt; this file stays local.
+Supply your own OPENAI_API_KEY_CHESS_TUTOR in .env, then open http://127.0.0.1:3000. Compatible provider settings are documented in .env.example. LLM_MODEL writes the lessons; the optional LLM_AUDIT_MODEL fact-checks them before they are shown and defaults to LLM_MODEL. For OpenAI reasoning models (GPT-5 and later), LLM_REASONING_EFFORT sets how much the writer thinks; the fact-check uses the same value when it uses the same model. Set LLM_AUDIT_BASE_URL to run the fact-check on a separate OpenAI-compatible server, such as a local Ollama, while lessons use OpenAI. Turn commentary after each move is built from Stockfish and chess.js without a model call; set TUTOR_TURN_COMMENTARY=model for the earlier model-written version. Model requests use your configured provider and account. The server writes game events and questions to game-history.txt; this file stays local.
 
 ## Public and private files
 

@@ -107,10 +107,14 @@ function keyPoints(item, record) {
   if (record.mode === 'turn') {
     if (item.lastMoves?.black?.loss >= 200 && best) {
       const to = (() => { try { return new Chess(item.fen).move(best).to; } catch { return null; } })();
-      keys.blackBlunder = mentionsMove(text, best) || (to && mentionsSquare(text, to) && /\b(?:win|wins|undefended|hanging|free|take|capture)/i.test(text));
+      const mating = item.lines[0].score?.type === 'mate' && item.lines[0].score.value > 0;
+      keys.blackBlunder = mentionsMove(text, best) || (to && mentionsSquare(text, to) && /\b(?:win|wins|undefended|hanging|free|take|capture|fork|pin|skewer|trap)/i.test(text))
+        || (mating && /\bmate\b/i.test(text));
     }
     if (item.lastMoves?.white?.loss >= 150) keys.yourMistake = /\b(?:mistake|blunder|inaccura|loses|lost|better was|instead|stronger)/i.test(text);
-    if (threat) keys.threat = threat.mate ? /\bmate\b|checkmate/i.test(text) || mentionsSquare(text, threat.to) : mentionsSquare(text, threat.to);
+    // With a forced mate of your own, Black's threat no longer matters.
+    const mating = item.lines?.[0]?.score?.type === 'mate' && item.lines[0].score.value > 0;
+    if (threat && !mating) keys.threat = threat.mate ? /\bmate\b|checkmate/i.test(text) || mentionsSquare(text, threat.to) : mentionsSquare(text, threat.to);
   }
   return keys;
 }
