@@ -22,14 +22,14 @@
 }
 .board{grid-template-columns:repeat(8,minmax(0,1fr))}.square{min-width:0}.board .piece{display:block}
 
-/* Muted squares; outlined pieces and shaped indicators retain separation. */
+/* A fixed high-contrast board: cream and green squares, near-white and near-black pieces, each drawn with an outline. */
 .game-start{margin-bottom:16px}
 .board{
-  --square-light:#c7ccb9;--square-dark:#788d73;
-  --square-hover:#afb99f;--square-dark-hover:#87997d;
-  --square-selected:#a69768;--move-mark:#f0d49a;
-  --white-piece:#ece9d8;--black-piece:#17241d;
-  --piece-outline:#d4dbc9;--target-mark:#263d30;
+  --square-light:#ebe6d0;--square-dark:#5d7f50;
+  --square-hover:#d9d5b6;--square-dark-hover:#6e925f;
+  --square-selected:#d8c45a;--move-mark:#e6c75a;
+  --white-piece:#fffdf3;--black-piece:#141a16;
+  --piece-outline:#f4f1e2;--target-mark:rgba(20,38,25,.72);
 }
 .board .square{background:var(--square-light)}
 .board .square.dark{background:var(--square-dark)}
@@ -40,19 +40,14 @@
 .board .square.target:after{background:var(--target-mark)}
 .board .square.target.occupied:after{background:transparent;border-color:var(--target-mark)}
 .board .square:focus-visible{outline:3px solid var(--move-mark);outline-offset:-5px;z-index:2}
-.board .piece[data-color="w"] text{fill:var(--white-piece);stroke:var(--black-piece)}
-.board .piece[data-color="b"] text{fill:var(--black-piece);stroke:var(--piece-outline)}
-@media(prefers-color-scheme:dark){
-  .board{
-    --square-light:#697563;--square-dark:#394b40;
-    --square-hover:#687561;--square-dark-hover:#4c6050;
-    --square-selected:#786d49;--move-mark:#e2c991;
-    --white-piece:#d6d8c8;--black-piece:#0c1510;
-    --piece-outline:#c5d0bd;--target-mark:#e0d3ad;
-    border-color:#4d6150;
-  }
-  .board .piece[data-color="b"] text{stroke-width:3.2}
-}
+/* Each piece is two stacked glyphs, a stroke underneath and a fill on top, so the outline never covers the fill. */
+.board .piece text{font-family:"Noto Sans Symbols 2","Noto Sans Symbols","Segoe UI Symbol","DejaVu Sans",sans-serif}
+.board .piece .outline{fill:none;stroke-linejoin:round;stroke-width:3}
+.board .piece[data-color="w"] .outline{stroke:var(--black-piece)}
+.board .piece[data-color="w"] .body{fill:var(--white-piece);stroke:none}
+.board .piece[data-color="b"] .outline{stroke:var(--piece-outline);stroke-width:2.4}
+.board .piece[data-color="b"] .body{fill:var(--black-piece);stroke:none}
+@media(prefers-color-scheme:dark){.board{border-color:#4d6150}}
 /* Keep the desktop practice area within the available window height. */
 @media(min-width:801px){
   header{height:64px}

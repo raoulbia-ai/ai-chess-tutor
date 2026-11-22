@@ -252,12 +252,15 @@ function render() {
     button.setAttribute('aria-pressed', String(selected === square));
     button.setAttribute('aria-disabled', String(!started || busy || Boolean(demo) || game.turn() !== 'w' || game.isGameOver()));
     if (piece) {
-      const ns = 'http://www.w3.org/2000/svg', glyph = document.createElementNS(ns, 'svg'), text = document.createElementNS(ns, 'text');
+      const ns = 'http://www.w3.org/2000/svg', glyph = document.createElementNS(ns, 'svg');
       glyph.setAttribute('class', 'piece'); glyph.setAttribute('data-color', piece.color); glyph.setAttribute('viewBox', '0 0 80 80'); glyph.setAttribute('aria-hidden', 'true');
-      text.setAttribute('x', '40'); text.setAttribute('y', '64'); text.setAttribute('text-anchor', 'middle'); text.setAttribute('font-size', '66');
-      text.setAttribute('fill', piece.color === 'w' ? '#fff9e5' : '#17241d');
-      text.setAttribute('stroke', piece.color === 'w' ? '#17241d' : '#fff9e5'); text.setAttribute('stroke-width', '1.3'); text.setAttribute('paint-order', 'stroke');
-      text.textContent = symbols[piece.type]; glyph.append(text); button.append(glyph);
+      // The text-presentation selector stops phones from drawing the pawn as a colour emoji.
+      for (const layer of ['outline', 'body']) {
+        const text = document.createElementNS(ns, 'text');
+        text.setAttribute('class', layer); text.setAttribute('x', '40'); text.setAttribute('y', '64'); text.setAttribute('text-anchor', 'middle'); text.setAttribute('font-size', '66');
+        text.textContent = symbols[piece.type] + '\uFE0E'; glyph.append(text);
+      }
+      button.append(glyph);
     }
     button.onclick = () => selectSquare(square); $('board').append(button);
   }
