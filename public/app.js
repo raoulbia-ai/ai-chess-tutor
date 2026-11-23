@@ -26,7 +26,7 @@ const names = { p: 'pawn', n: 'knight', b: 'bishop', r: 'rook', q: 'queen', k: '
 const storageKey = 'chess-understood-v1';
 let game = new Chess(), records = [], gameId = crypto.randomUUID(), support = 'none';
 // Hints come in levels for one position: the idea, then the piece, then the move.
-let hintState = { fen: null, level: 0 };
+let hintState = { fen: null, level: 0 }, gameReview = null;
 let selected = null, busy = false, demo = null, autoplay = false, playbackToken = 0, lastText = '';
 let pendingSupport = 'none', lastLesson = null;
 let finishSpeech = null;
@@ -177,7 +177,21 @@ function leadLesson() {
       const move = reviewMoves[Math.min(i, reviewMoves.length - 1)];
       lessons.push(`${at(move)}. ${exercises[i]}`);
     }
-    showLesson({ title, explanation: lessons.map((lesson, i) => `${i + 1}. ${lesson}`).join('\n\n'), question: '', steps: [] }, 'tutor', { mode: 'game-summary' });
+    const fallback = { title, explanation: lessons.map((lesson, i) => `${i + 1}. ${lesson}`).join('\n\n'), question: '', steps: [] };
+    // The engine review of the whole game replaces the general exercises; they remain the fallback if it fails.
+    const length = moves.length;
+    if (gameReview?.gameId === gameId && gameReview.length === length && gameReview.lesson) {
+      showLesson(gameReview.lesson, 'tutor', { mode: 'game-summary' });
+      return;
+    }
+    if (!(gameReview?.gameId === gameId && gameReview.length === length)) {
+      const request = gameReview = { gameId, length, lesson: null };
+      api('tutor', { mode: 'summary', moves: game.history() })
+        .then(data => { request.lesson = { ...data.lesson, title }; })
+        .catch(() => { request.lesson = fallback; })
+        .finally(() => { if (gameReview === request && game.isGameOver() && !demo) leadLesson(); });
+    }
+    $('lesson-title').textContent = title; $('explanation').textContent = 'Reviewing your game with the engine…'; $('question').hidden = true;
     return;
   }
   const title = !started ? 'Ready to practise.' : 'Your move.';
@@ -302,9 +316,9 @@ async function selectSquare(square) {
 }
 async function opponent() {
   const session = gameId;
-  setBusy(true, 'Stockfish is checking the position…'); error();
+  setBusy(true, $('opponent').value.startsWith('maia') ? 'Black is thinking…' : 'Stockfish is checking the position…'); error();
   try {
-    const result = await api('play', { moves: game.history() });
+    const result = await api('play', { moves: game.history(), opponent: $('opponent').value });
     if (session !== gameId) return;
     records.push({ id: crypto.randomUUID(), ...result.feedback, support: pendingSupport });
     pendingSupport = 'none'; save();
@@ -320,7 +334,7 @@ async function opponent() {
   finally { if (session === gameId) { setBusy(false); render(); } }
 }
 function showCheckpoint() { showLesson({ ...checkpoint.coaching, question: '', steps: [] }, 'tutor', { mode: 'checkpoint' }); }
-function showLesson(lesson, event = 'tutor', context = {}) {
+function showLesson(lesson, event = 'tutor', context = {}, spoken = lesson.explanation) {
   if (started && !restoring && (lesson.explanation || lesson.question) && lesson !== lastLesson) {
     const { title, explanation, question } = lesson;
     logHistory(event, { ...context, title, explanation, question });
@@ -328,11 +342,11 @@ function showLesson(lesson, event = 'tutor', context = {}) {
   lastLesson = lesson; $('lesson-title').textContent = lesson.title; $('explanation').textContent = lesson.explanation;
   $('question').textContent = lesson.question; $('question').hidden = !lesson.question;
   lastText = lesson.explanation;
-  if ($('voice').checked && lastText) speak(lastText);
+  if ($('voice').checked && spoken) speak(spoken);
 }
 async function tutor(mode, extra = {}, automatic = false) {
   if (!started || busy || demo || $('independent').checked) return;
-  const session = gameId;
+  const session = gameId, shownBefore = lastText;
   setBusy(true, mode === 'demonstrate' ? 'Preparing a short, narrated continuation…' : 'Your tutor is studying the engine analysis…'); error();
   const request = { mode, automatic, focus: learningFocus(), ...extra };
   const requestSequence = logHistory('tutor-request', request);
@@ -354,7 +368,12 @@ async function tutor(mode, extra = {}, automatic = false) {
       });
       demo = { root: data.root, steps: data.demonstration, narration: data.lesson.steps, index: 0, intro: data.lesson };
       selected = null; renderDemo();
-    } else showLesson(data.lesson, mode === 'question' ? 'answer' : 'tutor', context);
+    } else {
+      // A higher hint level repeats the earlier levels on screen; read aloud only the new part.
+      const text = data.lesson.explanation;
+      const spoken = mode === 'hint' && data.hint?.level > 1 && shownBefore && text.startsWith(shownBefore) ? text.slice(shownBefore.length).trim() : text;
+      showLesson(data.lesson, mode === 'question' ? 'answer' : 'tutor', context, spoken);
+    }
   } catch (e) {
     if (session === gameId) logHistory('tutor-error', { ...context, message: e.message });
     if (session === gameId && (!automatic || analysisTimedOut(e))) {
@@ -530,4 +549,14 @@ const resumed = restoreGame();
 if (resumed === null) { render(); leadLesson(); }
 else if (resumed) opponent();
 window.addEventListener('pagehide', stopPlayback);
+// The opponent: human-like Maia at a chosen rating when the server has it, or reduced-strength Stockfish.
+const opponentKey = 'chess-tutor-opponent';
+$('opponent').onchange = () => { try { localStorage.setItem(opponentKey, $('opponent').value); } catch { /* Not remembered. */ } };
+fetch('/api/status').then(r => r.json()).then(s => {
+  if (!s.maia?.length) return;
+  $('opponent').replaceChildren(...s.maia.map(rating => new Option(`Human-like · rated ${rating}`, `maia-${rating}`)), new Option('Stockfish · reduced strength', 'stockfish'));
+  let chosen = 'maia-1500';
+  try { chosen = localStorage.getItem(opponentKey) || chosen; } catch { /* Use the default. */ }
+  $('opponent').value = [...$('opponent').options].some(option => option.value === chosen) ? chosen : 'maia-1500';
+}).catch(() => {});
 fetch('/api/status').then(r => r.json()).then(s => { $('connection').textContent = s.configured ? '● Tutor configured' : 'Key needed'; if (!s.configured) error('Add the API key to .env and restart the server.'); }).catch(() => { $('connection').textContent = 'Server unavailable'; });

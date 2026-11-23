@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { Chess } from 'chess.js';
 import { analyse, scoreValue } from './lib/engine.mjs';
 import { gameFrom, lessonFor, LessonRequestError } from './lib/lesson.mjs';
+import { maiaAvailable, maiaMove, maiaRatings } from './lib/maia.mjs';
 
 try { process.loadEnvFile(fileURLToPath(new URL('.env', import.meta.url))); } catch (error) { if (error.code !== 'ENOENT') throw error; }
 const port = Number(process.env.PORT || 3000), host = process.env.HOST || '127.0.0.1';
@@ -29,7 +30,7 @@ const server = http.createServer(async (req, res) => {
   const json = (status, value) => { res.writeHead(status, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(value)); };
   try {
     const url = new URL(req.url, `http://${req.headers.host}`);
-    if (req.method === 'GET' && url.pathname === '/api/status') return json(200, { configured: Boolean(process.env.OPENAI_API_KEY_CHESS_TUTOR || process.env.OPENAI_API_KEY || process.env.LLM_PROVIDER === 'compatible'), model: process.env.LLM_MODEL || 'gpt-4.1-mini', auditModel: process.env.LLM_AUDIT_MODEL || process.env.LLM_MODEL || 'gpt-4.1-mini' });
+    if (req.method === 'GET' && url.pathname === '/api/status') return json(200, { configured: Boolean(process.env.OPENAI_API_KEY_CHESS_TUTOR || process.env.OPENAI_API_KEY || process.env.LLM_PROVIDER === 'compatible'), maia: maiaAvailable() ? maiaRatings : [], model: process.env.LLM_MODEL || 'gpt-4.1-mini', auditModel: process.env.LLM_AUDIT_MODEL || process.env.LLM_MODEL || 'gpt-4.1-mini' });
     if (req.method === 'GET' && files.has(url.pathname)) {
       const [file, mime] = files.get(url.pathname), content = await readFile(new URL(file, import.meta.url));
       res.writeHead(200, { 'Content-Type': mime + '; charset=utf-8' }); return res.end(content);
@@ -67,7 +68,8 @@ const server = http.createServer(async (req, res) => {
       }
       return json(200, { saved: true });
     }
-    if (game.isGameOver()) return json(400, { error: 'This game has ended. Start a new game to continue learning.' });
+    // The game review is the one request that needs a finished game.
+    if (game.isGameOver() && !(url.pathname === '/api/tutor' && data.mode === 'summary')) return json(400, { error: 'This game has ended. Start a new game to continue learning.' });
     active++;
     try {
       if (url.pathname === '/api/play') {
@@ -104,9 +106,21 @@ const server = http.createServer(async (req, res) => {
             }
           }
         }
-        const reply = await analyse(game.fen(), { strength: 0 });
-        const responseMove = game.move({ from: reply.bestmove.slice(0, 2), to: reply.bestmove.slice(2, 4), promotion: reply.bestmove[4] });
-        return json(200, { reply: responseMove.san, coaching, feedback: { loss, sound: loss <= 80, phase: data.moves.length <= 20 ? 'opening' : 'middlegame' } });
+        // A human-like opponent at the chosen rating when Maia is installed; otherwise, or if it fails,
+        // reduced-strength Stockfish.
+        const rating = Number(String(data.opponent || '').match(/^maia-(\d{4})$/)?.[1]);
+        let uciMove = null, opponent = 'stockfish';
+        if (maiaRatings.includes(rating) && maiaAvailable()) {
+          try {
+            const history = game.history({ verbose: true }).map(move => move.from + move.to + (move.promotion || ''));
+            uciMove = await maiaMove(history, { rating });
+            if (!game.moves({ verbose: true }).some(move => move.from + move.to + (move.promotion || '') === uciMove)) uciMove = null;
+            else opponent = `maia-${rating}`;
+          } catch { uciMove = null; }
+        }
+        if (!uciMove) uciMove = (await analyse(game.fen(), { strength: 0 })).bestmove;
+        const responseMove = game.move({ from: uciMove.slice(0, 2), to: uciMove.slice(2, 4), promotion: uciMove[4] });
+        return json(200, { reply: responseMove.san, opponent, coaching, feedback: { loss, sound: loss <= 80, phase: data.moves.length <= 20 ? 'opening' : 'middlegame' } });
       }
       try {
         return json(200, await lessonFor(data, cachedAnalysis));

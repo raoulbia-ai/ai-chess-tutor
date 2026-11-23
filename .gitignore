@@ -22,3 +22,6 @@ Thumbs.db
 # Evaluation positions from your own games
 /eval/suite.local.json
 /eval/runs/
+
+# Locally built engines
+/.engines/

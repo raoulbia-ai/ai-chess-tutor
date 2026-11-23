@@ -105,3 +105,14 @@
 .board-comment{margin:8px 0 14px;padding:10px 14px;background:var(--paper);border:1px solid var(--border);border-radius:10px}.board-comment h2{margin:2px 0 6px;font-size:20px}.board-comment #explanation{margin:0;line-height:1.5}.board-comment #replay{min-height:44px}
 
 #assess{grid-column:1/-1}
+
+/* Larger text for readability: lesson and hint text first, then the small labels around it. */
+#explanation{font-size:18px;line-height:1.65}.board-comment #explanation{line-height:1.55}.question{font-size:17px}.board-comment h2{font-size:23px}
+.focus span{font-size:13px}.focus strong{font-size:16px}.board-help{font-size:15px}.busy,.error{font-size:15px}.demo-controls p,#demo-banner{font-size:15px}
+button{font-size:15px}.tutor-actions button{font-size:15px}.voice-controls button,.voice-controls select{font-size:14px}.game-tools button,.toggle{font-size:14px}
+details{font-size:15px}label[for]{font-size:14px}.ask-row input{font-size:16px}#progress-note{font-size:15px}
+.eyebrow,.connection,.side-label,.local-note,.progress-stats span{font-size:12px}.player strong{font-size:15px}.player small{font-size:13px}
+.moves summary{font-size:14px}.moves p{font-size:15px}.pill,.header-note,footer{font-size:13px}
+@media(max-width:800px){.game-tools button{font-size:14px}.intro .pill{font-size:13px}}
+
+.opponent-select{border:0;background:transparent;color:var(--muted);font-size:13px;padding:2px 0;margin-top:2px;max-width:100%}

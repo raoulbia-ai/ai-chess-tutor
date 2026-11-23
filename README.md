@@ -9,9 +9,15 @@ Requires Node.js 22 or newer.
 ```sh
 npm ci
 cp .env.example .env
+./scripts/install-classical-eval.sh   # optional: builds Stockfish 15.1 into .engines/ (needs make and a C++ compiler)
+./scripts/install-maia.sh             # optional: human-like opponent (Python venv with CPU PyTorch, about 1 GB, in .engines/)
 npm run check
 npm start
 ```
+
+Stockfish 15.1 is the last release with the classical evaluation, which splits a score into named terms (pawn structure, mobility, king safety, space and so on). The tutor uses those terms to decide which positional idea to name in quiet positions (an outpost, a weak pawn, a pawn break, a trade of Black's best piece). Without it, the same ideas are named in a fixed order of preference. When the game ends, the tutor reviews every move with the engine and lists the costliest ones and what to practise.
+
+With Maia-3 installed, Black can be a human-like opponent: choose a rating (1100 to 1900) under "Practice opponent". Maia predicts the moves players of that rating make, so Black's mistakes are the kind you meet in real games. Reduced-strength Stockfish stays available, and is used automatically if Maia is not installed or fails.
 
 Supply your own OPENAI_API_KEY_CHESS_TUTOR in .env, then open http://127.0.0.1:3000. Compatible provider settings are documented in .env.example. LLM_MODEL writes the lessons; the optional LLM_AUDIT_MODEL fact-checks them before they are shown and defaults to LLM_MODEL. For OpenAI reasoning models (GPT-5 and later), LLM_REASONING_EFFORT sets how much the writer thinks; the fact-check uses the same value when it uses the same model. Set LLM_AUDIT_BASE_URL to run the fact-check on a separate OpenAI-compatible server, such as a local Ollama, while lessons use OpenAI. Turn commentary after each move is built from Stockfish and chess.js without a model call; set TUTOR_TURN_COMMENTARY=model for the earlier model-written version. Hints are built the same way and come in three levels: press Hint for the idea, More help for the piece, and Show the move for the move and why; set TUTOR_HINTS=model for the earlier model-written hints. Model requests use your configured provider and account. The server writes game events and questions to game-history.txt; this file stays local.
 
@@ -40,4 +46,4 @@ Treat any hosted app as a separate runtime, not a second source of truth. Do not
 
 ## Licensing
 
-Project source, tutor prompts, and the teaching guide are licensed under the [MIT License](LICENSE). Third-party dependencies retain their own licenses: chess.js is BSD-2-Clause and Stockfish is GPL-3.0, as recorded in package-lock.json. The project MIT license does not relicense those dependencies.
+Project source, tutor prompts, and the teaching guide are licensed under the [MIT License](LICENSE). Third-party dependencies retain their own licenses: chess.js is BSD-2-Clause and Stockfish is GPL-3.0, as recorded in package-lock.json. The optional Stockfish 15.1 build (GPL-3.0) is downloaded and compiled locally by the install script, runs as a separate process, and is not part of this repository. The same holds for the optional Maia-3 install (AGPL-3.0, with PyTorch), which lives in a private virtual environment under .engines/. The project MIT license does not relicense those dependencies.
