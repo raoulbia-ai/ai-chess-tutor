@@ -12,6 +12,7 @@ Measures the tutor's lessons on a fixed set of positions, so a change is judged 
 | `run.mjs` | Runs the tutor over the suite, offline or with the real model, and writes `runs/<name>.jsonl`. |
 | `score.mjs` | Scores one or more runs, side by side. |
 | `detectors.mjs` | Measures `lib/analysis.mjs` against independent labels, with no model calls. |
+| `verify-turn.mjs`, `verify-hint.mjs` | Re-check every claim in a run's turn comments or hints with a depth-18 search. |
 
 Labels on each position:
 
@@ -28,7 +29,9 @@ npm run eval:run -- --name my-change --modes hint,turn                    # offl
 npm run eval:run -- --name my-change-live --modes hint,turn --live        # real model calls, about $3 for the whole suite
 npm run eval:score -- baseline my-change                                  # compare runs; add --show to list failures
 npm run eval:detectors -- --threats                                       # analysis layer only
-npm test                                                                  # unit tests for lib/analysis.mjs
+node eval/verify-hint.mjs my-change                                       # deep check of hint claims, about 15 minutes
+node eval/verify-turn.mjs my-change                                       # deep check of turn comment claims
+npm test                                                                  # unit tests for the analysis layer, turn comments and hints
 ```
 
 The puzzle file is the Lichess puzzle database, `https://database.lichess.org/lichess_db_puzzle.csv.zst` (about 310 MB).
@@ -41,10 +44,15 @@ Hints:
 
 | Score | The lesson… |
 |---|---|
-| `solution`, `goodMove`, `punish` | names the puzzle solution, a move within 0.5 pawns of the best, or the move that punishes Black's blunder. Today's hints always name engine moves, so these are near 100% and only matter once hints stop giving the move away. |
+| `solution`, `goodMove`, `punish` | names the puzzle solution, a move within 0.5 pawns of the best, or the move that punishes Black's blunder, by the last level. |
 | `whereMaterialIsWon` | names the square where the best line wins material. |
 | `theme` | names the puzzle's motif (fork, pin, mate, undefended…). |
-| `threat` | names the square Black threatens. |
+| `threat` | names the square Black threatens (not counted when White has a forced mate). |
+| `threatAtLevel1` | the first level already names it. |
+| `themeByLevel2` | the motif is named before the move is given. |
+| `moveHiddenBeforeLevel3` | the first two levels do not name the best move. |
+
+Levelled hints are recorded with all three levels; the scores above use the full text unless they say otherwise.
 
 Turn commentary:
 

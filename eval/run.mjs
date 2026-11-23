@@ -80,8 +80,8 @@ for (const item of items) {
     const started = Date.now();
     let record;
     try {
-      const { lesson, insights } = await lessonFor(data, cachedAnalysis, item.moves ? {} : { startFen: item.fen });
-      record = { id: item.id, mode, title: lesson.title, text: lesson.explanation, steps: lesson.steps, ...(insights && { insights }) };
+      const { lesson, insights, levels } = await lessonFor({ ...data, level: 3 }, cachedAnalysis, { allLevels: true, ...(item.moves ? {} : { startFen: item.fen }) });
+      record = { id: item.id, mode, title: lesson.title, text: lesson.explanation, steps: lesson.steps, ...(insights && { insights }), ...(levels && { levels }) };
     } catch (error) {
       record = { id: item.id, mode, error: error.message };
     }

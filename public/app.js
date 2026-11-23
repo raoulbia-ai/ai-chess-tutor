@@ -25,6 +25,8 @@ const symbols = { p: '♟', n: '♞', b: '♝', r: '♜', q: '♛', k: '♚' };
 const names = { p: 'pawn', n: 'knight', b: 'bishop', r: 'rook', q: 'queen', k: 'king' };
 const storageKey = 'chess-understood-v1';
 let game = new Chess(), records = [], gameId = crypto.randomUUID(), support = 'none';
+// Hints come in levels for one position: the idea, then the piece, then the move.
+let hintState = { fen: null, level: 0 };
 let selected = null, busy = false, demo = null, autoplay = false, playbackToken = 0, lastText = '';
 let pendingSupport = 'none', lastLesson = null;
 let finishSpeech = null;
@@ -211,6 +213,8 @@ function renderControls() {
   const unavailable = !started || busy || Boolean(demo) || game.turn() !== 'w' || game.isGameOver();
   $('start-game').textContent = started ? 'Restart game' : 'Start game';
   for (const id of ['hint', 'ask-button', 'ask']) $(id).disabled = unavailable || $('independent').checked;
+  const hintLevel = hintState.fen === game.fen() ? hintState.level : 0;
+  $('hint').textContent = hintLevel === 1 ? 'More help' : hintLevel === 2 ? 'Show the move' : 'Hint';
   const canReview = checkpoint ? !busy && !demo : !unavailable && game.history().length >= 2;
   $('review').disabled = !canReview || $('independent').checked;
   $('assess').disabled = unavailable || $('independent').checked || game.history().length < 2;
@@ -340,6 +344,7 @@ async function tutor(mode, extra = {}, automatic = false) {
       logHistory('tutor-skip', context);
       return;
     }
+    if (mode === 'hint' && data.hint) hintState = { fen: game.fen(), level: data.hint.level };
     if (!automatic) support = 'requested';
     else if (support === 'none') support = 'commentary';
     save();
@@ -420,7 +425,7 @@ async function stepDemo(delta, auto = false) {
   if ($('voice').checked) await speak(lastText);
   else if (auto) await new Promise(resolve => setTimeout(resolve, Math.max(3500, lastText.split(/\s+/).length * 330)));
 }
-$('hint').onclick = () => tutor('hint');
+$('hint').onclick = () => tutor('hint', { level: hintState.fen === game.fen() ? Math.min(3, hintState.level + 1) : 1 });
 $('review').onclick = () => tutor('review');
 $('assess').onclick = () => tutor('assess');
 $('ask-form').onsubmit = event => {

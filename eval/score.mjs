@@ -6,7 +6,8 @@
 //
 // Key points (does the lesson say what a coach would say first?):
 //   hint: names the puzzle solution, names a move within 0.5 pawns of the best, names the square Black threatens,
-//         names the move that punishes Black's blunder, names the puzzle's theme (fork, pin, mate, ...).
+//         names the move that punishes Black's blunder, names the puzzle's theme (fork, pin, mate, ...); for levelled
+//         hints also: level 1 names the threat, levels 1–2 name the theme, and levels 1–2 do not give the move away.
 //   turn: notices Black's blunder (names the winning move or its square), notices your mistake, names Black's threat.
 // Checks (is everything it says true?):
 //   a piece named on a square must be there now, or after a move the lesson or the engine lines mention;
@@ -35,7 +36,8 @@ const strip = san => san.replace(/[+#]$/, '');
 const sanPattern = /(?<![A-Za-z0-9])(O-O-O|O-O|[KQRBN][a-h]?[1-8]?x?[a-h][1-8](?:=[QRBN])?|[a-h]x[a-h][1-8](?:=[QRBN])?)[+#]?(?![A-Za-z0-9])/g;
 const mentionsMove = (text, san) => [...text.matchAll(sanPattern)].some(match => strip(match[0]) === strip(san))
   || (/^[a-h][1-8]$/.test(strip(san)) && new RegExp(`(?<![A-Za-z0-9])${strip(san)}(?![A-Za-z0-9])`).test(text) && /\b(?:play|push|advance|move|consider)\b/i.test(text))
-  || new RegExp(`(?:^|\\n)${strip(san).replace(/[+]/g, '\\+')}[+#]?:`).test(text);
+  // A line that starts with the move ("a7+ starts it", "f4 defends …", "Nf3: …") names it, pawn moves included.
+  || new RegExp(`(?:^|\\n)${strip(san).replace(/[+]/g, '\\+')}[+#]?(?:[:.]|\\s)`).test(text);
 // A square counts inside move notation too ("Qxg7" names g7), but not as part of another square or word.
 const mentionsSquare = (text, square) => new RegExp(`(?<![a-h0-9])${square}(?![A-Za-z0-9])`).test(text);
 const play = (fen, moves) => { const game = new Chess(fen); const boards = [];
@@ -52,10 +54,17 @@ function reachable(item, text) {
   for (const line of item.lines ?? []) play(item.fen, line.moves).forEach(fen => fens.add(fen));
   if (item.threat) { const parts = item.fen.split(' '); parts[1] = 'b'; parts[3] = '-'; const passed = parts.join(' ');
     fens.add(passed); play(passed, item.threat.line ?? item.threat.moves).forEach(fen => fens.add(fen)); }
+  // A line the lesson prints ("the engine’s line is 14.Bg3 fxe5 15.dxe5 …") is played out from the position.
+  for (const [, printed] of text.matchAll(/engine’s line(?:,| is) ((?:\d+\.(?:\.\.|…)?\s?)?\S+(?: (?:\d+\.)?\S+)*)/g)) {
+    play(item.fen, printed.split(' ').map(token => token.replace(/^\d+\.(?:\.\.|…)?/, '').replace(/[,.]$/, '')).filter(Boolean)).forEach(fen => fens.add(fen));
+  }
   const mentioned = new Set([...text.matchAll(sanPattern)].map(match => strip(match[0])));
   const rootGame = new Chess(item.fen);
   for (const move of rootGame.moves({ verbose: true })) {
     fens.add(move.after);
+    // "Nc3 threatens Nxd5": the threat is a move White could make next if Black passed.
+    if (!/[+#]/.test(move.san)) { const parts = move.after.split(' '); parts[1] = parts[1] === 'w' ? 'b' : 'w'; parts[3] = '-';
+      try { const passed = new Chess(parts.join(' ')); fens.add(passed.fen()); for (const next of passed.moves({ verbose: true })) if (mentioned.has(strip(next.san))) fens.add(next.after); } catch {} }
     const child = new Chess(move.after);
     for (const reply of child.moves({ verbose: true })) {
       if (mentioned.has(strip(reply.san)) || mentioned.has(strip(move.san))) {
@@ -99,13 +108,22 @@ function keyPoints(item, record) {
   if (record.mode === 'hint') {
     if (item.solution) keys.solution = mentionsMove(text, item.solution[0]);
     if (best) keys.goodMove = near.some(san => mentionsMove(text, san));
-    if (threat) keys.threat = threat.mate ? /\bmate\b|checkmate/i.test(text) || mentionsSquare(text, threat.to) : mentionsSquare(text, threat.to);
+    // With a forced mate of your own, Black's threat no longer matters.
+    const mating = item.lines?.[0]?.score?.type === 'mate' && item.lines[0].score.value > 0;
+    if (threat && !mating) keys.threat = threat.mate ? /\bmate\b|checkmate/i.test(text) || mentionsSquare(text, threat.to) : mentionsSquare(text, threat.to);
     if (item.lastMoves?.black?.loss >= 200 && best) keys.punish = mentionsMove(text, best);
     // When the best line wins material, a good hint says where: the square of White's first capture in it.
     const win = materialWin(item);
     if (win) keys.whereMaterialIsWon = mentionsSquare(text, win.square);
     const themes = (item.themes ?? []).filter(theme => motifWords[theme]);
     if (themes.length) keys.theme = themes.some(theme => motifWords[theme].test(text));
+    // Levelled hints: the first levels should point at the threat and the idea without giving the move away.
+    if (record.levels) {
+      const [first] = record.levels, early = record.levels.slice(0, 2).join('\n');
+      if (threat && !mating) keys.threatAtLevel1 = threat.mate ? /\bmate\b|checkmate/i.test(first) || mentionsSquare(first, threat.to) : mentionsSquare(first, threat.to);
+      if (themes.length) keys.themeByLevel2 = themes.some(theme => motifWords[theme].test(early));
+      if (best) keys.moveHiddenBeforeLevel3 = !mentionsMove(early, best);
+    }
   }
   if (record.mode === 'turn') {
     // When White was already more than 5 pawns up, engine scores swing by several pawns between searches, so a
