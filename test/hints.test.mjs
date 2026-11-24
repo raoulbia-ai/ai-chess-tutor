@@ -12,9 +12,11 @@ const hint = async (moves, level = 3) => {
 test('a hanging queen: the idea first, the move only at level 3', async () => {
   const { levels, lesson } = await hint('e4 e5 Nf3 Qg5');
   assert.equal(lesson.title, 'Material to win');
-  assert.match(levels[0], /Black’s queen on g5 is undefended/);
+  assert.match(levels[0], /more attackers than defenders\?/);
+  assert.match(levels[1], /Black’s queen on g5 is undefended/);
+  assert.match(levels[1], /Rule: /);
   assert.doesNotMatch(levels.slice(0, 2).join(' '), /Nxg5/);
-  assert.match(levels[2], /^Nxg5 /);
+  assert.match(levels[2], /^• Nxg5 /);
 });
 
 test('the requested level decides how much is shown', async () => {
@@ -25,18 +27,27 @@ test('the requested level decides how much is shown', async () => {
 
 test('a mate in one is announced, then the piece, then the move', async () => {
   const { levels } = await hint('e4 e5 Qh5 Nc6 Bc4 Nf6');
-  assert.equal(levels[0], 'You have a checkmate in one move. Look at every check.');
-  assert.equal(levels[1], 'Start with your queen on h5.');
-  assert.equal(levels[2], 'Qxf7# is checkmate.');
+  assert.match(levels[0], /^• There is a checkmate in one move\. Which of your checks/);
+  assert.match(levels[1], /Start with your queen on h5\./);
+  assert.equal(levels[2], '• Qxf7# is checkmate.');
 });
 
 test('Black’s threat is named before any move of yours', async () => {
   const { levels, lesson } = await hint('e4 e5 Nf3 Nc6 Bc4 Nd4 Nxe5 Qg5');
   assert.equal(lesson.title, 'Watch Black’s threat');
-  assert.match(levels[0], /^Black threatens Q(?:xg2|xe5)/);
+  assert.match(levels[0], /^• Black threatens Q(?:xg2|xe5).*\?$/);
 });
 
 test('a quiet opening gets a plan or an idea, not an invented threat by Black', async () => {
   const { levels } = await hint('e4 e5 Nf3 Nc6');
   assert.doesNotMatch(levels[0], /Black threatens/);
+});
+
+test('each level is at most three bullets, level 1 asks questions, and a tempting move is refuted', async () => {
+  // From a real endgame: the rook on c5 blocks the bishop on a7 from Black's king on d4 (a discovered check).
+  const { levels } = await hint('d4 d5 e4 dxe4 Nc3 Bf5 Qe2 c5 Qb5+ Nc6 Qxc5 e6 Qc4 Qxd4 Be3 Qxc4 Bxc4 Bb4 a3 Bxc3+ bxc3 Nge7 Ne2 Nd5 Bxd5 exd5 O-O h5 Nd4 Be6 Nb5 Kd7 c4 a6 Nd4 Nxd4 Bxd4 f6 Rfb1 Rab8 Ba7 Rbc8 Rxb7+ Kc6 Rab1 dxc4 R1b6+ Kd5 Rxa6 Bg4 Rb5+ Rc5 Rxc5+ Kd4');
+  for (const level of levels) assert.ok(level.split('\n').every(line => line.startsWith('• ')) && level.split('\n').length <= 3, level);
+  assert.match(levels[0], /long-range pieces and Black’s king\?/);
+  assert.match(levels[1], /discovered check/);
+  assert.match(levels[2], /Not [A-Z]?[a-h]?x?[a-h][1-8]\+?: /);
 });

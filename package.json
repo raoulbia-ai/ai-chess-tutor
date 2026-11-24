@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "check": "node --check server.mjs && node --check lib/engine.mjs && node --check lib/tutor.mjs && node --check lib/lesson.mjs && node --check lib/analysis.mjs && node --check lib/coach.mjs && node --check lib/hints.mjs && node --check lib/positional.mjs && node --check lib/summary.mjs && node --check lib/maia.mjs && node --check public/app.js",
+    "check": "node --check server.mjs && node --check lib/engine.mjs && node --check lib/tutor.mjs && node --check lib/lesson.mjs && node --check lib/analysis.mjs && node --check lib/coach.mjs && node --check lib/hints.mjs && node --check lib/positional.mjs && node --check lib/summary.mjs && node --check lib/maia.mjs && node --check lib/rating.mjs && node --check public/app.js",
     "test": "node --test test/*.test.mjs",
     "eval:suite": "node eval/build-suite.mjs",
     "eval:run": "node eval/run.mjs",

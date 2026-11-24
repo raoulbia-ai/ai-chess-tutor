@@ -2,7 +2,7 @@
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark"><meta name="theme-color" content="#f5f3ed"><title>Chess, understood — your practice board</title><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/style.css"><script type="module" src="/app.js"></script></head>
 <body>
-<header><a class="brand" href="/">♘ <span>chess, understood<span class="brand-dot">.</span></span></a><span class="header-note">A little practice. A better next move.</span><button id="new-game" class="quiet" title="Reset the board, tutor and saved learning progress">Reset tutor</button></header>
+<header><a class="brand" href="/">♘ <span>chess, understood<span class="brand-dot">.</span></span></a><span class="header-note">A little practice. A better next move.</span><button id="open-menu" class="quiet menu-button" aria-label="Menu: your rating and piece values" title="Your rating and piece values">☰</button><button id="new-game" class="quiet" title="Reset the board, tutor and saved learning progress">Reset tutor</button></header>
 <main>
   <div class="intro"><div><p class="eyebrow">YOUR PRACTICE BOARD</p><h1>Learn the reason behind the move.</h1></div><span class="pill" id="phase">Opening practice</span></div>
   <div class="workspace">
@@ -40,5 +40,17 @@
   </div>
 </main>
 <footer>Play. Understand. Try again.<span>Stockfish analysis · AI explanations can be mistaken.</span></footer>
+<dialog id="menu" class="menu-dialog" aria-labelledby="menu-title">
+  <div class="menu-head"><h2 id="menu-title">Your rating</h2><button id="close-menu" type="button" class="quiet" aria-label="Close">✕</button></div>
+  <p class="rating-line"><strong id="rating-value">…</strong><span id="rating-note">Loading…</span></p>
+  <ul id="rating-recent" class="rating-recent"></ul>
+  <details><summary>How the rating works</summary><p>Each opponent has a rating: the human-like opponents play like Lichess players of that rating, and weakened Stockfish was measured at about 1100 against them. Beating a stronger opponent gains more points than beating a weaker one; losing to a weaker one costs more. Your rating starts at 1500 and moves in bigger steps for the first 10 games.</p><p>A game counts when it is played to the end against one opponent without taking moves back. Hints and comments are fine: they are part of the practice. Games with takebacks are practice games and are not rated. The scale is roughly Lichess’s; FIDE ratings at this level are usually a few hundred points lower.</p></details>
+  <h2>Piece values</h2>
+  <table class="piece-values"><tbody>
+    <tr><td>♙</td><th>Pawn</th><td>1</td></tr><tr><td>♘</td><th>Knight</th><td>3</td></tr><tr><td>♗</td><th>Bishop</th><td>3</td></tr>
+    <tr><td>♖</td><th>Rook</th><td>5</td></tr><tr><td>♕</td><th>Queen</th><td>9</td></tr><tr><td>♔</td><th>King</th><td>cannot be traded</td></tr>
+  </tbody></table>
+  <p class="values-note">A trade is even when both pieces are worth the same, like a bishop for a knight. Giving a bishop or knight for a rook is called winning the exchange: you are 2 points up. The +number beside the captured pieces shows who is ahead. These values are a guide: a well-placed piece can be worth more.</p>
+</dialog>
 <dialog id="promotion"><form method="dialog"><h2>Promote your pawn</h2><p>Choose a piece.</p><div class="button-row"><button value="q">Queen</button><button value="r">Rook</button><button value="b">Bishop</button><button value="n">Knight</button></div></form></dialog>
 </body></html>

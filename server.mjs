@@ -6,6 +6,7 @@ import { Chess } from 'chess.js';
 import { analyse, scoreValue } from './lib/engine.mjs';
 import { gameFrom, lessonFor, LessonRequestError } from './lib/lesson.mjs';
 import { maiaAvailable, maiaMove, maiaRatings } from './lib/maia.mjs';
+import { opponentList, ratingSummary, recordGame } from './lib/rating.mjs';
 
 try { process.loadEnvFile(fileURLToPath(new URL('.env', import.meta.url))); } catch (error) { if (error.code !== 'ENOENT') throw error; }
 const port = Number(process.env.PORT || 3000), host = process.env.HOST || '127.0.0.1';
@@ -30,12 +31,13 @@ const server = http.createServer(async (req, res) => {
   const json = (status, value) => { res.writeHead(status, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(value)); };
   try {
     const url = new URL(req.url, `http://${req.headers.host}`);
-    if (req.method === 'GET' && url.pathname === '/api/status') return json(200, { configured: Boolean(process.env.OPENAI_API_KEY_CHESS_TUTOR || process.env.OPENAI_API_KEY || process.env.LLM_PROVIDER === 'compatible'), maia: maiaAvailable() ? maiaRatings : [], model: process.env.LLM_MODEL || 'gpt-4.1-mini', auditModel: process.env.LLM_AUDIT_MODEL || process.env.LLM_MODEL || 'gpt-4.1-mini' });
+    if (req.method === 'GET' && url.pathname === '/api/status') return json(200, { configured: Boolean(process.env.OPENAI_API_KEY_CHESS_TUTOR || process.env.OPENAI_API_KEY || process.env.LLM_PROVIDER === 'compatible'), maia: maiaAvailable() ? maiaRatings : [], opponents: opponentList(maiaAvailable() ? maiaRatings : []), model: process.env.LLM_MODEL || 'gpt-4.1-mini', auditModel: process.env.LLM_AUDIT_MODEL || process.env.LLM_MODEL || 'gpt-4.1-mini' });
+    if (req.method === 'GET' && url.pathname === '/api/rating') return json(200, ratingSummary());
     if (req.method === 'GET' && files.has(url.pathname)) {
       const [file, mime] = files.get(url.pathname), content = await readFile(new URL(file, import.meta.url));
       res.writeHead(200, { 'Content-Type': mime + '; charset=utf-8' }); return res.end(content);
     }
-    if (req.method !== 'POST' || !['/api/play', '/api/tutor', '/api/history'].includes(url.pathname)) return json(404, { error: 'Not found.' });
+    if (req.method !== 'POST' || !['/api/play', '/api/tutor', '/api/history', '/api/rating'].includes(url.pathname)) return json(404, { error: 'Not found.' });
     if (req.headers.origin && req.headers.origin !== `http://${req.headers.host}` &&
         req.headers.origin !== process.env.CHESS_PUBLIC_ORIGIN) return json(403, { error: 'Origin rejected.' });
     if (!req.headers['content-type']?.startsWith('application/json')) return json(415, { error: 'JSON required.' });
@@ -67,6 +69,11 @@ const server = http.createServer(async (req, res) => {
         return json(500, { error: `Could not write the local history file (${error.code || 'write error'}).` });
       }
       return json(200, { saved: true });
+    }
+    if (url.pathname === '/api/rating') {
+      if (typeof data.gameId !== 'string' || !/^[\da-f-]{36}$/i.test(data.gameId) || !Array.isArray(data.opponents) || data.opponents.length > 10
+        || !data.opponents.every(id => typeof id === 'string' && id.length <= 20) || !Number.isSafeInteger(data.takebacks) || data.takebacks < 0) return json(400, { error: 'Invalid rating request.' });
+      return json(200, { ...recordGame({ gameId: data.gameId, moves: data.moves, opponents: data.opponents, takebacks: data.takebacks }, maiaAvailable() ? maiaRatings : []), summary: ratingSummary() });
     }
     // The game review is the one request that needs a finished game.
     if (game.isGameOver() && !(url.pathname === '/api/tutor' && data.mode === 'summary')) return json(400, { error: 'This game has ended. Start a new game to continue learning.' });

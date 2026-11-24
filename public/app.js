@@ -25,8 +25,10 @@ const symbols = { p: '♟', n: '♞', b: '♝', r: '♜', q: '♛', k: '♚' };
 const names = { p: 'pawn', n: 'knight', b: 'bishop', r: 'rook', q: 'queen', k: 'king' };
 const storageKey = 'chess-understood-v1';
 let game = new Chess(), records = [], gameId = crypto.randomUUID(), support = 'none';
-// Hints come in levels for one position: the idea, then the piece, then the move.
+// Hints come in levels for one position: questions, then the answer and a rule, then the move.
 let hintState = { fen: null, level: 0 }, gameReview = null;
+// For the rating and the game review: White moves you took back, the opponents that played Black, the rating result.
+let takebacks = [], opponentsUsed = [], ratingResult = null;
 let selected = null, busy = false, demo = null, autoplay = false, playbackToken = 0, lastText = '';
 let pendingSupport = 'none', lastLesson = null;
 let finishSpeech = null;
@@ -109,10 +111,27 @@ function commitMove(move) {
       : game.isThreefoldRepetition() ? 'threefold repetition'
       : game.isInsufficientMaterial() ? 'insufficient material' : 'fifty-move rule',
   });
+  if (game.isGameOver()) reportResult();
+}
+// Counts a finished game toward your rating (the server decides whether it is rated) and keeps the outcome
+// for the game review.
+function reportResult() {
+  if (!started) return;
+  const session = gameId;
+  api('rating', { gameId, moves: game.history(), opponents: opponentsUsed, takebacks: takebacks.length })
+    .then(data => {
+      if (session !== gameId || data.duplicate) return;
+      const outcome = data.result === 1 ? 'Win' : data.result === 0 ? 'Loss' : 'Draw';
+      ratingResult = { gameId: session, text: data.rated
+        ? `${outcome} against ${data.opponent} (${data.opponentRating}): your rating ${data.before} → ${data.after}${data.provisional ? ' (provisional)' : ''}.`
+        : `This game is not rated: ${data.reason}.` };
+    }).catch(() => { /* The rating is optional; the game is unaffected. */ });
 }
 function undoMove() {
   const played = game.undo();
   if (played) logHistory('undo', `${played.color === 'w' ? 'White' : 'Black'} ${played.san}`);
+  if (played?.color === 'w') takebacks.push({ moves: game.history(), san: played.san });
+  return played;
 }
 try {
   const saved = JSON.parse(localStorage.getItem(storageKey));
@@ -181,12 +200,13 @@ function leadLesson() {
     // The engine review of the whole game replaces the general exercises; they remain the fallback if it fails.
     const length = moves.length;
     if (gameReview?.gameId === gameId && gameReview.length === length && gameReview.lesson) {
-      showLesson(gameReview.lesson, 'tutor', { mode: 'game-summary' });
+      const rated = ratingResult?.gameId === gameId ? `\n\n${ratingResult.text}` : '';
+      showLesson({ ...gameReview.lesson, explanation: gameReview.lesson.explanation + rated }, 'tutor', { mode: 'game-summary' });
       return;
     }
     if (!(gameReview?.gameId === gameId && gameReview.length === length)) {
       const request = gameReview = { gameId, length, lesson: null };
-      api('tutor', { mode: 'summary', moves: game.history() })
+      api('tutor', { mode: 'summary', moves: game.history(), takebacks: takebacks.slice(-40) })
         .then(data => { request.lesson = { ...data.lesson, title }; })
         .catch(() => { request.lesson = fallback; })
         .finally(() => { if (gameReview === request && game.isGameOver() && !demo) leadLesson(); });
@@ -259,6 +279,19 @@ function render() {
     }));
     row.setAttribute('aria-label', `Captured: ${captures.map(move => names[move.captured]).join(', ')}`);
   }
+  // Who is ahead in material, in points: the running count teaches what each trade was worth.
+  const worth = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
+  const points = color => displayedMoves.filter(move => move.color === color).reduce((sum, move) => sum + (move.captured ? worth[move.captured] : 0) + (move.promotion ? worth[move.promotion] - 1 : 0), 0);
+  const lead = points('w') - points('b');
+  for (const color of ['w', 'b']) {
+    const ahead = color === 'w' ? lead : -lead, row = $('captures-' + color);
+    if (ahead <= 0) continue;
+    const badge = document.createElement('span');
+    badge.className = 'material-lead'; badge.textContent = `+${ahead}`;
+    badge.title = 'Material ahead, in points: pawn 1, knight 3, bishop 3, rook 5, queen 9';
+    row.append(badge); row.hidden = false;
+    row.setAttribute('aria-label', `${row.getAttribute('aria-label')}. ${color === 'w' ? 'You are' : 'Black is'} ${ahead} ${ahead === 1 ? 'point' : 'points'} ahead in material`);
+  }
   const legal = !demo && selected ? game.moves({ square: selected, verbose: true }) : [];
   const previous = demo ? demo.steps[demo.index - 1] : playedMoves.at(-1);
   $('board').replaceChildren();
@@ -320,6 +353,7 @@ async function opponent() {
   try {
     const result = await api('play', { moves: game.history(), opponent: $('opponent').value });
     if (session !== gameId) return;
+    if (result.opponent && !opponentsUsed.includes(result.opponent)) opponentsUsed.push(result.opponent);
     records.push({ id: crypto.randomUUID(), ...result.feedback, support: pendingSupport });
     pendingSupport = 'none'; save();
     if (result.coaching && !$('independent').checked) {
@@ -387,7 +421,8 @@ function speak(text) {
   if (!('speechSynthesis' in window)) return Promise.resolve();
   cancelSpeech();
   return new Promise(resolve => {
-    const speech = new SpeechSynthesisUtterance(text); speech.lang = 'en-GB'; speech.rate = Number($('speed').value);
+    // Hint bullets are for the eye: read the sentences, not the bullet signs.
+    const speech = new SpeechSynthesisUtterance(text.replace(/^• /gm, '')); speech.lang = 'en-GB'; speech.rate = Number($('speed').value);
     finishSpeech = resolve;
     speech.onend = () => { if (finishSpeech === resolve) finishSpeech = null; resolve(); };
     speech.onerror = () => {
@@ -493,6 +528,7 @@ function resetSession(clearProgress = false, begin = false) {
   if (started) logHistory('start');
   if (clearProgress) records = [];
   demo = null; selected = null; support = 'none'; pendingSupport = 'none'; lastLesson = null; lastText = '';
+  takebacks = []; opponentsUsed = []; ratingResult = null;
   $('ask').value = ''; $('independent').checked = false; $('pause-voice').textContent = 'Pause voice';
   setBusy(false); error(); render(); save(); leadLesson();
 }
@@ -511,7 +547,7 @@ const gameKey = 'chess-game-v1';
 let savedGame = '', restoring = false;
 function saveGame() {
   const moves = game.history();
-  const state = started || moves.length ? JSON.stringify({ gameId, historySequence, started, moves, support, pendingSupport, checkpoint,
+  const state = started || moves.length ? JSON.stringify({ gameId, historySequence, started, moves, support, pendingSupport, checkpoint, takebacks: takebacks.slice(-40), opponentsUsed,
     independent: $('independent').checked,
     lesson: lastLesson && { title: lastLesson.title, explanation: lastLesson.explanation, question: lastLesson.question } }) : '';
   if (state === savedGame) return;
@@ -531,6 +567,10 @@ function restoreGame() {
   pendingSupport = ['none', 'requested', 'commentary'].includes(saved.pendingSupport) ? saved.pendingSupport : 'none';
   $('independent').checked = saved.independent === true;
   checkpoint = saved.checkpoint?.coaching && saved.checkpoint.reply ? saved.checkpoint : null;
+  takebacks = Array.isArray(saved.takebacks) ? saved.takebacks.filter(t => t && typeof t.san === 'string' && Array.isArray(t.moves) && t.moves.every(m => typeof m === 'string')) : [];
+  // A game saved before takebacks were tracked cannot prove it had none, so it is not rated.
+  if (!Array.isArray(saved.takebacks) && saved.moves.length) takebacks.push({ moves: [], san: '' });
+  opponentsUsed = Array.isArray(saved.opponentsUsed) ? saved.opponentsUsed.filter(id => typeof id === 'string').slice(0, 10) : [];
   savedGame = localStorage.getItem(gameKey);
   restoring = true;
   render(); leadLesson();
@@ -553,10 +593,32 @@ window.addEventListener('pagehide', stopPlayback);
 const opponentKey = 'chess-tutor-opponent';
 $('opponent').onchange = () => { try { localStorage.setItem(opponentKey, $('opponent').value); } catch { /* Not remembered. */ } };
 fetch('/api/status').then(r => r.json()).then(s => {
-  if (!s.maia?.length) return;
-  $('opponent').replaceChildren(...s.maia.map(rating => new Option(`Human-like · rated ${rating}`, `maia-${rating}`)), new Option('Stockfish · reduced strength', 'stockfish'));
+  const list = s.opponents ?? [];
+  if (!list.length) return;
+  // Each opponent with its strength, so you always know whom you are playing.
+  $('opponent').replaceChildren(...list.map(o => new Option(`${o.name} · ${o.approximate ? 'about' : 'rated'} ${o.rating}`, o.id)));
   let chosen = 'maia-1500';
   try { chosen = localStorage.getItem(opponentKey) || chosen; } catch { /* Use the default. */ }
-  $('opponent').value = [...$('opponent').options].some(option => option.value === chosen) ? chosen : 'maia-1500';
+  const ids = list.map(o => o.id);
+  $('opponent').value = ids.includes(chosen) ? chosen : ids.includes('maia-1500') ? 'maia-1500' : ids[0];
 }).catch(() => {});
+// The menu: your rating and the piece values, out of the way until opened.
+async function openMenu() {
+  $('menu').showModal();
+  try {
+    const r = await (await fetch('/api/rating')).json();
+    $('rating-value').textContent = r.games ? `${r.rating}${r.provisional ? '?' : ''}` : '1500?';
+    $('rating-note').textContent = r.games
+      ? `${r.games} rated ${r.games === 1 ? 'game' : 'games'}: ${r.wins} won, ${r.draws} drawn, ${r.losses} lost${r.provisional ? '. Provisional until 10 games.' : '.'}`
+      : 'No rated games yet. Everyone starts at 1500; finish a game without takebacks to begin.';
+    $('rating-recent').replaceChildren(...r.recent.map(g => {
+      const item = document.createElement('li');
+      item.textContent = `${g.result === 1 ? 'Won' : g.result === 0 ? 'Lost' : 'Drew'} against ${g.opponent} (${g.opponentRating}) · ${g.change >= 0 ? '+' : ''}${g.change}`;
+      return item;
+    }));
+  } catch { $('rating-note').textContent = 'The rating could not be loaded. Is the server running?'; }
+}
+$('open-menu').onclick = openMenu;
+$('close-menu').onclick = () => $('menu').close();
+$('menu').onclick = event => { if (event.target === $('menu')) $('menu').close(); };
 fetch('/api/status').then(r => r.json()).then(s => { $('connection').textContent = s.configured ? '● Tutor configured' : 'Key needed'; if (!s.configured) error('Add the API key to .env and restart the server.'); }).catch(() => { $('connection').textContent = 'Server unavailable'; });

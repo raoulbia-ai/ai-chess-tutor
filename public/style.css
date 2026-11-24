@@ -116,3 +116,13 @@ details{font-size:15px}label[for]{font-size:14px}.ask-row input{font-size:16px}#
 @media(max-width:800px){.game-tools button{font-size:14px}.intro .pill{font-size:13px}}
 
 .opponent-select{border:0;background:transparent;color:var(--muted);font-size:13px;padding:2px 0;margin-top:2px;max-width:100%}
+
+/* The menu: your rating and piece values. */
+.menu-button{font-size:22px;padding:6px 12px;margin-left:8px}
+.menu-dialog{width:min(440px,92vw);color:inherit}.menu-dialog h2{margin:6px 0 12px;font-size:23px}.menu-head{display:flex;justify-content:space-between;align-items:center}.menu-head h2{margin:0}
+.rating-line{display:flex;flex-direction:column;gap:6px;margin:14px 0}.rating-line strong{font-family:Georgia,serif;font-size:40px;font-weight:normal;color:var(--green)}.rating-line span{font-size:15px;color:var(--muted);line-height:1.5}
+.rating-recent{list-style:none;padding:0;margin:0 0 14px;font-size:15px;line-height:1.8}.rating-recent:empty{display:none}
+.piece-values{border-collapse:collapse;font-size:16px;margin-bottom:10px}.piece-values td,.piece-values th{padding:4px 12px 4px 0;text-align:left;font-weight:normal}.piece-values td:first-child{font:22px/1 "Segoe UI Symbol","DejaVu Sans",serif}.piece-values td:last-child{font-weight:700}
+.values-note{font-size:15px;line-height:1.6;color:var(--muted)}
+.material-lead{font:600 13px/1 system-ui,sans-serif;color:var(--muted);margin-left:6px;align-self:center}
+@media(max-width:800px){header>.menu-button{margin-left:auto}header>#new-game{margin-left:0}}

@@ -36,8 +36,8 @@ const strip = san => san.replace(/[+#]$/, '');
 const sanPattern = /(?<![A-Za-z0-9])(O-O-O|O-O|[KQRBN][a-h]?[1-8]?x?[a-h][1-8](?:=[QRBN])?|[a-h]x[a-h][1-8](?:=[QRBN])?)[+#]?(?![A-Za-z0-9])/g;
 const mentionsMove = (text, san) => [...text.matchAll(sanPattern)].some(match => strip(match[0]) === strip(san))
   || (/^[a-h][1-8]$/.test(strip(san)) && new RegExp(`(?<![A-Za-z0-9])${strip(san)}(?![A-Za-z0-9])`).test(text) && /\b(?:play|push|advance|move|consider)\b/i.test(text))
-  // A line that starts with the move ("a7+ starts it", "f4 defends …", "Nf3: …") names it, pawn moves included.
-  || new RegExp(`(?:^|\\n)${strip(san).replace(/[+]/g, '\\+')}[+#]?(?:[:.]|\\s)`).test(text);
+  // A line or bullet that starts with the move ("a7+ starts it", "f4 defends …", "Nf3: …") names it, pawn moves included.
+  || new RegExp(`(?:^|\\n)(?:• )?${strip(san).replace(/[+]/g, '\\+')}[+#]?(?:[:.]|\\s)`).test(text);
 // A square counts inside move notation too ("Qxg7" names g7), but not as part of another square or word.
 const mentionsSquare = (text, square) => new RegExp(`(?<![a-h0-9])${square}(?![A-Za-z0-9])`).test(text);
 const play = (fen, moves) => { const game = new Chess(fen); const boards = [];

@@ -29,9 +29,10 @@ test('plan advice no longer counts a piece’s moves', async () => {
 
 test('a quiet hint names the positional idea behind the engine’s move', async () => {
   const { levels } = await lessonFor({ mode: 'hint', moves: upTo(10), level: 3 }, undefined, { allLevels: true });
-  assert.match(levels[0], /keep your bishop pair/);
+  assert.match(levels[0], /\?/);
+  assert.match(levels[1], /keep your bishop pair/);
   assert.doesNotMatch(levels.slice(0, 2).join(' '), /Be2/);
-  assert.match(levels[2], /^Be2 /);
+  assert.match(levels[2], /^• Be2 /);
 });
 
 test('a threat hint names the right defender', async () => {
@@ -44,4 +45,36 @@ test('the game review lists real mistakes', async () => {
   assert.equal(lesson.title, 'Game review');
   assert.match(lesson.explanation, /moves at or near the engine’s level/);
   await assert.rejects(lessonFor({ mode: 'summary', moves: ['e4', 'e5'] }), /ready when the game is over/);
+});
+
+// From the second game on 23 Nov.
+const second = 'd4 e6 Nc3 d6 e4 Be7 Bd3 Nf6 e5 dxe5 dxe5 Nd5 Qg4 g6 Bd2 O-O Rd1 f5 Qh3 f4 Nf3 Nc6 a4 Ncb4 Be4 Nxc2+ Bxc2 Nb4 Be4 Nd3+ Bxd3 Qxd3 Ne2 Kf7 Qxh7+ Ke8 Bxf4 Qf5 O-O Bd7 b3 Qf7 Qh3 g5 Nxg5 Bxg5 Bxg5 Rg8 Bf6 c6 Rd6 c5 Nf4 Rc8 Rfd1 Rc6 R6d3 c4 Rxd7 Qxd7 Qh5+ Qf7 Rd8#'.split(' ');
+
+test('a combination is described by what it finally wins, not by the move just played', async () => {
+  const { lesson } = await lessonFor({ mode: 'turn', moves: second.slice(0, 36) });
+  assert.match(lesson.explanation, /combination: it starts by giving up material, then .*wins Black’s queen on d3/);
+  assert.doesNotMatch(lesson.explanation, /skewers/);
+});
+
+test('a mate that starts with a capture is not called quiet', async () => {
+  const { lesson } = await lessonFor({ mode: 'turn', moves: second.slice(0, 58) });
+  assert.match(lesson.explanation, /starting with a capture/);
+});
+
+test('an uncovered attack on a defended piece is not announced', async () => {
+  const { lesson } = await lessonFor({ mode: 'turn', moves: [...second.slice(0, 14), 'Nf3', 'Nxc3'] });
+  assert.doesNotMatch(lesson.explanation, /uncovers/);
+  assert.match(lesson.explanation, /an even trade/);
+});
+
+test('a queen that can simply be taken is not described as taken for a pawn', async () => {
+  const { lesson } = await lessonFor({ mode: 'turn', moves: second.slice(0, 42) });
+  assert.match(lesson.explanation, /taking your queen on h7/);
+  assert.doesNotMatch(lesson.explanation, /for a pawn/);
+});
+
+test('a quiet move that attacks a loose pawn is explained as a threat', async () => {
+  const { levels } = await lessonFor({ mode: 'hint', moves: second.slice(0, 12), level: 3 }, undefined, { allLevels: true });
+  assert.match(levels[2], /^• Qg4 attacks Black’s pawn on g7/);
+  assert.doesNotMatch(levels[2], /available moves/);
 });
