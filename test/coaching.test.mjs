@@ -78,3 +78,22 @@ test('a quiet move that attacks a loose pawn is explained as a threat', async ()
   assert.match(levels[2], /^• Qg4 attacks Black’s pawn on g7/);
   assert.doesNotMatch(levels[2], /available moves/);
 });
+
+test('a quiet position gets a board scan with named candidates, not a general reminder', async () => {
+  const { lesson } = await lessonFor({ mode: 'turn', moves: 'd4 d5 Nc3 Nf6 Nf3 Bf5 Be3 e6'.split(' ') });
+  const lines = lesson.explanation.split('\n');
+  assert.equal(lines.length, 3);
+  assert.match(lines[0], /none of your pieces can be won/);
+  assert.match(lines[1], /(Candidates worth comparing|Start with): your /);
+  assert.match(lines[2], /what does it attack or defend/);
+});
+
+test('a threat on a pinned piece names the pin and the count, not a fork', async () => {
+  const moves = 'd4 d5 Nc3 Nf6 e3 Bf5 Nf3 e6 Bd3 Bxd3 cxd3 Bb4 a3 Bd6 b4 O-O e4 dxe4 dxe4 Nfd7 e5 Be7 b5 c5 d5 exd5 Nxd5 Nxe5 Nxe5 Bf6 Bb2 Re8'.split(' ');
+  const { lesson } = await lessonFor({ mode: 'turn', moves });
+  assert.match(lesson.explanation, /Black threatens Bxe5, taking your knight on e5: it is pinned to your king by Black’s rook on e8, and it is attacked twice and defended once\./);
+  assert.match(lesson.explanation, /ends the attack on your pinned knight on e5/);
+  const { levels } = await lessonFor({ mode: 'hint', moves, level: 3 }, undefined, { allLevels: true });
+  assert.match(levels[0], /cannot move away/);
+  assert.doesNotMatch(levels[0], /move the piece/);
+});
