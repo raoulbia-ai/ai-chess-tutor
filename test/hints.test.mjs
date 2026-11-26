@@ -51,3 +51,25 @@ test('each level is at most three bullets, level 1 asks questions, and a temptin
   assert.match(levels[1], /discovered check/);
   assert.match(levels[2], /Not [A-Z]?[a-h]?x?[a-h][1-8]\+?: /);
 });
+
+test('prevention names the Black piece, the square it wants and what it would do there', async () => {
+  const { levels } = await hint('e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d3 d6 O-O O-O');
+  assert.match(levels[0], /Black’s bishop on c8 would like to come to g4, where it would pin your knight on f3 to your queen on d1/);
+  assert.doesNotMatch(levels[0], /What does Black want to do next/);
+  assert.doesNotMatch(levels.slice(0, 2).join(' '), /\bh3\b/);
+  assert.match(levels[1], /your h-pawn could cover g4/);
+  assert.match(levels[2], /^• h3 stops Black’s bishop on c8 from coming to g4, where it would pin/);
+});
+
+test('prevention also covers a Black pawn advance that would hit a piece', async () => {
+  const { levels } = await hint('e4 e5 Nf3 d6 d4 Nd7 Bc4 c6 O-O Be7 Nc3 Ngf6');
+  assert.match(levels[0], /Black’s pawn on b7 would like to come to b5, where it would attack your bishop on c4/);
+  assert.match(levels[2], /^• a4 stops Black’s pawn on b7 from coming to b5/);
+});
+
+test('a quiet rook move names the least active pieces and the file that may open', async () => {
+  const { levels } = await hint('d4 d5 c4 e6 Nc3 Nf6 Bg5 Be7 e3 O-O Nf3 h6 Bh4 b6');
+  assert.match(levels[0], /least active pieces are .*rook on a1/);
+  assert.match(levels[1], /if they trade, the c-file opens/);
+  assert.match(levels[2], /^• Rc1 puts your rook on the c-file behind your pawn on c4/);
+});
