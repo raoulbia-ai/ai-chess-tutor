@@ -1,5 +1,5 @@
 import http from 'node:http';
-import { appendFileSync, readFileSync } from 'node:fs';
+import { appendFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { Chess } from 'chess.js';
@@ -37,11 +37,11 @@ const server = http.createServer(async (req, res) => {
       const [file, mime] = files.get(url.pathname), content = await readFile(new URL(file, import.meta.url));
       res.writeHead(200, { 'Content-Type': mime + '; charset=utf-8' }); return res.end(content);
     }
-    if (req.method !== 'POST' || !['/api/play', '/api/tutor', '/api/history', '/api/rating'].includes(url.pathname)) return json(404, { error: 'Not found.' });
+    if (req.method !== 'POST' || !['/api/play', '/api/tutor', '/api/history', '/api/rating', '/api/feedback'].includes(url.pathname)) return json(404, { error: 'Not found.' });
     if (req.headers.origin && req.headers.origin !== `http://${req.headers.host}` &&
         req.headers.origin !== process.env.CHESS_PUBLIC_ORIGIN) return json(403, { error: 'Origin rejected.' });
     if (!req.headers['content-type']?.startsWith('application/json')) return json(415, { error: 'JSON required.' });
-    if (active >= 3 && url.pathname !== '/api/history') return json(429, { error: 'The tutor is busy. Please retry in a moment.' });
+    if (active >= 3 && !['/api/history', '/api/feedback'].includes(url.pathname)) return json(429, { error: 'The tutor is busy. Please retry in a moment.' });
     let input = '';
     for await (const chunk of req) { input += chunk; if (input.length > 24000) return json(413, { error: 'Request too large.' }); }
     let data, game;
@@ -69,6 +69,32 @@ const server = http.createServer(async (req, res) => {
         return json(500, { error: `Could not write the local history file (${error.code || 'write error'}).` });
       }
       return json(200, { saved: true });
+    }
+    // "Not helpful" and "Somewhat helpful" reports on a tutor message: one JSON line each in feedback/inbox.jsonl, for review later with
+    // `npm run feedback`, which replays the position through the same code.
+    if (url.pathname === '/api/feedback') {
+      const text = (value, limit) => typeof value === 'string' ? value.slice(0, limit) : '';
+      const lesson = data.lesson && typeof data.lesson === 'object' ? data.lesson : {};
+      const context = data.context && typeof data.context === 'object' && !Array.isArray(data.context) ? data.context : {};
+      if (!text(lesson.explanation, 1) && !text(lesson.question, 1)) return json(400, { error: 'Nothing to report.' });
+      const report = {
+        id: crypto.randomUUID(), at: new Date().toISOString(),
+        gameId: /^[\da-f-]{36}$/i.test(data.gameId ?? '') ? data.gameId : null,
+        moves: game.history(), fen: game.fen(),
+        mode: text(context.mode, 20) || null, level: Number.isSafeInteger(context.level) ? context.level : null, automatic: context.automatic === true,
+        title: text(lesson.title, 300), explanation: text(lesson.explanation, 10000), question: text(lesson.question, 1000),
+        // "not": the message missed; "somewhat": understood, but it could be more educational.
+        rating: data.rating === 'somewhat' ? 'somewhat' : 'not',
+        comment: text(data.comment, 2000).trim(),
+      };
+      try {
+        const dir = new URL('./feedback/', import.meta.url);
+        mkdirSync(dir, { recursive: true });
+        appendFileSync(new URL('inbox.jsonl', dir), JSON.stringify(report) + '\n', 'utf8');
+      } catch (error) {
+        return json(500, { error: `Could not save the report (${error.code || 'write error'}).` });
+      }
+      return json(200, { saved: true, id: report.id });
     }
     if (url.pathname === '/api/rating') {
       if (typeof data.gameId !== 'string' || !/^[\da-f-]{36}$/i.test(data.gameId) || !Array.isArray(data.opponents) || data.opponents.length > 10

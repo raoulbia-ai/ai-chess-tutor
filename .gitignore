@@ -29,3 +29,6 @@ Thumbs.db
 # Your rating record
 /ratings.json
 /ratings.json.tmp
+
+# "Not helpful" reports from the app
+/feedback/

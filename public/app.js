@@ -30,7 +30,7 @@ let hintState = { fen: null, level: 0 }, gameReview = null;
 // For the rating and the game review: White moves you took back, the opponents that played Black, the rating result.
 let takebacks = [], opponentsUsed = [], ratingResult = null;
 let selected = null, busy = false, demo = null, autoplay = false, playbackToken = 0, lastText = '';
-let pendingSupport = 'none', lastLesson = null;
+let pendingSupport = 'none', lastLesson = null, lastContext = {};
 let finishSpeech = null;
 let sessionController = new AbortController();
 let started = false;
@@ -373,9 +373,9 @@ function showLesson(lesson, event = 'tutor', context = {}, spoken = lesson.expla
     const { title, explanation, question } = lesson;
     logHistory(event, { ...context, title, explanation, question });
   }
-  lastLesson = lesson; $('lesson-title').textContent = lesson.title; $('explanation').textContent = lesson.explanation;
+  lastLesson = lesson; lastContext = context; $('lesson-title').textContent = lesson.title; $('explanation').textContent = lesson.explanation;
   $('question').textContent = lesson.question; $('question').hidden = !lesson.question;
-  lastText = lesson.explanation;
+  lastText = lesson.explanation; resetFeedback();
   if ($('voice').checked && spoken) speak(spoken);
 }
 async function tutor(mode, extra = {}, automatic = false) {
@@ -401,12 +401,12 @@ async function tutor(mode, extra = {}, automatic = false) {
         steps: data.demonstration.map(({ san, before, label }, i) => ({ san, before, label, narration: data.lesson.steps[i] })),
       });
       demo = { root: data.root, steps: data.demonstration, narration: data.lesson.steps, index: 0, intro: data.lesson };
-      selected = null; renderDemo();
+      selected = null; lastContext = context; renderDemo();
     } else {
       // A higher hint level repeats the earlier levels on screen; read aloud only the new part.
       const text = data.lesson.explanation;
       const spoken = mode === 'hint' && data.hint?.level > 1 && shownBefore && text.startsWith(shownBefore) ? text.slice(shownBefore.length).trim() : text;
-      showLesson(data.lesson, mode === 'question' ? 'answer' : 'tutor', context, spoken);
+      showLesson(data.lesson, mode === 'question' ? 'answer' : 'tutor', mode === 'hint' ? { ...context, level: data.hint?.level } : context, spoken);
     }
   } catch (e) {
     if (session === gameId) logHistory('tutor-error', { ...context, message: e.message });
@@ -417,6 +417,37 @@ async function tutor(mode, extra = {}, automatic = false) {
   finally { if (session === gameId) { setBusy(false); render(); } }
   if (session === gameId && demo) playSequence();
 }
+// "Not helpful": sends the message on screen, with the moves and the request that produced it, to the server's
+// feedback inbox. Each new message starts with the button closed.
+function resetFeedback() {
+  $('feedback').hidden = !started || !$('explanation').textContent.trim();
+  document.querySelector('.feedback-buttons').hidden = false; $('feedback-form').hidden = true; $('feedback-status').hidden = true; $('feedback-comment').value = '';
+}
+// Two ratings: "not helpful" (the message missed), and "somewhat helpful" (understood, but it could teach more).
+let feedbackRating = 'not';
+const feedbackPrompts = {
+  not: ['What would have helped? (optional)', 'Too vague: tell me which piece to look at'],
+  somewhat: ['What would make it more educational? (optional)', 'Tell me why this works, or what to look for next time'],
+};
+for (const button of document.querySelectorAll('.feedback-open')) button.onclick = () => {
+  feedbackRating = button.dataset.rating;
+  [$('feedback-label').textContent, $('feedback-comment').placeholder] = feedbackPrompts[feedbackRating];
+  document.querySelector('.feedback-buttons').hidden = true; $('feedback-form').hidden = false; $('feedback-comment').focus();
+};
+$('feedback-cancel').onclick = resetFeedback;
+$('feedback-form').onsubmit = async event => {
+  event.preventDefault();
+  const status = $('feedback-status');
+  $('feedback-send').disabled = true;
+  try {
+    await api('feedback', { gameId, moves: game.history(), rating: feedbackRating, comment: $('feedback-comment').value,
+      context: { mode: lastContext.mode, level: lastContext.level, automatic: lastContext.automatic },
+      lesson: { title: $('lesson-title').textContent, explanation: $('explanation').textContent, question: $('question').hidden ? '' : $('question').textContent } });
+    $('feedback-form').hidden = true; status.textContent = 'Sent. Ask Claude to review the feedback, and this message will be looked at.';
+  } catch (e) {
+    status.textContent = `Could not send the report: ${e.message}`;
+  } finally { status.hidden = false; $('feedback-send').disabled = false; }
+};
 function speak(text) {
   if (!('speechSynthesis' in window)) return Promise.resolve();
   cancelSpeech();
@@ -447,6 +478,7 @@ function renderDemo() {
   const text = demo.index ? demo.narration[demo.index - 1] : demo.intro.explanation;
   $('lesson-title').textContent = demo.index ? 'Watch the idea develop.' : demo.intro.title;
   $('explanation').textContent = text; $('question').hidden = true; lastText = text;
+  resetFeedback();
   render();
 }
 async function stepDemo(delta, auto = false) {
@@ -579,7 +611,7 @@ function restoreGame() {
   else if (saved.lesson?.explanation && !game.isGameOver()) {
     lastLesson = { title: String(saved.lesson.title || ''), explanation: String(saved.lesson.explanation), question: '', steps: [] };
     $('lesson-title').textContent = lastLesson.title; $('explanation').textContent = lastLesson.explanation;
-    $('question').hidden = true; lastText = lastLesson.explanation;
+    $('question').hidden = true; lastText = lastLesson.explanation; resetFeedback();
   }
   render();
   return started && !game.isGameOver() && !checkpoint && game.turn() === 'b';
